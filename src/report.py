@@ -311,8 +311,8 @@ def build_popup_html(row: pd.Series, is_ghost: bool = False) -> str:
 <b>{row['name']}</b>
 <hr style="margin: 4px 0; border: none; border-top: 1px solid #ddd;">
 <span data-en="Price" data-th="ราคา">Price</span>: {_fmt_thb(row['price_thb'])}<br>
-<span data-en="Area" data-th="พื้นที่">Area</span>: {row['area_sqm_num']:.2f} sqm<br>
-<span data-en="Price/sqm" data-th="ราคา/ตร.ม.">Price/sqm</span>: {_fmt_thb(row['price_per_sqm'])}<br>
+<span data-en="Area" data-th="พื้นที่">Area</span>: {row['area_sqm_num']:.1f} sqm<br>
+<span data-en="Price/sqm" data-th="ราคา/ตร.ม.">Price/sqm</span>: {_fmt_thb(row['price_per_sqm']) if pd.notna(row['price_per_sqm']) else "—"}<br>
 <span data-en="Beds/Baths" data-th="ห้องนอน/ห้องน้ำ">Beds/Baths</span>: {row['bedrooms']} / {row['bathrooms']}<br>
 <span data-en="Year built" data-th="ปีที่สร้าง">Year built</span>: {year_built}<br>
 <span data-en="Nearest" data-th="สถานีใกล้สุด">Nearest</span>: {row['nearest_station']} ({row['nearest_station_km']:.3f} km)<br>
@@ -398,7 +398,7 @@ def inject_color_toggle(
       </div>"""
 
     toggle_html = f"""
-    <div style="position: absolute; top: 10px; right: 10px; z-index: 9999; background: white; padding: 8px; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+    <div style="position: absolute; top: 110px; right: 10px; z-index: 9999; background: white; padding: 8px; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
       <select id="colorMode" onchange="recolorMarkers()" style="margin-bottom: 6px; font-size: 12px;">
         <option value="price" data-en="Price per sqm" data-th="ราคา/ตร.ม.">Price per sqm</option>
         <option value="distance" data-en="Distance to station" data-th="ระยะจากสถานี">Distance to station</option>

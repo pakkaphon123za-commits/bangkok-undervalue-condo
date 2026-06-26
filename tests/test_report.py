@@ -211,7 +211,7 @@ def test_build_popup_html_basic():
     html = build_popup_html(row)
     assert "Chewathai Residence Asoke" in html
     assert "5,000,000" in html
-    assert "35.56" in html
+    assert "35.6" in html
     assert "140,607" in html
     assert "Makkasan" in html
     assert "0.145" in html
