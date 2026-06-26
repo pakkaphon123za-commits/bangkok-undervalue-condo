@@ -147,6 +147,74 @@ def load_stations(path: Path) -> list[dict[str, Any]]:
     return stations
 
 
+def _ref_sort_key(ref: str) -> tuple[str, int]:
+    m = re.match(r"([A-Z]+)(\d+)", ref)
+    if m:
+        return (m.group(1), int(m.group(2)))
+    return ("ZZZ", 999)
+
+
+def sort_stations_by_line(
+    stations: list[dict[str, Any]],
+) -> dict[str, list[list[dict[str, Any]]]]:
+    line_map: dict[str, list[dict[str, Any]]] = {}
+    for s in stations:
+        for line in s["lines"]:
+            line_map.setdefault(line, []).append(s)
+
+    result: dict[str, list[list[dict[str, Any]]]] = {}
+    for line, stns in line_map.items():
+        refs = [s["ref"] for s in stns]
+        has_cen = any(r == "CEN" for r in refs)
+        has_n = any(r.startswith("N") and r != "CEN" for r in refs if r)
+        has_e = any(r.startswith("E") and r != "CEN" for r in refs if r)
+
+        if has_cen and (has_n and has_e):
+            branches = _split_bts_branches(stns)
+        elif line == "BTS Silom Line" and has_cen:
+            branches = _split_bts_branches(stns)
+        else:
+            any_ref = any(r for r in refs)
+            if any_ref:
+                sorted_stns = sorted(stns, key=lambda s: _ref_sort_key(s["ref"]))
+                branches = [sorted_stns]
+            else:
+                sorted_stns = sorted(stns, key=lambda s: -s["lat"])
+                branches = [sorted_stns]
+
+        result[line] = branches
+
+    return result
+
+
+def _split_bts_branches(
+    stns: list[dict[str, Any]],
+) -> list[list[dict[str, Any]]]:
+    cen = next((s for s in stns if s["ref"] == "CEN"), None)
+    if not cen:
+        return [sorted(stns, key=lambda s: _ref_sort_key(s["ref"]))]
+
+    branches: list[list[dict[str, Any]]] = []
+    prefixes_seen: set[str] = set()
+
+    for s in stns:
+        if s["ref"] == "CEN":
+            continue
+        prefix = ""
+        m = re.match(r"([A-Z]+)", s["ref"])
+        if m:
+            prefix = m.group(1)
+        if prefix not in prefixes_seen:
+            prefixes_seen.add(prefix)
+            branch = [cen] + sorted(
+                [x for x in stns if x["ref"].startswith(prefix) and x["ref"] != "CEN"],
+                key=lambda x: _ref_sort_key(x["ref"]),
+            )
+            branches.append(branch)
+
+    return branches
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build folium map of listings")
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
