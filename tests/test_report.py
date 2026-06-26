@@ -93,13 +93,8 @@ def test_load_stations_basic(sample_stations):
     assert stations[0]["lines"] == ["BTS Sukhumvit Line"]
 
 
-import re
 from src.report import sort_stations_by_line
 
-
-def _ref_num(ref: str) -> int:
-    m = re.search(r"(\d+)", ref)
-    return int(m.group(1)) if m else 999
 
 
 def test_sort_stations_single_line():
@@ -151,3 +146,15 @@ def test_sort_stations_no_ref_falls_back_to_lat():
     assert len(srt) == 1  # single branch (no split)
     lats = [s["lat"] for s in srt[0]]
     assert lats == sorted(lats, reverse=True)  # north to south
+
+
+def test_sort_stations_digit_only_refs_fall_back_to_lat():
+    stations = [
+        {"name": "Station 10", "ref": "10", "lines": ["SRT Dark Red Line"], "lat": 13.70, "lon": 100.50, "operational": True},
+        {"name": "Station 3", "ref": "3", "lines": ["SRT Dark Red Line"], "lat": 13.90, "lon": 100.50, "operational": True},
+        {"name": "Station 4", "ref": "4", "lines": ["SRT Dark Red Line"], "lat": 13.80, "lon": 100.50, "operational": True},
+    ]
+    by_line = sort_stations_by_line(stations)
+    srt = by_line["SRT Dark Red Line"]
+    lats = [s["lat"] for s in srt[0]]
+    assert lats == sorted(lats, reverse=True)  # north-to-south

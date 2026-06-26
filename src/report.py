@@ -151,6 +151,9 @@ def _ref_sort_key(ref: str) -> tuple[str, int]:
     m = re.match(r"([A-Z]+)(\d+)", ref)
     if m:
         return (m.group(1), int(m.group(2)))
+    m = re.match(r"^(\d+)$", ref)
+    if m:
+        return ("", int(m.group(1)))
     return ("ZZZ", 999)
 
 
@@ -174,7 +177,7 @@ def sort_stations_by_line(
         elif line == "BTS Silom Line" and has_cen:
             branches = _split_bts_branches(stns)
         else:
-            any_ref = any(r for r in refs)
+            any_ref = any(r and re.match(r"[A-Z]+\d+$", r) for r in refs)
             if any_ref:
                 sorted_stns = sorted(stns, key=lambda s: _ref_sort_key(s["ref"]))
                 branches = [sorted_stns]
