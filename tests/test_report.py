@@ -186,9 +186,10 @@ def test_build_transit_layer_returns_feature_group():
          "operational": True, "lat": 13.74, "lon": 100.47},
     ]
     by_line = sort_stations_by_line(stations)
-    fg = build_transit_layer(by_line, stations)
-    assert fg is not None
-    assert hasattr(fg, "add_to")
+    line_fgs = build_transit_layer(by_line, stations)
+    assert isinstance(line_fgs, dict)
+    assert "MRT Blue Line" in line_fgs
+    assert hasattr(line_fgs["MRT Blue Line"], "add_to")
 
 
 def test_build_popup_html_basic():

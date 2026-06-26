@@ -236,11 +236,17 @@ def build_station_popup(station: dict[str, Any]) -> str:
 def build_transit_layer(
     stations_by_line: dict[str, list[list[dict[str, Any]]]],
     all_stations: list[dict[str, Any]],
-) -> folium.FeatureGroup:
-    fg = folium.FeatureGroup(name="transit_network")
+) -> dict[str, folium.FeatureGroup]:
+    line_fgs: dict[str, folium.FeatureGroup] = {}
+
+    station_by_name: dict[str, list[dict[str, Any]]] = {}
+    for s in all_stations:
+        station_by_name.setdefault(s["name"], []).append(s)
 
     for line_name, branches in stations_by_line.items():
         color = LINE_COLORS.get(line_name, "#888888")
+        fg = folium.FeatureGroup(name=line_name)
+
         for branch in branches:
             if len(branch) < 2:
                 continue
@@ -252,22 +258,23 @@ def build_transit_layer(
                 opacity=0.6,
             ).add_to(fg)
 
-    for station in all_stations:
-        first_line = station["lines"][0] if station["lines"] else ""
-        color = LINE_COLORS.get(first_line, "#888888")
-        folium.CircleMarker(
-            location=(station["lat"], station["lon"]),
-            radius=4,
-            color=color,
-            weight=1.5,
-            fill=True,
-            fillColor="#ffffff",
-            fillOpacity=1.0,
-            popup=folium.Popup(build_station_popup(station), max_width=250),
-            tooltip=station["name"],
-        ).add_to(fg)
+        for branch in branches:
+            for station in branch:
+                folium.CircleMarker(
+                    location=(station["lat"], station["lon"]),
+                    radius=4,
+                    color=color,
+                    weight=1.5,
+                    fill=True,
+                    fillColor="#ffffff",
+                    fillOpacity=1.0,
+                    popup=folium.Popup(build_station_popup(station), max_width=250),
+                    tooltip=station["name"],
+                ).add_to(fg)
 
-    return fg
+        line_fgs[line_name] = fg
+
+    return line_fgs
 
 
 def _fmt_thb(value: float) -> str:
@@ -538,8 +545,9 @@ def main() -> None:
 
     m = folium.Map(location=[13.7563, 100.5018], zoom_start=12, tiles="CartoDB positron")
 
-    transit_fg = build_transit_layer(stations_by_line, stations)
-    transit_fg.add_to(m)
+    transit_fgs = build_transit_layer(stations_by_line, stations)
+    for fg in transit_fgs.values():
+        fg.add_to(m)
 
     listings_fg, color_data = build_listing_markers(df)
     listings_fg.add_to(m)
