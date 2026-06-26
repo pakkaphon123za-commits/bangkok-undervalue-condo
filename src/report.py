@@ -381,6 +381,98 @@ def build_ghost_markers(df: pd.DataFrame) -> folium.FeatureGroup:
     return fg
 
 
+def inject_color_toggle(
+    m: folium.Map, color_data: list[dict], unique_lines: list[str]
+) -> None:
+    import json as _json
+    colors_json = _json.dumps(color_data)
+
+    line_swatch_items = ""
+    for line in unique_lines:
+        color = LINE_COLORS.get(line, "#888888")
+        line_th = LINE_NAMES_TH.get(line, line)
+        line_swatch_items += f"""
+      <div style="display:flex; align-items:center; gap:6px; margin:2px 0;">
+        <span style="width:12px; height:12px; background:{color}; border-radius:50%; display:inline-block;"></span>
+        <span data-en="{line}" data-th="{line_th}">{line}</span>
+      </div>"""
+
+    toggle_html = f"""
+    <div style="position: absolute; top: 10px; right: 10px; z-index: 9999; background: white; padding: 8px; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+      <select id="colorMode" onchange="recolorMarkers()" style="margin-bottom: 6px; font-size: 12px;">
+        <option value="price" data-en="Price per sqm" data-th="ราคา/ตร.ม.">Price per sqm</option>
+        <option value="distance" data-en="Distance to station" data-th="ระยะจากสถานี">Distance to station</option>
+        <option value="line" data-en="By transit line" data-th="ตามสายรถไฟ">By transit line</option>
+      </select>
+      <div id="legend-quantile" style="display:block;">
+        <div style="display:flex; align-items:center; gap:6px; margin:2px 0;">
+          <span style="width:12px; height:12px; background:#2ecc71; border-radius:50%; display:inline-block;"></span>
+          <span data-en="Budget" data-th="ประหยัด">Budget</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; margin:2px 0;">
+          <span style="width:12px; height:12px; background:#1abc9c; border-radius:50%; display:inline-block;"></span>
+          <span data-en="Below median" data-th="ต่ำกว่ามัธยะ">Below median</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; margin:2px 0;">
+          <span style="width:12px; height:12px; background:#3498db; border-radius:50%; display:inline-block;"></span>
+          <span data-en="Above median" data-th="สูงกว่ามัธยะ">Above median</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; margin:2px 0;">
+          <span style="width:12px; height:12px; background:#f1c40f; border-radius:50%; display:inline-block;"></span>
+          <span data-en="Premium" data-th="ระดับพรีเมียม">Premium</span>
+        </div>
+      </div>
+      <div id="legend-line" style="display:none;">{line_swatch_items}</div>
+    </div>
+    """
+
+    recolor_js = f"""
+    <script>
+    window._markerColors = {colors_json};
+    window._listingMarkers = [];
+
+    function collectListingMarkers() {{
+      window._listingMarkers = [];
+      map.eachLayer(function(layer) {{
+        if (layer instanceof L.CircleMarker && layer.options.radius === 5) {{
+          window._listingMarkers.push(layer);
+        }}
+      }});
+    }}
+
+    function recolorMarkers() {{
+      var mode = document.getElementById('colorMode').value;
+      var legendQ = document.getElementById('legend-quantile');
+      var legendL = document.getElementById('legend-line');
+      if (mode === 'line') {{
+        legendQ.style.display = 'none';
+        legendL.style.display = 'block';
+      }} else {{
+        legendQ.style.display = 'block';
+        legendL.style.display = 'none';
+      }}
+
+      if (window._listingMarkers.length === 0) collectListingMarkers();
+
+      window._listingMarkers.forEach(function(marker, i) {{
+        var cd = window._markerColors[i];
+        if (!cd) return;
+        var color;
+        if (mode === 'price') color = cd.price;
+        else if (mode === 'distance') color = cd.dist;
+        else color = cd.line;
+        marker.setStyle({{fillColor: color, color: color}});
+      }});
+    }}
+
+    setTimeout(function() {{ collectListingMarkers(); recolorMarkers(); }}, 500);
+    </script>
+    """
+
+    m.get_root().html.add_child(folium.Element(toggle_html))
+    m.get_root().html.add_child(folium.Element(recolor_js))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build folium map of listings")
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)

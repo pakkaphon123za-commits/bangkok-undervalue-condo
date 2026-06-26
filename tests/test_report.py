@@ -3,10 +3,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import folium
 import pandas as pd
 import pytest
 
-from src.report import load_listings, load_stations
+from src.report import inject_color_toggle, load_listings, load_stations
 
 
 @pytest.fixture
@@ -300,3 +301,16 @@ def test_build_ghost_markers_with_ghosts():
     df = pd.DataFrame(data)
     fg = build_ghost_markers(df)
     assert fg is not None
+
+
+def test_inject_color_toggle_adds_elements(sample_enriched, sample_stations):
+    df = load_listings(sample_enriched)
+    unique_lines = sorted(df["nearest_station_line"].dropna().unique())
+    color_data = [{"price": "#2ecc71", "dist": "#2ecc71", "line": "#77BB44"}]
+    m = folium.Map(location=[13.75, 100.56], zoom_start=12)
+
+    inject_color_toggle(m, color_data, list(unique_lines))
+
+    html_str = m.get_root().render()
+    assert "colorMode" in html_str
+    assert "recolorMarkers" in html_str
