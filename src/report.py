@@ -536,7 +536,7 @@ def main() -> None:
 
     stations_by_line = sort_stations_by_line(stations)
 
-    m = folium.Map(location=[13.7563, 100.5018], zoom_start=12, tiles="OpenStreetMap")
+    m = folium.Map(location=[13.7563, 100.5018], zoom_start=12, tiles="CartoDB positron")
 
     transit_fg = build_transit_layer(stations_by_line, stations)
     transit_fg.add_to(m)
