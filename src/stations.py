@@ -8,6 +8,7 @@ operational or upcoming, and writes a GeoJSON file to data/processed/stations.ge
 from __future__ import annotations
 
 import json
+import math
 import re
 import sys
 import time
@@ -35,7 +36,7 @@ QUERY = """
     ({s},{w},{n},{e});
 )->.routes;
 (
-  node["railway"~"station|halt|tram_stop"]({s},{w},{n},{e});
+  node["railway"~"station|halt|tram_stop|stop"]({s},{w},{n},{e});
   node["railway"="construction"]["name"]({s},{w},{n},{e});
   node["public_transport"="station"]({s},{w},{n},{e});
 );
@@ -247,6 +248,16 @@ def parse_overpass(data: dict) -> tuple[list[dict], dict[str, str]]:
     return features, line_status
 
 
+def _haversine_m(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    r = 6371000.0
+    p1 = math.radians(lat1)
+    p2 = math.radians(lat2)
+    dp = math.radians(lat2 - lat1)
+    dl = math.radians(lon2 - lon1)
+    a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return 2 * r * math.asin(math.sqrt(a))
+
+
 def deduplicate(features: list[dict]) -> list[dict]:
     by_ref: dict[str, int] = {}
     by_name_loc: dict[str, int] = {}
@@ -279,6 +290,29 @@ def deduplicate(features: list[dict]) -> list[dict]:
             if ref:
                 by_ref[ref.upper()] = by_name_loc[loc_key]
             continue
+
+        if name:
+            merged = False
+            for idx, existing in enumerate(result):
+                ex_name = existing["properties"]["name"]
+                ex_lon, ex_lat = existing["geometry"]["coordinates"]
+                dist = _haversine_m(lat, lon, ex_lat, ex_lon)
+                if dist <= 100 and ex_name == name:
+                    merge_into(existing, f)
+                    if ref:
+                        by_ref[ref.upper()] = idx
+                    by_name_loc[loc_key] = idx
+                    merged = True
+                    break
+                if dist <= 50 and existing["properties"]["lines"] == f["properties"]["lines"]:
+                    merge_into(existing, f)
+                    if ref:
+                        by_ref[ref.upper()] = idx
+                    by_name_loc[loc_key] = idx
+                    merged = True
+                    break
+            if merged:
+                continue
 
         idx = len(result)
         result.append(f)

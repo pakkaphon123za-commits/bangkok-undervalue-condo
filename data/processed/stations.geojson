@@ -66,6 +66,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.52909,
+          13.746532
+        ]
+      },
+      "properties": {
+        "name": "National Stadium",
+        "ref": "W1",
+        "wikidata": "",
+        "lines": [
+          "BTS Silom Line"
+        ],
+        "operational": true,
+        "osm_id": 257066819
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.514223,
           13.718813
         ]
@@ -79,6 +99,107 @@
         ],
         "operational": true,
         "osm_id": 257067085
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.531572,
+          13.751879
+        ]
+      },
+      "properties": {
+        "name": "Ratchathewi",
+        "ref": "N1",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 270666787
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.533807,
+          13.756978
+        ]
+      },
+      "properties": {
+        "name": "Phaya Thai",
+        "ref": "N2",
+        "wikidata": "",
+        "lines": [
+          "Airport Rail Link",
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 270666790
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.537067,
+          13.762753
+        ]
+      },
+      "properties": {
+        "name": "Victory Monument",
+        "ref": "N3",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 270666791
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.542093,
+          13.772615
+        ]
+      },
+      "properties": {
+        "name": "Sanam Pao",
+        "ref": "N4",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 270666802
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.54464,
+          13.779706
+        ]
+      },
+      "properties": {
+        "name": "Ari",
+        "ref": "N5",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 270666804
       }
     },
     {
@@ -106,6 +227,226 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.549724,
+          13.793819
+        ]
+      },
+      "properties": {
+        "name": "Saphan Khwai",
+        "ref": "N7",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 270666806
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.553811,
+          13.802598
+        ]
+      },
+      "properties": {
+        "name": "Mo Chit",
+        "ref": "N8",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 270666810
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.555443,
+          13.740555
+        ]
+      },
+      "properties": {
+        "name": "Nana",
+        "ref": "E3",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 270668230
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.543073,
+          13.744119
+        ]
+      },
+      "properties": {
+        "name": "Chit Lom",
+        "ref": "E1",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 270668232
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.569724,
+          13.730452
+        ]
+      },
+      "properties": {
+        "name": "Phrom Phong",
+        "ref": "E5",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 275514306
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.560342,
+          13.73703
+        ]
+      },
+      "properties": {
+        "name": "Asok",
+        "ref": "E4",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 275514816
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.548971,
+          13.74305
+        ]
+      },
+      "properties": {
+        "name": "Phloen Chit",
+        "ref": "E2",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 275515851
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.57853,
+          13.724257
+        ]
+      },
+      "properties": {
+        "name": "Thong Lo",
+        "ref": "E6",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 277360712
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.585128,
+          13.719551
+        ]
+      },
+      "properties": {
+        "name": "Ekkamai BTS Station",
+        "ref": "E7",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 277360862
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.591225,
+          13.715157
+        ]
+      },
+      "properties": {
+        "name": "Phra Khanong",
+        "ref": "E8",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 277360879
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.600983,
+          13.705619
+        ]
+      },
+      "properties": {
+        "name": "On Nut",
+        "ref": "E9",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 277361532
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.517135,
           13.737571
         ]
@@ -126,6 +467,46 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.561396,
+          13.737496
+        ]
+      },
+      "properties": {
+        "name": "Sukhumvit",
+        "ref": "BL22",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line"
+        ],
+        "operational": true,
+        "osm_id": 280179421
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.563338,
+          13.7492
+        ]
+      },
+      "properties": {
+        "name": "Phetchaburi",
+        "ref": "BL21",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line"
+        ],
+        "operational": true,
+        "osm_id": 280179426
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.565277,
           13.757817
         ]
@@ -139,6 +520,26 @@
         ],
         "operational": true,
         "osm_id": 280179427
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.537068,
+          13.729174
+        ]
+      },
+      "properties": {
+        "name": "Si Lom",
+        "ref": "BL26",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line"
+        ],
+        "operational": true,
+        "osm_id": 280179442
       }
     },
     {
@@ -179,6 +580,26 @@
         ],
         "operational": true,
         "osm_id": 280222462
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.530114,
+          13.732046
+        ]
+      },
+      "properties": {
+        "name": "Sam Yan",
+        "ref": "BL27",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line"
+        ],
+        "operational": true,
+        "osm_id": 280222869
       }
     },
     {
@@ -346,6 +767,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.54103,
+          13.802354
+        ]
+      },
+      "properties": {
+        "name": "Bang Sue",
+        "ref": "BL11",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line"
+        ],
+        "operational": true,
+        "osm_id": 280246418
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.55437,
           13.722126
         ]
@@ -466,26 +907,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.562949,
-          13.747855
-        ]
-      },
-      "properties": {
-        "name": "Asok Pier",
-        "ref": "E5",
-        "wikidata": "",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 566623721
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           100.652109,
           13.767724
         ]
@@ -499,6 +920,66 @@
         ],
         "operational": true,
         "osm_id": 566631929
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.559813,
+          13.751067
+        ]
+      },
+      "properties": {
+        "name": "Makkasan",
+        "ref": "A6",
+        "wikidata": "",
+        "lines": [
+          "Airport Rail Link"
+        ],
+        "operational": true,
+        "osm_id": 917014949
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.542048,
+          13.755089
+        ]
+      },
+      "properties": {
+        "name": "Ratchaprarop",
+        "ref": "A7",
+        "wikidata": "",
+        "lines": [
+          "Airport Rail Link"
+        ],
+        "operational": true,
+        "osm_id": 917014985
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.751388,
+          13.694843
+        ]
+      },
+      "properties": {
+        "name": "Suvarnabhumi",
+        "ref": "A1",
+        "wikidata": "",
+        "lines": [
+          "Airport Rail Link"
+        ],
+        "operational": true,
+        "osm_id": 917022633
       }
     },
     {
@@ -526,6 +1007,66 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.599744,
+          13.743018
+        ]
+      },
+      "properties": {
+        "name": "Ramkhamhaeng",
+        "ref": "A5",
+        "wikidata": "Q6633628",
+        "lines": [
+          "Airport Rail Link"
+        ],
+        "operational": true,
+        "osm_id": 999013479
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.747833,
+          13.727645
+        ]
+      },
+      "properties": {
+        "name": "Lat Krabang",
+        "ref": "A2",
+        "wikidata": "",
+        "lines": [
+          "Airport Rail Link"
+        ],
+        "operational": true,
+        "osm_id": 999013485
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.690808,
+          13.73286
+        ]
+      },
+      "properties": {
+        "name": "Ban Thap Chang",
+        "ref": "A3",
+        "wikidata": "",
+        "lines": [
+          "Airport Rail Link"
+        ],
+        "operational": true,
+        "osm_id": 999013489
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.468903,
           13.713023
         ]
@@ -546,19 +1087,59 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.549711,
-          13.793823
+          100.605318,
+          13.696756
         ]
       },
       "properties": {
-        "name": "Saphan Khwai",
-        "ref": "N7",
-        "wikidata": "Q873690",
+        "name": "Bang Chak",
+        "ref": "E10",
+        "wikidata": "",
         "lines": [
           "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 1285516977
+        "osm_id": 1560656072
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.534215,
+          13.822154
+        ]
+      },
+      "properties": {
+        "name": "Bang Son",
+        "ref": "2",
+        "wikidata": "Q23869363",
+        "lines": [
+          "SRT Light Red Line"
+        ],
+        "operational": true,
+        "osm_id": 1648414719
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.457805,
+          13.720796
+        ]
+      },
+      "properties": {
+        "name": "Bang Wa",
+        "ref": "S12",
+        "wikidata": "",
+        "lines": [
+          "BTS Silom Line"
+        ],
+        "operational": true,
+        "osm_id": 1672566455
       }
     },
     {
@@ -579,6 +1160,127 @@
         ],
         "operational": true,
         "osm_id": 1692209237
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.608977,
+          13.689272
+        ]
+      },
+      "properties": {
+        "name": "Punnawithi",
+        "ref": "E11",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 1726172762
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.60949,
+          13.679868
+        ]
+      },
+      "properties": {
+        "name": "Udom Suk",
+        "ref": "E12",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 1726175401
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.604681,
+          13.668136
+        ]
+      },
+      "properties": {
+        "name": "Bang Na",
+        "ref": "E13",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 1726177803
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.601789,
+          13.661194
+        ]
+      },
+      "properties": {
+        "name": "Bearing",
+        "ref": "E14",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 1726177804
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.477418,
+          13.792242
+        ]
+      },
+      "properties": {
+        "name": "Bang Bamru",
+        "ref": "",
+        "wikidata": "",
+        "lines": [
+          "SRT Light Red Line"
+        ],
+        "operational": true,
+        "osm_id": 2039197279
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.440092,
+          13.789288
+        ]
+      },
+      "properties": {
+        "name": "Taling Chan Junction",
+        "ref": "3",
+        "wikidata": "",
+        "lines": [
+          "SRT Dark Red Line",
+          "SRT Light Red Line"
+        ],
+        "operational": true,
+        "osm_id": 2039197506
       }
     },
     {
@@ -619,6 +1321,347 @@
         ],
         "operational": true,
         "osm_id": 2094758837
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.502303,
+          13.746981
+        ]
+      },
+      "properties": {
+        "name": "Sam Yot",
+        "ref": "BL30",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line"
+        ],
+        "operational": true,
+        "osm_id": 2324802007
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.530771,
+          13.806147
+        ]
+      },
+      "properties": {
+        "name": "Tao Poon",
+        "ref": "BL10",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line",
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 2465782414
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.532521,
+          13.820087
+        ]
+      },
+      "properties": {
+        "name": "Bang Son",
+        "ref": "PP15",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487510793
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.526456,
+          13.829821
+        ]
+      },
+      "properties": {
+        "name": "Wong Sawang",
+        "ref": "PP14",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487510833
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.51493,
+          13.839483
+        ]
+      },
+      "properties": {
+        "name": "Yaek Tiwanon",
+        "ref": "PP13",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487510857
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.514776,
+          13.848499
+        ]
+      },
+      "properties": {
+        "name": "Ministry of Public Health",
+        "ref": "PP12",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511003
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.513056,
+          13.860113
+        ]
+      },
+      "properties": {
+        "name": "Nonthaburi Civic Center",
+        "ref": "PP11",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511058
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.504635,
+          13.861597
+        ]
+      },
+      "properties": {
+        "name": "Bang Krasor",
+        "ref": "PP10",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511083
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.494046,
+          13.865906
+        ]
+      },
+      "properties": {
+        "name": "Yaek Nonthaburi 1",
+        "ref": "PP9",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511211
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.480138,
+          13.870227
+        ]
+      },
+      "properties": {
+        "name": "Phra Nang Klao Bridge",
+        "ref": "PP8",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511257
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.466677,
+          13.870451
+        ]
+      },
+      "properties": {
+        "name": "Sai Ma",
+        "ref": "PP7",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511280
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.419369,
+          13.874612
+        ]
+      },
+      "properties": {
+        "name": "Sam Yaek Bang Yai",
+        "ref": "PP3",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511428
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.455943,
+          13.874752
+        ]
+      },
+      "properties": {
+        "name": "Bang Rak Noi Tha It",
+        "ref": "PP6",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511436
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.433809,
+          13.875708
+        ]
+      },
+      "properties": {
+        "name": "Bang Phlu",
+        "ref": "PP4",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511461
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.444943,
+          13.876544
+        ]
+      },
+      "properties": {
+        "name": "Bang Rak Yai",
+        "ref": "PP5",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511490
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.409225,
+          13.88101
+        ]
+      },
+      "properties": {
+        "name": "Talad Bang Yai",
+        "ref": "PP2",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511733
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.408156,
+          13.892429
+        ]
+      },
+      "properties": {
+        "name": "Khlong Bang Phai",
+        "ref": "PP1",
+        "wikidata": "",
+        "lines": [
+          "MRT Purple Line"
+        ],
+        "operational": true,
+        "osm_id": 3487511747
       }
     },
     {
@@ -679,6 +1722,26 @@
         ],
         "operational": true,
         "osm_id": 3801037853
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.457037,
+          13.720259
+        ]
+      },
+      "properties": {
+        "name": "Bang Wa",
+        "ref": "BL34",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line"
+        ],
+        "operational": true,
+        "osm_id": 3801037854
       }
     },
     {
@@ -786,6 +1849,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.494692,
+          13.744334
+        ]
+      },
+      "properties": {
+        "name": "Sanam Chai",
+        "ref": "BL31",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line"
+        ],
+        "operational": true,
+        "osm_id": 3801040560
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.409485,
           13.710877
         ]
@@ -799,6 +1882,46 @@
         ],
         "operational": true,
         "osm_id": 3801040561
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.485702,
+          13.738327
+        ]
+      },
+      "properties": {
+        "name": "Itsaraphap",
+        "ref": "BL32",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line"
+        ],
+        "operational": true,
+        "osm_id": 3801040562
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.509905,
+          13.742201
+        ]
+      },
+      "properties": {
+        "name": "Wat Mangkon",
+        "ref": "BL29",
+        "wikidata": "",
+        "lines": [
+          "MRT Blue Line"
+        ],
+        "operational": true,
+        "osm_id": 3801040563
       }
     },
     {
@@ -846,719 +1969,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.514968,
-          13.839529
-        ]
-      },
-      "properties": {
-        "name": "Yaek Tiwanon",
-        "ref": "PP13",
-        "wikidata": "Q19794082",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222817654
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.526496,
-          13.829864
-        ]
-      },
-      "properties": {
-        "name": "Wong Sawang",
-        "ref": "PP14",
-        "wikidata": "Q13021812",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222817655
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.532458,
-          13.820081
-        ]
-      },
-      "properties": {
-        "name": "Bang Son",
-        "ref": "PP15",
-        "wikidata": "",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222817656
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.408216,
-          13.892434
-        ]
-      },
-      "properties": {
-        "name": "Khlong Bang Phai",
-        "ref": "PP1",
-        "wikidata": "Q15379154",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843674
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.409287,
-          13.881012
-        ]
-      },
-      "properties": {
-        "name": "Talad Bang Yai",
-        "ref": "PP2",
-        "wikidata": "Q25103860",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843675
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.419362,
-          13.874675
-        ]
-      },
-      "properties": {
-        "name": "Sam Yaek Bang Yai",
-        "ref": "PP3",
-        "wikidata": "Q25106306",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843676
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.433801,
-          13.875768
-        ]
-      },
-      "properties": {
-        "name": "Bang Phlu",
-        "ref": "PP4",
-        "wikidata": "Q13021635",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843677
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.444936,
-          13.876607
-        ]
-      },
-      "properties": {
-        "name": "Bang Rak Yai",
-        "ref": "PP5",
-        "wikidata": "Q16307495",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843678
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.455965,
-          13.874808
-        ]
-      },
-      "properties": {
-        "name": "Bang Rak Noi Tha It",
-        "ref": "PP6",
-        "wikidata": "Q73813625",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843679
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.466692,
-          13.870511
-        ]
-      },
-      "properties": {
-        "name": "Sai Ma",
-        "ref": "PP7",
-        "wikidata": "Q13021885",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843680
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.480128,
-          13.87029
-        ]
-      },
-      "properties": {
-        "name": "Phra Nang Klao Bridge",
-        "ref": "PP8",
-        "wikidata": "Q96419170",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843681
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.494077,
-          13.865961
-        ]
-      },
-      "properties": {
-        "name": "Yaek Nonthaburi 1",
-        "ref": "PP9",
-        "wikidata": "Q73811536",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843682
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.504652,
-          13.861653
-        ]
-      },
-      "properties": {
-        "name": "Bang Krasor",
-        "ref": "PP10",
-        "wikidata": "Q13021840",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843683
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.513067,
-          13.860174
-        ]
-      },
-      "properties": {
-        "name": "Nonthaburi Civic Center",
-        "ref": "PP11",
-        "wikidata": "Q25106308",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843684
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.514715,
-          13.848531
-        ]
-      },
-      "properties": {
-        "name": "Ministry of Public Health",
-        "ref": "PP12",
-        "wikidata": "Q96418970",
-        "lines": [
-          "MRT Purple Line"
-        ],
-        "operational": true,
-        "osm_id": 5222843685
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.553796,
-          13.802605
-        ]
-      },
-      "properties": {
-        "name": "Mo Chit",
-        "ref": "N8",
-        "wikidata": "Q873641",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5388599065
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.54462,
-          13.779708
-        ]
-      },
-      "properties": {
-        "name": "Ari",
-        "ref": "N5",
-        "wikidata": "Q6149301",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5388607091
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.533821,
-          13.756964
-        ]
-      },
-      "properties": {
-        "name": "Phaya Thai",
-        "ref": "N2",
-        "wikidata": "Q15139351",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5388610344
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.531553,
-          13.75186
-        ]
-      },
-      "properties": {
-        "name": "Ratchathewi",
-        "ref": "N1",
-        "wikidata": "Q6633184",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5388611982
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.542073,
-          13.772623
-        ]
-      },
-      "properties": {
-        "name": "Sanam Pao",
-        "ref": "N4",
-        "wikidata": "Q4922512",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5388638318
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.601806,
-          13.661185
-        ]
-      },
-      "properties": {
-        "name": "Bearing",
-        "ref": "E14",
-        "wikidata": "Q6633805",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391599348
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.604663,
-          13.668138
-        ]
-      },
-      "properties": {
-        "name": "Bang Na",
-        "ref": "E13",
-        "wikidata": "Q6633173",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391610964
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.591236,
-          13.715169
-        ]
-      },
-      "properties": {
-        "name": "Phra Khanong",
-        "ref": "E8",
-        "wikidata": "Q4924738",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391610985
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.537053,
-          13.762759
-        ]
-      },
-      "properties": {
-        "name": "Victory Monument",
-        "ref": "N3",
-        "wikidata": "Q4919845",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391611863
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.60947,
-          13.679875
-        ]
-      },
-      "properties": {
-        "name": "Udom Suk",
-        "ref": "E12",
-        "wikidata": "Q13021857",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391613497
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.608996,
-          13.689279
-        ]
-      },
-      "properties": {
-        "name": "Punnawithi",
-        "ref": "E11",
-        "wikidata": "Q6633186",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391616767
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.60534,
-          13.696759
-        ]
-      },
-      "properties": {
-        "name": "Bang Chak",
-        "ref": "E10",
-        "wikidata": "Q6633183",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391618414
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.601004,
-          13.705625
-        ]
-      },
-      "properties": {
-        "name": "On Nut",
-        "ref": "E9",
-        "wikidata": "Q1028755",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391620400
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.560357,
-          13.737043
-        ]
-      },
-      "properties": {
-        "name": "Asok",
-        "ref": "E4",
-        "wikidata": "Q4924120",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391625873
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.578505,
-          13.724226
-        ]
-      },
-      "properties": {
-        "name": "Thong Lo",
-        "ref": "E6",
-        "wikidata": "Q4924220",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391626092
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.555429,
-          13.740536
-        ]
-      },
-      "properties": {
-        "name": "Nana",
-        "ref": "E3",
-        "wikidata": "Q6633167",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391628766
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.548976,
-          13.743068
-        ]
-      },
-      "properties": {
-        "name": "Phloen Chit",
-        "ref": "E2",
-        "wikidata": "Q4921113",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391631777
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.543068,
-          13.744097
-        ]
-      },
-      "properties": {
-        "name": "Chit Lom",
-        "ref": "E1",
-        "wikidata": "Q6633149",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5391636575
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.595786,
-          13.646487
+          100.595855,
+          13.64647
         ]
       },
       "properties": {
         "name": "Samrong",
         "ref": "E15",
-        "wikidata": "Q13021846",
+        "wikidata": "",
         "lines": [
           "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 5391659126
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.56134,
-          13.737395
-        ]
-      },
-      "properties": {
-        "name": "Sukhumvit",
-        "ref": "BL22",
-        "wikidata": "Q1036841",
-        "lines": [
-          "MRT Blue Line"
-        ],
-        "operational": true,
-        "osm_id": 5391691787
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.585111,
-          13.719539
-        ]
-      },
-      "properties": {
-        "name": "Ekkamai",
-        "ref": "E7",
-        "wikidata": "Q4919536",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5405616025
+        "osm_id": 4774928037
       }
     },
     {
@@ -1626,19 +2049,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.592006,
-          13.637277
+          100.59199,
+          13.637287
         ]
       },
       "properties": {
         "name": "Pu Chao",
         "ref": "E16",
-        "wikidata": "Q59779848",
+        "wikidata": "",
         "lines": [
           "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 6124793513
+        "osm_id": 6123597367
       }
     },
     {
@@ -1646,19 +2069,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.59016,
-          13.621594
+          100.590161,
+          13.621541
         ]
       },
       "properties": {
         "name": "Chang Erawan",
         "ref": "E17",
-        "wikidata": "Q13021646",
+        "wikidata": "",
         "lines": [
           "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 6124793514
+        "osm_id": 6123597368
       }
     },
     {
@@ -1666,19 +2089,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.594906,
-          13.608409
+          100.59494,
+          13.608433
         ]
       },
       "properties": {
         "name": "Royal Thai Naval Academy",
         "ref": "E18",
-        "wikidata": "Q60034232",
+        "wikidata": "",
         "lines": [
           "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 6124793515
+        "osm_id": 6123597369
       }
     },
     {
@@ -1686,19 +2109,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.597092,
-          13.602124
+          100.597137,
+          13.602095
         ]
       },
       "properties": {
         "name": "Pak Nam",
         "ref": "E19",
-        "wikidata": "Q60034220",
+        "wikidata": "",
         "lines": [
           "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 6124793516
+        "osm_id": 6123597370
       }
     },
     {
@@ -1706,19 +2129,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.609035,
-          13.591997
+          100.608985,
+          13.592018
         ]
       },
       "properties": {
         "name": "Srinagarindra",
         "ref": "E20",
-        "wikidata": "Q60034186",
+        "wikidata": "",
         "lines": [
           "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 6124793517
+        "osm_id": 6123597371
       }
     },
     {
@@ -1726,19 +2149,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.607905,
-          13.584192
+          100.607861,
+          13.584235
         ]
       },
       "properties": {
         "name": "Phraek Sa",
         "ref": "E21",
-        "wikidata": "Q60034142",
+        "wikidata": "",
         "lines": [
           "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 6124793521
+        "osm_id": 6123597372
       }
     },
     {
@@ -1746,19 +2169,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.607694,
-          13.567687
+          100.607726,
+          13.567706
         ]
       },
       "properties": {
         "name": "Kheha",
         "ref": "E23",
-        "wikidata": "Q59764824",
+        "wikidata": "",
         "lines": [
           "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 6124793523
+        "osm_id": 6123597374
       }
     },
     {
@@ -2046,159 +2469,139 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.751288,
-          13.694267
-        ]
-      },
-      "properties": {
-        "name": "Suvarnabhumi",
-        "ref": "A1",
-        "wikidata": "Q6633190",
-        "lines": [
-          "Airport Rail Link"
-        ],
-        "operational": true,
-        "osm_id": 6711003839
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.600154,
-          13.742993
-        ]
-      },
-      "properties": {
-        "name": "Ramkhamhaeng",
-        "ref": "A5",
-        "wikidata": "Q6633628",
-        "lines": [
-          "Airport Rail Link"
-        ],
-        "operational": true,
-        "osm_id": 6711009224
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.690817,
-          13.732888
-        ]
-      },
-      "properties": {
-        "name": "Ban Thap Chang",
-        "ref": "A3",
-        "wikidata": "Q6895675",
-        "lines": [
-          "Airport Rail Link"
-        ],
-        "operational": true,
-        "osm_id": 6711014684
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.748598,
-          13.727682
-        ]
-      },
-      "properties": {
-        "name": "Lat Krabang",
-        "ref": "A2",
-        "wikidata": "Q15283201",
-        "lines": [
-          "Airport Rail Link"
-        ],
-        "operational": true,
-        "osm_id": 6711016582
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.561143,
-          13.750909
-        ]
-      },
-      "properties": {
-        "name": "Makkasan",
-        "ref": "A6",
-        "wikidata": "Q11340409",
-        "lines": [
-          "Airport Rail Link"
-        ],
-        "operational": true,
-        "osm_id": 6711023184
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.542124,
-          13.755107
-        ]
-      },
-      "properties": {
-        "name": "Ratchaprarop",
-        "ref": "A7",
-        "wikidata": "Q6633462",
-        "lines": [
-          "Airport Rail Link"
-        ],
-        "operational": true,
-        "osm_id": 6711026524
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.534907,
-          13.75671
-        ]
-      },
-      "properties": {
-        "name": "Phaya Thai",
-        "ref": "A8",
-        "wikidata": "Q13021649",
-        "lines": [
-          "Airport Rail Link"
-        ],
-        "operational": true,
-        "osm_id": 6711028526
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.562036,
-          13.816681
+          100.561943,
+          13.816725
         ]
       },
       "properties": {
         "name": "Ha Yaek Lat Phrao",
         "ref": "N9",
-        "wikidata": "Q16307668",
+        "wikidata": "",
         "lines": [
           "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 6966466946
+        "osm_id": 6681609031
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.623187,
+          13.778377
+        ]
+      },
+      "properties": {
+        "name": "Mahatthai",
+        "ref": "YL06",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 6695196331
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.594465,
+          13.794431
+        ]
+      },
+      "properties": {
+        "name": "Chok Chai 4",
+        "ref": "YL03",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 6695196338
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.636241,
+          13.643471
+        ]
+      },
+      "properties": {
+        "name": "Si Bearing",
+        "ref": "YL19",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 6703032843
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.630104,
+          13.633125
+        ]
+      },
+      "properties": {
+        "name": "Si Dan",
+        "ref": "YL20",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 6703032848
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.596616,
+          13.645044
+        ]
+      },
+      "properties": {
+        "name": "Samrong",
+        "ref": "YL23",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 6703032849
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.622682,
+          13.629879
+        ]
+      },
+      "properties": {
+        "name": "Si Thepha",
+        "ref": "YL21",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 6703032861
       }
     },
     {
@@ -2226,19 +2629,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.457791,
-          13.72079
+          100.544248,
+          13.910445
         ]
       },
       "properties": {
-        "name": "Bang Wa",
-        "ref": "S12",
+        "name": "Impact Muang Thong Thani",
+        "ref": "MT01",
         "wikidata": "",
         "lines": [
-          "BTS Silom Line"
+          "MRT Pink Line"
         ],
         "operational": true,
-        "osm_id": 7769639096
+        "osm_id": 7156540353
       }
     },
     {
@@ -2246,19 +2649,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.457023,
-          13.72027
+          100.644812,
+          13.750433
         ]
       },
       "properties": {
-        "name": "Bang Wa",
-        "ref": "BL34",
-        "wikidata": "Q66091132",
+        "name": "Si Kritha",
+        "ref": "YL10",
+        "wikidata": "",
         "lines": [
-          "MRT Blue Line"
+          "MRT Yellow Line"
         ],
         "operational": true,
-        "osm_id": 7769639097
+        "osm_id": 7271108084
       }
     },
     {
@@ -2266,19 +2669,82 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.530775,
-          13.806163
+          100.542004,
+          13.80378
         ]
       },
       "properties": {
-        "name": "Tao Poon",
-        "ref": "BL10;PP16",
-        "wikidata": "Q13021868",
+        "name": "Krung Thep Aphiwat",
+        "ref": "10",
+        "wikidata": "",
         "lines": [
-          "MRT Blue Line"
+          "SRT Dark Red Line",
+          "SRT Light Red Line"
         ],
         "operational": true,
-        "osm_id": 7769639098
+        "osm_id": 7314652453
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.597757,
+          13.914751
+        ]
+      },
+      "properties": {
+        "name": "Don Muang",
+        "ref": "1",
+        "wikidata": "",
+        "lines": [
+          "BTS Gold Line",
+          "SRT Dark Red Line",
+          "SRT Light Red Line"
+        ],
+        "operational": true,
+        "osm_id": 7314656153
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.510563,
+          13.889258
+        ]
+      },
+      "properties": {
+        "name": "Samakkhi",
+        "ref": "PK04",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 7647114249
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.516307,
+          13.8741
+        ]
+      },
+      "properties": {
+        "name": "Sanambin Nam",
+        "ref": "PK03",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 7647114250
       }
     },
     {
@@ -2306,19 +2772,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.596604,
-          13.645016
+          100.609916,
+          13.636736
         ]
       },
       "properties": {
-        "name": "Samrong",
-        "ref": "YL23",
-        "wikidata": "Q29068277",
+        "name": "Thipphawan",
+        "ref": "YL22",
+        "wikidata": "",
         "lines": [
           "MRT Yellow Line"
         ],
         "operational": true,
-        "osm_id": 7781303392
+        "osm_id": 7781234528
       }
     },
     {
@@ -2446,26 +2912,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.597869,
-          13.914688
-        ]
-      },
-      "properties": {
-        "name": "Don Muang",
-        "ref": "RN08",
-        "wikidata": "Q35596136",
-        "lines": [
-          "SRT Dark Red Line"
-        ],
-        "operational": true,
-        "osm_id": 7787093478
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           100.723483,
           13.803544
         ]
@@ -2506,6 +2952,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.545652,
+          13.918379
+        ]
+      },
+      "properties": {
+        "name": "Lake Muang Thong Thani",
+        "ref": "MT02",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 8067064024
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.646523,
           13.932366
         ]
@@ -2519,6 +2985,66 @@
         ],
         "operational": true,
         "osm_id": 8214007176
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.645081,
+          13.667663
+        ]
+      },
+      "properties": {
+        "name": "Si Iam",
+        "ref": "YL17",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 8717828065
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.642136,
+          13.654958
+        ]
+      },
+      "properties": {
+        "name": "Si La Salle",
+        "ref": "YL18",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 8717828067
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.646484,
+          13.701115
+        ]
+      },
+      "properties": {
+        "name": "Srinagarindra 38",
+        "ref": "YL14",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 8717841716
       }
     },
     {
@@ -2546,19 +3072,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.63011,
-          13.633102
+          100.645552,
+          13.761844
         ]
       },
       "properties": {
-        "name": "Si Dan",
-        "ref": "YL20",
-        "wikidata": "Q119009914",
+        "name": "Yaek Lam Sali",
+        "ref": "YL09",
+        "wikidata": "",
         "lines": [
           "MRT Yellow Line"
         ],
         "operational": true,
-        "osm_id": 10830450760
+        "osm_id": 8717933829
       }
     },
     {
@@ -2566,19 +3092,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.636274,
-          13.643491
+          100.639756,
+          13.769098
         ]
       },
       "properties": {
-        "name": "Si Bearing",
-        "ref": "YL19",
-        "wikidata": "Q119009970",
+        "name": "Bang Kapi",
+        "ref": "YL08",
+        "wikidata": "",
         "lines": [
           "MRT Yellow Line"
         ],
         "operational": true,
-        "osm_id": 10830450761
+        "osm_id": 8717933831
       }
     },
     {
@@ -2586,19 +3112,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.642161,
-          13.654975
+          100.629803,
+          13.774678
         ]
       },
       "properties": {
-        "name": "Si La Salle",
-        "ref": "YL18",
-        "wikidata": "Q119010023",
+        "name": "Lat Phrao 101",
+        "ref": "YL07",
+        "wikidata": "",
         "lines": [
           "MRT Yellow Line"
         ],
         "operational": true,
-        "osm_id": 10830450762
+        "osm_id": 8717933832
       }
     },
     {
@@ -2606,19 +3132,499 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.645068,
-          13.667686
+          100.613605,
+          13.783753
         ]
       },
       "properties": {
-        "name": "Si Iam",
-        "ref": "YL17",
-        "wikidata": "Q119010023",
+        "name": "Lat Phrao 83",
+        "ref": "YL05",
+        "wikidata": "",
         "lines": [
           "MRT Yellow Line"
         ],
         "operational": true,
-        "osm_id": 10830450763
+        "osm_id": 8717933833
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.60759,
+          13.787103
+        ]
+      },
+      "properties": {
+        "name": "Lat Phrao 71",
+        "ref": "YL04",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 8717933834
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.584217,
+          13.800171
+        ]
+      },
+      "properties": {
+        "name": "Phawana",
+        "ref": "YL02",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 8717933835
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.574808,
+          13.806991
+        ]
+      },
+      "properties": {
+        "name": "Lat Phrao",
+        "ref": "YL01",
+        "wikidata": "",
+        "lines": [
+          "MRT Yellow Line"
+        ],
+        "operational": true,
+        "osm_id": 8717933837
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.732674,
+          13.808402
+        ]
+      },
+      "properties": {
+        "name": "Min Buri",
+        "ref": "PK30",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 8730762308
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.725833,
+          13.812493
+        ]
+      },
+      "properties": {
+        "name": "Min Buri Market",
+        "ref": "PK29",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 8730802232
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.702928,
+          13.812702
+        ]
+      },
+      "properties": {
+        "name": "Bang Chan",
+        "ref": "PK27",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 8730802242
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.712628,
+          13.812678
+        ]
+      },
+      "properties": {
+        "name": "Setthabutbamphen",
+        "ref": "PK28",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 8730802243
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.685641,
+          13.81652
+        ]
+      },
+      "properties": {
+        "name": "Nopparat",
+        "ref": "PK26",
+        "wikidata": "Q123537786",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 8730802246
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.677195,
+          13.82444
+        ]
+      },
+      "properties": {
+        "name": "Outer Ring Road-Ram Inthra",
+        "ref": "PK25",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9697341535
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.667563,
+          13.833766
+        ]
+      },
+      "properties": {
+        "name": "Ram Inthra Kor Mor 9",
+        "ref": "PK24",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9697341538
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.597078,
+          13.87435
+        ]
+      },
+      "properties": {
+        "name": "Wat Phra Sri Mahathat",
+        "ref": "PK16",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9733987626
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.589283,
+          13.879928
+        ]
+      },
+      "properties": {
+        "name": "Rajabhat Phranakhon",
+        "ref": "PK15",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9733987641
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.602604,
+          13.870939
+        ]
+      },
+      "properties": {
+        "name": "Ram Inthra 3",
+        "ref": "PK17",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9734277455
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.617802,
+          13.862778
+        ]
+      },
+      "properties": {
+        "name": "Lat Pla Khao",
+        "ref": "PK18",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9734277456
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.626119,
+          13.858291
+        ]
+      },
+      "properties": {
+        "name": "Ram Inthra Kor Mor 4",
+        "ref": "PK19",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9734277457
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.632213,
+          13.855001
+        ]
+      },
+      "properties": {
+        "name": "Maiyalap",
+        "ref": "PK20",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9734277458
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.642869,
+          13.84925
+        ]
+      },
+      "properties": {
+        "name": "Vacharaphol",
+        "ref": "PK21",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9734277459
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.650234,
+          13.845243
+        ]
+      },
+      "properties": {
+        "name": "Ram Inthra Kor Mor 6",
+        "ref": "PK22",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9734277460
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.658781,
+          13.840609
+        ]
+      },
+      "properties": {
+        "name": "Khu Bon",
+        "ref": "PK23",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9734277461
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.582681,
+          13.884049
+        ]
+      },
+      "properties": {
+        "name": "Lak Si",
+        "ref": "PK14",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 9913078093
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.507079,
+          13.898537
+        ]
+      },
+      "properties": {
+        "name": "Royal Irrigation Department",
+        "ref": "PK05",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 10147872913
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.5054,
+          13.906148
+        ]
+      },
+      "properties": {
+        "name": "Yaek Pak Kret",
+        "ref": "PK06",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 10867419311
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.529267,
+          13.904138
+        ]
+      },
+      "properties": {
+        "name": "Chaeng Watthana-Pak Kret 28",
+        "ref": "PK08",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 10867419312
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.515558,
+          13.906477
+        ]
+      },
+      "properties": {
+        "name": "Pak Kret Bypass",
+        "ref": "PK07",
+        "wikidata": "",
+        "lines": [
+          "MRT Pink Line"
+        ],
+        "operational": true,
+        "osm_id": 10867419318
       }
     },
     {
@@ -2666,26 +3672,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.646473,
-          13.701122
-        ]
-      },
-      "properties": {
-        "name": "Srinagarindra 38",
-        "ref": "YL14",
-        "wikidata": "Q119010493",
-        "lines": [
-          "MRT Yellow Line"
-        ],
-        "operational": true,
-        "osm_id": 10867419321
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           100.641138,
           13.736148
         ]
@@ -2706,199 +3692,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.644788,
-          13.750411
-        ]
-      },
-      "properties": {
-        "name": "Si Kritha",
-        "ref": "YL10",
-        "wikidata": "Q119722574",
-        "lines": [
-          "MRT Yellow Line"
-        ],
-        "operational": true,
-        "osm_id": 10867419325
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.645572,
-          13.761819
-        ]
-      },
-      "properties": {
-        "name": "Yaek Lam Sali",
-        "ref": "YL09",
-        "wikidata": "Q119722811",
-        "lines": [
-          "MRT Yellow Line"
-        ],
-        "operational": true,
-        "osm_id": 10867419326
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.639769,
-          13.769075
-        ]
-      },
-      "properties": {
-        "name": "Bang Kapi",
-        "ref": "YL08",
-        "wikidata": "Q119723016",
-        "lines": [
-          "MRT Yellow Line"
-        ],
-        "operational": true,
-        "osm_id": 10867419327
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.629842,
-          13.774633
-        ]
-      },
-      "properties": {
-        "name": "Lat Phrao 101",
-        "ref": "YL07",
-        "wikidata": "Q119726019",
-        "lines": [
-          "MRT Yellow Line"
-        ],
-        "operational": true,
-        "osm_id": 10867419328
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.62316,
-          13.778368
-        ]
-      },
-      "properties": {
-        "name": "Mahatthai",
-        "ref": "YL06",
-        "wikidata": "Q119723149",
-        "lines": [
-          "MRT Yellow Line"
-        ],
-        "operational": true,
-        "osm_id": 10867419329
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.584195,
-          13.800164
-        ]
-      },
-      "properties": {
-        "name": "Phawana",
-        "ref": "YL02",
-        "wikidata": "Q16307526",
-        "lines": [
-          "MRT Yellow Line"
-        ],
-        "operational": true,
-        "osm_id": 10867419330
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.59443,
-          13.794425
-        ]
-      },
-      "properties": {
-        "name": "Chok Chai 4",
-        "ref": "YL03",
-        "wikidata": "Q108004772",
-        "lines": [
-          "MRT Yellow Line"
-        ],
-        "operational": true,
-        "osm_id": 10867419331
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.607573,
-          13.787092
-        ]
-      },
-      "properties": {
-        "name": "Lat Phrao 71",
-        "ref": "YL04",
-        "wikidata": "Q119723265",
-        "lines": [
-          "MRT Yellow Line"
-        ],
-        "operational": true,
-        "osm_id": 10867419332
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.613658,
-          13.7837
-        ]
-      },
-      "properties": {
-        "name": "Lat Phrao 83",
-        "ref": "YL05",
-        "wikidata": "Q119723213",
-        "lines": [
-          "MRT Yellow Line"
-        ],
-        "operational": true,
-        "osm_id": 10867419333
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.518116,
-          13.859722
+          100.518106,
+          13.8597
         ]
       },
       "properties": {
         "name": "Nonthaburi Civic Center",
         "ref": "PK01",
-        "wikidata": "Q25106308",
+        "wikidata": "",
         "lines": [
           "MRT Pink Line"
         ],
         "operational": true,
-        "osm_id": 11364308559
+        "osm_id": 11364308558
       }
     },
     {
@@ -2906,19 +3712,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.520654,
-          13.862659
+          100.520642,
+          13.86264
         ]
       },
       "properties": {
         "name": "Khae Rai",
         "ref": "PK02",
-        "wikidata": "Q16307698",
+        "wikidata": "",
         "lines": [
           "MRT Pink Line"
         ],
         "operational": true,
-        "osm_id": 11364361871
+        "osm_id": 11364361870
       }
     },
     {
@@ -2926,139 +3732,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.516321,
-          13.874136
-        ]
-      },
-      "properties": {
-        "name": "Sanambin Nam",
-        "ref": "PK03",
-        "wikidata": "Q13021842",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364361876
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.505395,
-          13.906199
-        ]
-      },
-      "properties": {
-        "name": "Yaek Pak Kret",
-        "ref": "PK06",
-        "wikidata": "Q123537238",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364361877
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.510574,
-          13.889278
-        ]
-      },
-      "properties": {
-        "name": "Samakkhi",
-        "ref": "PK04",
-        "wikidata": "Q13021845",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364361878
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.507089,
-          13.898566
-        ]
-      },
-      "properties": {
-        "name": "Royal Irrigation Department",
-        "ref": "PK05",
-        "wikidata": "Q123537197",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364361879
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.515577,
-          13.906496
-        ]
-      },
-      "properties": {
-        "name": "Pak Kret Bypass",
-        "ref": "PK07",
-        "wikidata": "Q123537262",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364361880
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.52926,
-          13.904158
-        ]
-      },
-      "properties": {
-        "name": "Chaeng Watthana-Pak Kret 28",
-        "ref": "PK08",
-        "wikidata": "Q123537277",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364361882
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.540008,
-          13.900574
+          100.540031,
+          13.900635
         ]
       },
       "properties": {
         "name": "Si Rat",
         "ref": "PK09",
-        "wikidata": "Q16307483",
+        "wikidata": "",
         "lines": [
           "MRT Pink Line"
         ],
         "operational": true,
-        "osm_id": 11364361916
+        "osm_id": 11364361909
       }
     },
     {
@@ -3066,19 +3752,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.548447,
-          13.897428
+          100.548436,
+          13.897398
         ]
       },
       "properties": {
         "name": "Muang Thong Thani",
         "ref": "PK10",
-        "wikidata": "Q123537334",
+        "wikidata": "",
         "lines": [
           "MRT Pink Line"
         ],
         "operational": true,
-        "osm_id": 11364361947
+        "osm_id": 11364361936
       }
     },
     {
@@ -3086,19 +3772,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.56015,
-          13.893304
+          100.560143,
+          13.893283
         ]
       },
       "properties": {
         "name": "Chaeng Watthana 14",
         "ref": "PK11",
-        "wikidata": "Q123537372",
+        "wikidata": "",
         "lines": [
           "MRT Pink Line"
         ],
         "operational": true,
-        "osm_id": 11364361977
+        "osm_id": 11364361948
       }
     },
     {
@@ -3106,39 +3792,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.725838,
-          13.812513
-        ]
-      },
-      "properties": {
-        "name": "Min Buri Market",
-        "ref": "PK29",
-        "wikidata": "Q123537788",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364411040
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.567352,
-          13.890765
+          100.567342,
+          13.890753
         ]
       },
       "properties": {
         "name": "Government Complex",
         "ref": "PK12",
-        "wikidata": "Q123537386",
+        "wikidata": "",
         "lines": [
           "MRT Pink Line"
         ],
         "operational": true,
-        "osm_id": 11364465363
+        "osm_id": 11364465362
       }
     },
     {
@@ -3146,359 +3812,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.575714,
-          13.887576
+          100.575709,
+          13.887563
         ]
       },
       "properties": {
         "name": "National Telecom",
         "ref": "PK13",
-        "wikidata": "Q123537477",
+        "wikidata": "",
         "lines": [
           "MRT Pink Line"
         ],
         "operational": true,
-        "osm_id": 11364501870
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.582686,
-          13.884079
-        ]
-      },
-      "properties": {
-        "name": "Lak Si",
-        "ref": "PK14",
-        "wikidata": "Q6633446",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501879
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.597205,
-          13.874362
-        ]
-      },
-      "properties": {
-        "name": "Wat Phra Sri Mahathat",
-        "ref": "PK16",
-        "wikidata": "Q61357968",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501913
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.589296,
-          13.879939
-        ]
-      },
-      "properties": {
-        "name": "Rajabhat Phranakhon",
-        "ref": "PK15",
-        "wikidata": "Q16307599",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501914
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.60262,
-          13.870954
-        ]
-      },
-      "properties": {
-        "name": "Ram Inthra 3",
-        "ref": "PK17",
-        "wikidata": "Q123537774",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501917
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.617815,
-          13.862796
-        ]
-      },
-      "properties": {
-        "name": "Lat Pla Khao",
-        "ref": "PK18",
-        "wikidata": "Q123537777",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501918
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.626131,
-          13.858312
-        ]
-      },
-      "properties": {
-        "name": "Ram Inthra Kor Mor 4",
-        "ref": "PK19",
-        "wikidata": "Q123537779",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501919
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.632226,
-          13.855015
-        ]
-      },
-      "properties": {
-        "name": "Maiyalap",
-        "ref": "PK20",
-        "wikidata": "Q123537780",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501920
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.642879,
-          13.849264
-        ]
-      },
-      "properties": {
-        "name": "Vacharaphol",
-        "ref": "PK21",
-        "wikidata": "Q123537781",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501922
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.650244,
-          13.845267
-        ]
-      },
-      "properties": {
-        "name": "Ram Inthra Kor Mor 6",
-        "ref": "PK22",
-        "wikidata": "Q123537782",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501923
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.667575,
-          13.833787
-        ]
-      },
-      "properties": {
-        "name": "Ram Inthra Kor Mor 9",
-        "ref": "PK24",
-        "wikidata": "Q123537784",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501927
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.658787,
-          13.840625
-        ]
-      },
-      "properties": {
-        "name": "Khu Bon",
-        "ref": "PK23",
-        "wikidata": "Q123537783",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501928
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.67721,
-          13.824453
-        ]
-      },
-      "properties": {
-        "name": "Outer Ring Road-Ram Inthra",
-        "ref": "PK25",
-        "wikidata": "Q123537785",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501929
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.702937,
-          13.812724
-        ]
-      },
-      "properties": {
-        "name": "Bang Chan",
-        "ref": "PK27",
-        "wikidata": "Q123537787",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501940
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.685651,
-          13.816531
-        ]
-      },
-      "properties": {
-        "name": "Nopparat",
-        "ref": "PK26",
-        "wikidata": "Q123537786",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501941
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.712629,
-          13.812694
-        ]
-      },
-      "properties": {
-        "name": "Setthabutbamphen",
-        "ref": "PK28",
-        "wikidata": "Q123470968",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501942
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.732691,
-          13.808414
-        ]
-      },
-      "properties": {
-        "name": "Min Buri",
-        "ref": "PK30",
-        "wikidata": "Q123537773",
-        "lines": [
-          "MRT Pink Line"
-        ],
-        "operational": true,
-        "osm_id": 11364501951
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.529085,
-          13.74651
-        ]
-      },
-      "properties": {
-        "name": "National Stadium",
-        "ref": "W1",
-        "wikidata": "Q1030167",
-        "lines": [
-          "BTS Silom Line"
-        ],
-        "operational": true,
-        "osm_id": 11505460640
+        "osm_id": 11364501869
       }
     },
     {
@@ -3706,159 +4032,19 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.53707,
-          13.729198
+          100.625855,
+          13.925001
         ]
       },
       "properties": {
-        "name": "Si Lom",
-        "ref": "BL26",
-        "wikidata": "Q1036816",
+        "name": "Yaek Kor Por Aor",
+        "ref": "",
+        "wikidata": "",
         "lines": [
-          "MRT Blue Line"
+          "BTS Sukhumvit Line"
         ],
         "operational": true,
-        "osm_id": 12803589960
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.50991,
-          13.742209
-        ]
-      },
-      "properties": {
-        "name": "Wat Mangkon",
-        "ref": "BL29",
-        "wikidata": "Q13021830",
-        "lines": [
-          "MRT Blue Line"
-        ],
-        "operational": true,
-        "osm_id": 12803915074
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.502302,
-          13.747
-        ]
-      },
-      "properties": {
-        "name": "Sam Yot",
-        "ref": "BL30",
-        "wikidata": "Q61359058",
-        "lines": [
-          "MRT Blue Line"
-        ],
-        "operational": true,
-        "osm_id": 12803915076
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.494624,
-          13.744326
-        ]
-      },
-      "properties": {
-        "name": "Sanam Chai",
-        "ref": "BL31",
-        "wikidata": "Q19794088",
-        "lines": [
-          "MRT Blue Line"
-        ],
-        "operational": true,
-        "osm_id": 12803915077
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.530121,
-          13.732061
-        ]
-      },
-      "properties": {
-        "name": "Sam Yan",
-        "ref": "BL27",
-        "wikidata": "Q1039683",
-        "lines": [
-          "MRT Blue Line"
-        ],
-        "operational": true,
-        "osm_id": 12803915078
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.4857,
-          13.738364
-        ]
-      },
-      "properties": {
-        "name": "Itsaraphap",
-        "ref": "BL32",
-        "wikidata": "Q25537502",
-        "lines": [
-          "MRT Blue Line"
-        ],
-        "operational": true,
-        "osm_id": 12803915080
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.541046,
-          13.802392
-        ]
-      },
-      "properties": {
-        "name": "Bang Sue",
-        "ref": "BL11",
-        "wikidata": "Q4384431",
-        "lines": [
-          "MRT Blue Line"
-        ],
-        "operational": true,
-        "osm_id": 12803915082
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.563417,
-          13.749185
-        ]
-      },
-      "properties": {
-        "name": "Phetchaburi",
-        "ref": "BL21",
-        "wikidata": "Q4921013",
-        "lines": [
-          "MRT Blue Line"
-        ],
-        "operational": true,
-        "osm_id": 12805950167
+        "osm_id": 12885876726
       }
     }
   ],
@@ -3870,6 +4056,6 @@
       13.95,
       100.85
     ],
-    "total_stations": 193
+    "total_stations": 202
   }
 }
