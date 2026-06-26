@@ -907,26 +907,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.652109,
-          13.767724
-        ]
-      },
-      "properties": {
-        "name": "Wat Sriboonrueng",
-        "ref": "E22",
-        "wikidata": "",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 566631929
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           100.559813,
           13.751067
         ]
@@ -1156,6 +1136,7 @@
         "ref": "CEN",
         "wikidata": "Q1016037",
         "lines": [
+          "BTS Silom Line",
           "BTS Sukhumvit Line"
         ],
         "operational": true,
@@ -1276,7 +1257,6 @@
         "ref": "3",
         "wikidata": "",
         "lines": [
-          "SRT Dark Red Line",
           "SRT Light Red Line"
         ],
         "operational": true,
@@ -1669,6 +1649,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.581987,
+          13.886289
+        ]
+      },
+      "properties": {
+        "name": "Lak Si",
+        "ref": "3",
+        "wikidata": "",
+        "lines": [
+          "SRT Dark Red Line"
+        ],
+        "operational": true,
+        "osm_id": 3699968297
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.470709,
           13.740171
         ]
@@ -2029,26 +2029,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.517481,
-          13.812095
-        ]
-      },
-      "properties": {
-        "name": "Wat Soi Thong",
-        "ref": "N23",
-        "wikidata": "",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 5818119896
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           100.59199,
           13.637287
         ]
@@ -2169,6 +2149,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.605467,
+          13.577872
+        ]
+      },
+      "properties": {
+        "name": "Sai Luat",
+        "ref": "E22",
+        "wikidata": "",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 6123597373
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.607726,
           13.567706
         ]
@@ -2182,6 +2182,26 @@
         ],
         "operational": true,
         "osm_id": 6123597374
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.549524,
+          13.826595
+        ]
+      },
+      "properties": {
+        "name": "Chatuchak",
+        "ref": "3",
+        "wikidata": "",
+        "lines": [
+          "SRT Dark Red Line"
+        ],
+        "operational": true,
+        "osm_id": 6433543893
       }
     },
     {
@@ -2222,6 +2242,26 @@
         ],
         "operational": true,
         "osm_id": 6563254035
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.625837,
+          13.925013
+        ]
+      },
+      "properties": {
+        "name": "Yaek Kor Por Aor",
+        "ref": "N23",
+        "wikidata": "Q104211805",
+        "lines": [
+          "BTS Sukhumvit Line"
+        ],
+        "operational": true,
+        "osm_id": 6681609012
       }
     },
     {
@@ -2529,6 +2569,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.557551,
+          13.841576
+        ]
+      },
+      "properties": {
+        "name": "Wat Samian Nari",
+        "ref": "3",
+        "wikidata": "",
+        "lines": [
+          "SRT Dark Red Line"
+        ],
+        "operational": true,
+        "osm_id": 6697089669
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.636241,
           13.643471
         ]
@@ -2690,21 +2750,79 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.597757,
-          13.914751
+          100.597991,
+          13.914624
         ]
       },
       "properties": {
         "name": "Don Muang",
-        "ref": "1",
+        "ref": "4",
         "wikidata": "",
         "lines": [
-          "BTS Gold Line",
-          "SRT Dark Red Line",
-          "SRT Light Red Line"
+          "SRT Dark Red Line"
         ],
         "operational": true,
-        "osm_id": 7314656153
+        "osm_id": 7314656147
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.588924,
+          13.898631
+        ]
+      },
+      "properties": {
+        "name": "Kan Kheha",
+        "ref": "3",
+        "wikidata": "",
+        "lines": [
+          "SRT Dark Red Line"
+        ],
+        "operational": true,
+        "osm_id": 7314656165
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.567583,
+          13.860182
+        ]
+      },
+      "properties": {
+        "name": "Thung Song Hong",
+        "ref": "3",
+        "wikidata": "",
+        "lines": [
+          "SRT Dark Red Line"
+        ],
+        "operational": true,
+        "osm_id": 7314656183
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.561724,
+          13.849339
+        ]
+      },
+      "properties": {
+        "name": "Bang Khen",
+        "ref": "3",
+        "wikidata": "",
+        "lines": [
+          "SRT Dark Red Line"
+        ],
+        "operational": true,
+        "osm_id": 7314656186
       }
     },
     {
@@ -2752,6 +2870,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          100.503714,
+          13.721168
+        ]
+      },
+      "properties": {
+        "name": "Krung Thon Buri",
+        "ref": "1",
+        "wikidata": "",
+        "lines": [
+          "BTS Gold Line"
+        ],
+        "operational": true,
+        "osm_id": 7781133227
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           100.526686,
           13.720816
         ]
@@ -2792,126 +2930,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          100.549474,
-          13.826618
-        ]
-      },
-      "properties": {
-        "name": "Chatuchak",
-        "ref": "RN02",
-        "wikidata": "Q108596671",
-        "lines": [
-          "SRT Dark Red Line"
-        ],
-        "operational": true,
-        "osm_id": 7787093471
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.557499,
-          13.841593
-        ]
-      },
-      "properties": {
-        "name": "Wat Samian Nari",
-        "ref": "RN03",
-        "wikidata": "Q108596711",
-        "lines": [
-          "SRT Dark Red Line"
-        ],
-        "operational": true,
-        "osm_id": 7787093472
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.561672,
-          13.849366
-        ]
-      },
-      "properties": {
-        "name": "Bang Khen",
-        "ref": "RN04",
-        "wikidata": "Q6633329",
-        "lines": [
-          "SRT Dark Red Line"
-        ],
-        "operational": true,
-        "osm_id": 7787093474
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.567531,
-          13.860206
-        ]
-      },
-      "properties": {
-        "name": "Thung Song Hong",
-        "ref": "RN05",
-        "wikidata": "Q100635380",
-        "lines": [
-          "SRT Dark Red Line"
-        ],
-        "operational": true,
-        "osm_id": 7787093475
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.581936,
-          13.886314
-        ]
-      },
-      "properties": {
-        "name": "Lak Si",
-        "ref": "RN06",
-        "wikidata": "Q6633446",
-        "lines": [
-          "SRT Dark Red Line"
-        ],
-        "operational": true,
-        "osm_id": 7787093476
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.588873,
-          13.898657
-        ]
-      },
-      "properties": {
-        "name": "Kan Kheha",
-        "ref": "RN07",
-        "wikidata": "Q107751653",
-        "lines": [
-          "SRT Dark Red Line"
-        ],
-        "operational": true,
-        "osm_id": 7787093477
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           100.723483,
           13.803544
         ]
@@ -2925,26 +2943,6 @@
         ],
         "operational": false,
         "osm_id": 7947495107
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.503715,
-          13.721106
-        ]
-      },
-      "properties": {
-        "name": "Krung Thon Buri",
-        "ref": "G1",
-        "wikidata": "Q11299499",
-        "lines": [
-          "BTS Gold Line"
-        ],
-        "operational": true,
-        "osm_id": 7947551369
       }
     },
     {
@@ -4026,26 +4024,6 @@
         "operational": false,
         "osm_id": 12620720586
       }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          100.625855,
-          13.925001
-        ]
-      },
-      "properties": {
-        "name": "Yaek Kor Por Aor",
-        "ref": "",
-        "wikidata": "",
-        "lines": [
-          "BTS Sukhumvit Line"
-        ],
-        "operational": true,
-        "osm_id": 12885876726
-      }
     }
   ],
   "metadata": {
@@ -4056,6 +4034,6 @@
       13.95,
       100.85
     ],
-    "total_stations": 202
+    "total_stations": 201
   }
 }

@@ -86,7 +86,8 @@ def classify_line(name: str, network: str, ref: str) -> tuple[str, str]:
 
 
 _REF_PATTERNS: list[tuple[re.Pattern, str, str]] = [
-    (re.compile(r"^(N\d+|E\d+|CEN)$", re.I), "BTS Sukhumvit Line", "operational"),
+    (re.compile(r"^CEN$", re.I), "BTS Sukhumvit Line", "operational"),
+    (re.compile(r"^(N\d+|E\d+)$", re.I), "BTS Sukhumvit Line", "operational"),
     (re.compile(r"^(S\d+|W\d+)$", re.I), "BTS Silom Line", "operational"),
     (re.compile(r"^G\d+$", re.I), "BTS Gold Line", "operational"),
     (re.compile(r"^BL\d+", re.I), "MRT Blue Line", "operational"),
@@ -99,12 +100,24 @@ _REF_PATTERNS: list[tuple[re.Pattern, str, str]] = [
     (re.compile(r"^OR\d+", re.I), "MRT Orange Line", "upcoming"),
 ]
 
+_LINE_CODE_RE = re.compile(r"^(CEN|[A-Z]{1,2}\d+)", re.I)
 
-def classify_by_ref(ref: str) -> tuple[str, str] | None:
+
+def is_line_code(ref: str) -> bool:
+    return bool(_LINE_CODE_RE.match(ref.strip()))
+
+
+def classify_by_ref(ref: str) -> list[tuple[str, str]]:
+    ref = ref.strip()
+    if not ref:
+        return []
+    results: list[tuple[str, str]] = []
     for pattern, line_name, status in _REF_PATTERNS:
-        if pattern.match(ref.strip()):
-            return line_name, status
-    return None
+        if pattern.match(ref):
+            results.append((line_name, status))
+    if ref.upper() == "CEN" and not any(l == "BTS Silom Line" for l, _ in results):
+        results.append(("BTS Silom Line", "operational"))
+    return results
 
 
 def classify_by_name(name: str) -> tuple[str, str] | None:
@@ -185,6 +198,7 @@ def parse_overpass(data: dict) -> tuple[list[dict], dict[str, str]]:
 
         line_names: set[str] = set()
         statuses: set[str] = set()
+        classified_by_route = False
 
         for rid in node_to_relations.get(nid, set()):
             rel = relations.get(rid)
@@ -199,11 +213,10 @@ def parse_overpass(data: dict) -> tuple[list[dict], dict[str, str]]:
                 line_names.add(line_name)
                 statuses.add(status)
                 _set_line_status(line_status, line_name, status)
+                classified_by_route = True
 
         if not line_names and ref:
-            ref_result = classify_by_ref(ref)
-            if ref_result:
-                line_name, status = ref_result
+            for line_name, status in classify_by_ref(ref):
                 if is_construction:
                     status = "upcoming"
                 line_names.add(line_name)
@@ -241,6 +254,8 @@ def parse_overpass(data: dict) -> tuple[list[dict], dict[str, str]]:
                 "lines": sorted(line_names),
                 "operational": operational,
                 "osm_id": nid,
+                "_classified_by_route": classified_by_route,
+                "_railway": railway,
             },
         }
         features.append(feature)
@@ -279,16 +294,20 @@ def deduplicate(features: list[dict]) -> list[dict]:
         ref = f["properties"]["ref"]
         lon, lat = f["geometry"]["coordinates"]
         name = f["properties"]["name"]
+        ref_key = ref.upper() if (ref and is_line_code(ref)) else None
 
-        if ref and ref.upper() in by_ref:
-            merge_into(result[by_ref[ref.upper()]], f)
-            continue
+        if ref_key and ref_key in by_ref:
+            existing = result[by_ref[ref_key]]
+            ex_lon, ex_lat = existing["geometry"]["coordinates"]
+            if _haversine_m(lat, lon, ex_lat, ex_lon) <= 1000:
+                merge_into(existing, f)
+                continue
 
         loc_key = f"{name}_{round(lat, 3)}_{round(lon, 3)}"
         if loc_key in by_name_loc:
             merge_into(result[by_name_loc[loc_key]], f)
-            if ref:
-                by_ref[ref.upper()] = by_name_loc[loc_key]
+            if ref_key:
+                by_ref[ref_key] = by_name_loc[loc_key]
             continue
 
         if name:
@@ -299,15 +318,15 @@ def deduplicate(features: list[dict]) -> list[dict]:
                 dist = _haversine_m(lat, lon, ex_lat, ex_lon)
                 if dist <= 100 and ex_name == name:
                     merge_into(existing, f)
-                    if ref:
-                        by_ref[ref.upper()] = idx
+                    if ref_key:
+                        by_ref[ref_key] = idx
                     by_name_loc[loc_key] = idx
                     merged = True
                     break
                 if dist <= 50 and existing["properties"]["lines"] == f["properties"]["lines"]:
                     merge_into(existing, f)
-                    if ref:
-                        by_ref[ref.upper()] = idx
+                    if ref_key:
+                        by_ref[ref_key] = idx
                     by_name_loc[loc_key] = idx
                     merged = True
                     break
@@ -316,11 +335,55 @@ def deduplicate(features: list[dict]) -> list[dict]:
 
         idx = len(result)
         result.append(f)
-        if ref:
-            by_ref[ref.upper()] = idx
+        if ref_key:
+            by_ref[ref_key] = idx
         by_name_loc[loc_key] = idx
 
     return result
+
+
+def resolve_ref_conflicts(features: list[dict]) -> list[dict]:
+    by_ref: dict[str, list[int]] = defaultdict(list)
+    for i, f in enumerate(features):
+        ref = f["properties"]["ref"]
+        if ref and is_line_code(ref):
+            by_ref[ref.upper()].append(i)
+
+    drop: set[int] = set()
+    for ref, indices in by_ref.items():
+        if len(indices) <= 1:
+            continue
+        best = indices[0]
+        best_score = _confidence_score(features[best])
+        for idx in indices[1:]:
+            score = _confidence_score(features[idx])
+            if score > best_score:
+                drop.add(best)
+                best = idx
+                best_score = score
+            else:
+                drop.add(idx)
+        if ref in {"E5", "E22", "N23"}:
+            kept = features[best]["properties"]["name"]
+            dropped = [features[i]["properties"]["name"] for i in indices if i in drop]
+            print(f"  ref conflict {ref}: kept '{kept}', dropped {dropped}")
+
+    return [f for i, f in enumerate(features) if i not in drop]
+
+
+def _confidence_score(f: dict) -> int:
+    score = 0
+    if f["properties"].get("_classified_by_route"):
+        score += 10
+    if f["properties"].get("_railway") == "station":
+        score += 5
+    elif f["properties"].get("_railway") == "halt":
+        score += 3
+    elif f["properties"].get("_railway") == "stop":
+        score += 1
+    if f["properties"].get("wikidata"):
+        score += 2
+    return score
 
 
 def print_summary(features: list[dict], line_status: dict[str, str]) -> None:
@@ -356,6 +419,12 @@ def main() -> None:
 
     features, line_status = parse_overpass(data)
     features = deduplicate(features)
+    features = resolve_ref_conflicts(features)
+
+    for f in features:
+        for key in list(f["properties"]):
+            if key.startswith("_"):
+                del f["properties"][key]
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     geojson = {
