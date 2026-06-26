@@ -7,7 +7,7 @@ import folium
 import pandas as pd
 import pytest
 
-from src.report import inject_color_toggle, load_listings, load_stations
+from src.report import inject_color_toggle, inject_lang_toggle, load_listings, load_stations
 
 
 @pytest.fixture
@@ -314,3 +314,14 @@ def test_inject_color_toggle_adds_elements(sample_enriched, sample_stations):
     html_str = m.get_root().render()
     assert "colorMode" in html_str
     assert "recolorMarkers" in html_str
+
+
+def test_inject_lang_toggle_adds_button():
+    m = folium.Map(location=[13.75, 100.56], zoom_start=12)
+    inject_lang_toggle(m)
+
+    html_str = m.get_root().render()
+    assert "langToggle" in html_str
+    assert "data-en" in html_str
+    assert "data-th" in html_str
+    assert "switchLang" in html_str

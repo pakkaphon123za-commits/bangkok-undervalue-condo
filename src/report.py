@@ -473,6 +473,45 @@ def inject_color_toggle(
     m.get_root().html.add_child(folium.Element(recolor_js))
 
 
+def inject_lang_toggle(m: folium.Map) -> None:
+    button_html = """
+    <div style="position: absolute; top: 10px; left: 10px; z-index: 9999;">
+      <button id="langToggle" onclick="switchLang()" style="background: white; border: 1px solid #ccc; border-radius: 4px; padding: 4px 12px; font-size: 12px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+        <span data-en="TH" data-th="EN">TH</span>
+      </button>
+    </div>
+    """
+
+    lang_js = """
+    <script>
+    window._lang = 'en';
+
+    function switchLang() {
+      window._lang = (window._lang === 'en') ? 'th' : 'en';
+      var btn = document.getElementById('langToggle');
+      btn.textContent = (window._lang === 'en') ? 'TH' : 'EN';
+
+      document.querySelectorAll('[data-en][data-th]').forEach(function(el) {
+        el.textContent = (window._lang === 'en') ? el.getAttribute('data-en') : el.getAttribute('data-th');
+      });
+
+      // Update select options
+      var select = document.getElementById('colorMode');
+      if (select) {
+        Array.from(select.options).forEach(function(opt) {
+          if (opt.hasAttribute('data-en') && opt.hasAttribute('data-th')) {
+            opt.textContent = (window._lang === 'en') ? opt.getAttribute('data-en') : opt.getAttribute('data-th');
+          }
+        });
+      }
+    }
+    </script>
+    """
+
+    m.get_root().html.add_child(folium.Element(button_html))
+    m.get_root().html.add_child(folium.Element(lang_js))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build folium map of listings")
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
