@@ -5,6 +5,7 @@ config.yaml
 
 # Agent / IDE files (keep local, not for GitHub)
 AGENTS.md
+docs/questions.md
 CLAUDE.md
 SKILL.md
 skill.md
