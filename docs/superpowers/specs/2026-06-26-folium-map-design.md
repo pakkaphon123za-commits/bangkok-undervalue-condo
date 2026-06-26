@@ -11,7 +11,7 @@ Build `src/report.py` (Phase 8) that generates `docs/index.html` — an interact
 
 - `data/interim/listings_enriched.parquet` — cleaned + enriched listings with:
   - `listing_id, name, price_thb, first_price_thb, area_sqm_num, price_per_sqm, bedrooms, bathrooms, detail_url, address, latitude, longitude, thumbnail, year_built, listed_dt, updated_dt, nearest_station, nearest_station_km, nearest_station_line, is_ghost` (is_ghost added by Phase 6/7; absent until then)
-- `data/processed/stations.geojson` — 201 stations with `name, ref, lines, operational, coordinates`
+- `data/processed/stations.geojson` — 201 stations with `name, name_th, ref, lines, operational, coordinates`
 
 ## Architecture
 
@@ -180,3 +180,71 @@ python3 src/report.py --output docs/index.html
 ## Output
 
 `docs/index.html` — single self-contained file. No external CSS/JS dependencies (folium embeds everything inline). Ready for GitHub Pages.
+
+## TH/EN Language Toggle
+
+Bilingual UI: English (default) and Thai. Toggle via a button in the top-right toolbar next to the color dropdown.
+
+### What translates
+- **UI labels:** dropdown options, legend titles/bin labels, popup field labels (Price, Area, Price/sqm, etc.)
+- **Station names:** Thai names from OSM `name:th` tag (all 201 stations have them)
+- **Line names:** Thai translations for all 11 lines (hardcoded mapping)
+
+### What stays English
+- **Listing building names:** FazWaz doesn't provide Thai names
+- **Listing addresses:** FazWaz provides English-only addresses
+- **FazWaz link text:** stays "View on FazWaz"
+
+### Implementation
+Same JS injection pattern as the color toggle. All translatable text stored as `<span data-en="Price" data-th="ราคา">Price</span>`. When the user clicks TH/EN, JS loops all elements with `data-en`/`data-th` and swaps `textContent`. Station popups store both names; JS shows the active one.
+
+Thai line name mapping (hardcoded in report.py):
+```python
+LINE_NAMES_TH = {
+    "BTS Sukhumvit Line": "รถไฟฟ้า BTS สายสุขุมวิท",
+    "BTS Silom Line": "รถไฟฟ้า BTS สายสีลม",
+    "BTS Gold Line": "รถไฟฟ้า BTS สายทอง",
+    "MRT Blue Line": "รถไฟใต้ดิน MRT สายสีน้ำเงิน",
+    "MRT Purple Line": "รถไฟใต้ดิน MRT สายสีม่วง",
+    "MRT Yellow Line": "รถไฟฟ้า MRT สายสีเหลือง",
+    "MRT Pink Line": "รถไฟฟ้า MRT สายสีชมพู",
+    "MRT Orange Line": "รถไฟใต้ดิน MRT สายสีส้ม",
+    "Airport Rail Link": "รถไฟฟ้า Airport Rail Link",
+    "SRT Dark Red Line": "รถไฟชานเมืองสายสีแดงเข้ม",
+    "SRT Light Red Line": "รถไฟชานเมืองสายสีแดงอ่อน",
+}
+```
+
+### UI labels translation table
+```python
+UI_LABELS = {
+    "price_per_sqm": ("Price per sqm", "ราคา/ตร.ม."),
+    "distance_to_station": ("Distance to station", "ระยะจากสถานี"),
+    "by_transit_line": ("By transit line", "ตามสายรถไฟ"),
+    "budget": ("Budget", "ประหยัด"),
+    "below_median": ("Below median", "ต่ำกว่ามัธยะ"),
+    "above_median": ("Above median", "สูงกว่ามัธยะ"),
+    "premium": ("Premium", "ระดับพรีเมียม"),
+    "walk": ("Walk", "เดินถึง"),
+    "short_ride": ("Short ride", "นั่งรถสั้นๆ"),
+    "transit_adjacent": ("Transit-adjacent", "ใกล้รถไฟ"),
+    "far": ("Far", "ไกล"),
+    "transit_network": ("Transit Network", "เครือข่ายรถไฟ"),
+    "ghost_listings": ("Ghost Listings", "ป้ายขายที่ค้าง"),
+    "price": ("Price", "ราคา"),
+    "area": ("Area", "พื้นที่"),
+    "price_per_sqm_label": ("Price/sqm", "ราคา/ตร.ม."),
+    "beds_baths": ("Beds/Baths", "ห้องนอน/ห้องน้ำ"),
+    "year_built": ("Year built", "ปีที่สร้าง"),
+    "nearest": ("Nearest", "สถานีใกล้สุด"),
+    "line": ("Line", "สาย"),
+    "listed": ("Listed", "ลงป้ายเมื่อ"),
+    "view_on_fazwaz": ("View on FazWaz", "ดูบน FazWaz"),
+    "ghost_badge": ("GHOST", "ค้างนาน"),
+    "days_on_market": ("days on market", "วันที่ค้าง"),
+    "ref": ("Ref", "รหัส"),
+    "status": ("Status", "สถานะ"),
+    "operational": ("Operational", "เปิดให้บริการ"),
+    "planned": ("Planned", "กำลังก่อสร้าง"),
+}
+```

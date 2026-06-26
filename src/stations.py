@@ -191,6 +191,7 @@ def parse_overpass(data: dict) -> tuple[list[dict], dict[str, str]]:
     for nid, node in nodes.items():
         tags = node.get("tags", {})
         name = tags.get("name:en") or tags.get("name") or ""
+        name_th = tags.get("name:th") or tags.get("name") or ""
         ref = tags.get("ref") or ""
         wikidata = tags.get("wikidata") or ""
         railway = tags.get("railway") or ""
@@ -249,6 +250,7 @@ def parse_overpass(data: dict) -> tuple[list[dict], dict[str, str]]:
             },
             "properties": {
                 "name": name,
+                "name_th": name_th,
                 "ref": ref,
                 "wikidata": wikidata,
                 "lines": sorted(line_names),
