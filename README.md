@@ -37,8 +37,8 @@ cp .env.example .env                  # add OPENCODE_GO_API_KEY (optional)
 # 1. Fetch stations
 python src/stations.py
 
-# 2. Scrape Fazwaz listings
-python src/sources/fazwaz.py
+# 2. Scrape Fazwaz listings (test first, then remove flags for full run)
+python src/scrape.py --max-pages 5 --max-detail 10
 
 # 3. Clean + enrich + model + detect zones
 python src/clean.py
