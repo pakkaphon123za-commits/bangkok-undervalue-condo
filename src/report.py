@@ -218,6 +218,58 @@ def _split_bts_branches(
     return branches
 
 
+
+def build_station_popup(station: dict[str, Any]) -> str:
+    lines_en = ", ".join(station["lines"])
+    lines_th = ", ".join(LINE_NAMES_TH.get(l, l) for l in station["lines"])
+    status_en = "Operational" if station["operational"] else "Planned"
+    status_th = "เปิดให้บริการ" if station["operational"] else "กำลังก่อสร้าง"
+
+    return f"""<div style="font-family: sans-serif; font-size: 12px; min-width: 150px;">
+<b><span data-en="{station['name']}" data-th="{station['name_th']}">{station['name']}</span></b><br>
+<span data-en="{lines_en}" data-th="{lines_th}">{lines_en}</span><br>
+<span data-en="Ref: {station['ref']}" data-th="รหัส: {station['ref']}">Ref: {station['ref']}</span><br>
+<span data-en="Status: {status_en}" data-th="สถานะ: {status_th}">Status: {status_en}</span>
+</div>"""
+
+
+def build_transit_layer(
+    stations_by_line: dict[str, list[list[dict[str, Any]]]],
+    all_stations: list[dict[str, Any]],
+) -> folium.FeatureGroup:
+    fg = folium.FeatureGroup(name="transit_network")
+
+    for line_name, branches in stations_by_line.items():
+        color = LINE_COLORS.get(line_name, "#888888")
+        for branch in branches:
+            if len(branch) < 2:
+                continue
+            coords = [(s["lat"], s["lon"]) for s in branch]
+            folium.PolyLine(
+                locations=coords,
+                color=color,
+                weight=3,
+                opacity=0.6,
+            ).add_to(fg)
+
+    for station in all_stations:
+        first_line = station["lines"][0] if station["lines"] else ""
+        color = LINE_COLORS.get(first_line, "#888888")
+        folium.CircleMarker(
+            location=(station["lat"], station["lon"]),
+            radius=4,
+            color=color,
+            weight=1.5,
+            fill=True,
+            fillColor="#ffffff",
+            fillOpacity=1.0,
+            popup=folium.Popup(build_station_popup(station), max_width=250),
+            tooltip=station["name"],
+        ).add_to(fg)
+
+    return fg
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build folium map of listings")
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)

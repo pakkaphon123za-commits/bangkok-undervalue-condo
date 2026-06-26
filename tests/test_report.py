@@ -93,7 +93,7 @@ def test_load_stations_basic(sample_stations):
     assert stations[0]["lines"] == ["BTS Sukhumvit Line"]
 
 
-from src.report import sort_stations_by_line
+from src.report import build_station_popup, build_transit_layer, sort_stations_by_line
 
 
 
@@ -158,3 +158,31 @@ def test_sort_stations_digit_only_refs_fall_back_to_lat():
     srt = by_line["SRT Dark Red Line"]
     lats = [s["lat"] for s in srt[0]]
     assert lats == sorted(lats, reverse=True)  # north-to-south
+
+
+def test_build_station_popup():
+    station = {
+        "name": "Phaya Thai", "name_th": "พญาไท", "ref": "N2",
+        "lines": ["BTS Sukhumvit Line"], "operational": True,
+        "lat": 13.75, "lon": 100.53,
+    }
+    html = build_station_popup(station)
+    assert "Phaya Thai" in html
+    assert "พญาไท" in html
+    assert "BTS Sukhumvit Line" in html
+    assert "N2" in html
+    assert "data-en" in html
+    assert "data-th" in html
+
+
+def test_build_transit_layer_returns_feature_group():
+    stations = [
+        {"name": "BL01", "name_th": "BL01", "ref": "BL01", "lines": ["MRT Blue Line"],
+         "operational": True, "lat": 13.72, "lon": 100.47},
+        {"name": "BL02", "name_th": "BL02", "ref": "BL02", "lines": ["MRT Blue Line"],
+         "operational": True, "lat": 13.74, "lon": 100.47},
+    ]
+    by_line = sort_stations_by_line(stations)
+    fg = build_transit_layer(by_line, stations)
+    assert fg is not None
+    assert hasattr(fg, "add_to")
