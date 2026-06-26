@@ -557,7 +557,7 @@ def main() -> None:
         ghost_fg = build_ghost_markers(df)
         ghost_fg.add_to(m)
 
-    folium.LayerControl(collapsed=False).add_to(m)
+    folium.LayerControl(collapsed=True).add_to(m)
 
     unique_lines = sorted(df["nearest_station_line"].dropna().unique()) if "nearest_station_line" in df.columns else []
     inject_color_toggle(m, color_data, list(unique_lines))
