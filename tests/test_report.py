@@ -93,7 +93,7 @@ def test_load_stations_basic(sample_stations):
     assert stations[0]["lines"] == ["BTS Sukhumvit Line"]
 
 
-from src.report import build_station_popup, build_transit_layer, sort_stations_by_line
+from src.report import build_popup_html, build_station_popup, build_transit_layer, sort_stations_by_line
 
 
 
@@ -186,3 +186,77 @@ def test_build_transit_layer_returns_feature_group():
     fg = build_transit_layer(by_line, stations)
     assert fg is not None
     assert hasattr(fg, "add_to")
+
+
+def test_build_popup_html_basic():
+    row = pd.Series({
+        "name": "Chewathai Residence Asoke",
+        "price_thb": 5000000.0,
+        "area_sqm_num": 35.56,
+        "price_per_sqm": 140607.42,
+        "bedrooms": 1,
+        "bathrooms": 1,
+        "year_built": "Dec 2016",
+        "nearest_station": "Makkasan",
+        "nearest_station_km": 0.145,
+        "nearest_station_line": "Airport Rail Link",
+        "listed_dt": pd.Timestamp("2026-04-01"),
+        "detail_url": "https://www.fazwaz.com/property/123",
+        "thumbnail": "https://cdn.fazwaz.com/img.jpg",
+        "is_ghost": False,
+    })
+    html = build_popup_html(row)
+    assert "Chewathai Residence Asoke" in html
+    assert "5,000,000" in html
+    assert "35.56" in html
+    assert "140,607" in html
+    assert "Makkasan" in html
+    assert "0.145" in html
+    assert "fazwaz.com/property/123" in html
+    assert "cdn.fazwaz.com/img.jpg" in html
+    assert "data-en" in html
+    assert "GHOST" not in html
+
+
+def test_build_popup_html_ghost():
+    row = pd.Series({
+        "name": "Old Condo",
+        "price_thb": 3000000.0,
+        "area_sqm_num": 40.0,
+        "price_per_sqm": 75000.0,
+        "bedrooms": 2,
+        "bathrooms": 1,
+        "year_built": None,
+        "nearest_station": "Bang Wa",
+        "nearest_station_km": 1.2,
+        "nearest_station_line": "BTS Silom Line",
+        "listed_dt": pd.Timestamp("2025-06-01"),
+        "detail_url": "https://www.fazwaz.com/property/456",
+        "thumbnail": None,
+        "is_ghost": True,
+    })
+    html = build_popup_html(row, is_ghost=True)
+    assert "GHOST" in html
+    assert "days on market" in html or "วันที่ค้าง" in html
+
+
+def test_build_popup_html_no_thumbnail():
+    row = pd.Series({
+        "name": "No Image Condo",
+        "price_thb": 2000000.0,
+        "area_sqm_num": 30.0,
+        "price_per_sqm": 66666.67,
+        "bedrooms": 1,
+        "bathrooms": 1,
+        "year_built": None,
+        "nearest_station": "Asok",
+        "nearest_station_km": 0.3,
+        "nearest_station_line": "BTS Sukhumvit Line",
+        "listed_dt": pd.Timestamp("2026-05-01"),
+        "detail_url": "https://www.fazwaz.com/property/789",
+        "thumbnail": None,
+        "is_ghost": False,
+    })
+    html = build_popup_html(row)
+    assert "<img" not in html
+    assert "No Image Condo" in html

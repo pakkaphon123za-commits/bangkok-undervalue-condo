@@ -270,6 +270,61 @@ def build_transit_layer(
     return fg
 
 
+def _fmt_thb(value: float) -> str:
+    return f"฿{value:,.0f}"
+
+
+def _fmt_date(dt: pd.Timestamp) -> str:
+    if pd.isna(dt):
+        return "—"
+    return dt.strftime("%Y-%m-%d")
+
+
+def build_popup_html(row: pd.Series, is_ghost: bool = False) -> str:
+    thumbnail_html = ""
+    if pd.notna(row.get("thumbnail")) and row.get("thumbnail"):
+        thumbnail_html = (
+            f'<img src="{row["thumbnail"]}" style="width:100%; max-height:150px; '
+            f'object-fit:cover; border-radius:4px; margin-bottom:6px;">'
+        )
+
+    line_en = row.get("nearest_station_line", "—")
+    line_th = LINE_NAMES_TH.get(line_en, line_en)
+
+    ghost_html = ""
+    if is_ghost and pd.notna(row.get("listed_dt")):
+        import datetime as _dt
+
+        days = (_dt.date.today() - row["listed_dt"].date()).days
+        ghost_html = (
+            f'<div style="color: #c0392b; font-weight: bold; margin: 4px 0;">'
+            f'<span data-en="GHOST · {days} days on market" '
+            f'data-th="ค้างนาน · {days} วันที่ค้าง">GHOST · {days} days on market</span>'
+            f'</div>'
+        )
+
+    listed_str = _fmt_date(row.get("listed_dt"))
+    year_built = row.get("year_built") or "—"
+
+    return f"""<div style="font-family: sans-serif; font-size: 12px; max-width: 280px;">
+{thumbnail_html}
+<b>{row['name']}</b>
+<hr style="margin: 4px 0; border: none; border-top: 1px solid #ddd;">
+<span data-en="Price" data-th="ราคา">Price</span>: {_fmt_thb(row['price_thb'])}<br>
+<span data-en="Area" data-th="พื้นที่">Area</span>: {row['area_sqm_num']:.2f} sqm<br>
+<span data-en="Price/sqm" data-th="ราคา/ตร.ม.">Price/sqm</span>: {_fmt_thb(row['price_per_sqm'])}<br>
+<span data-en="Beds/Baths" data-th="ห้องนอน/ห้องน้ำ">Beds/Baths</span>: {row['bedrooms']} / {row['bathrooms']}<br>
+<span data-en="Year built" data-th="ปีที่สร้าง">Year built</span>: {year_built}<br>
+<span data-en="Nearest" data-th="สถานีใกล้สุด">Nearest</span>: {row['nearest_station']} ({row['nearest_station_km']:.3f} km)<br>
+<span data-en="Line" data-th="สาย">Line</span>: <span data-en="{line_en}" data-th="{line_th}">{line_en}</span><br>
+<span data-en="Listed" data-th="ลงป้ายเมื่อ">Listed</span>: {listed_str}<br>
+{ghost_html}
+<a href="{row['detail_url']}" target="_blank" style="color: #3498db;">
+<span data-en="View on FazWaz →" data-th="ดูบน FazWaz →">View on FazWaz →</span>
+</a>
+</div>"""
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build folium map of listings")
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
