@@ -93,7 +93,7 @@ def test_load_stations_basic(sample_stations):
     assert stations[0]["lines"] == ["BTS Sukhumvit Line"]
 
 
-from src.report import build_popup_html, build_station_popup, build_transit_layer, sort_stations_by_line
+from src.report import build_popup_html, build_station_popup, build_transit_layer, sort_stations_by_line, build_listing_markers, build_ghost_markers
 
 
 
@@ -260,3 +260,43 @@ def test_build_popup_html_no_thumbnail():
     html = build_popup_html(row)
     assert "<img" not in html
     assert "No Image Condo" in html
+
+
+def test_build_listing_markers_returns_feature_group(sample_enriched):
+    df = load_listings(sample_enriched)
+    fg, color_data = build_listing_markers(df)
+    assert fg is not None
+    assert hasattr(fg, "add_to")
+    assert isinstance(color_data, list)
+    assert len(color_data) > 0
+    for entry in color_data:
+        assert "price" in entry
+        assert "dist" in entry
+        assert "line" in entry
+
+
+def test_build_ghost_markers_empty_when_no_ghosts(sample_enriched):
+    df = load_listings(sample_enriched)
+    fg = build_ghost_markers(df)
+    assert fg is not None
+    assert hasattr(fg, "add_to")
+
+
+def test_build_ghost_markers_with_ghosts():
+    data = {
+        "listing_id": ["1"], "name": ["Ghost Condo"],
+        "price_thb": [1000000.0], "first_price_thb": [None],
+        "area_sqm_num": [30.0], "price_per_sqm": [33333.0],
+        "bedrooms": [1], "bathrooms": [1],
+        "detail_url": ["https://example.com"], "address": ["Bangkok"],
+        "latitude": [13.75], "longitude": [100.56],
+        "thumbnail": [None], "year_built": [None],
+        "listed_dt": pd.to_datetime(["2025-01-01"]),
+        "updated_dt": pd.to_datetime(["2025-06-01"]),
+        "nearest_station": ["Asok"], "nearest_station_km": [0.5],
+        "nearest_station_line": ["BTS Sukhumvit Line"],
+        "is_ghost": [True],
+    }
+    df = pd.DataFrame(data)
+    fg = build_ghost_markers(df)
+    assert fg is not None

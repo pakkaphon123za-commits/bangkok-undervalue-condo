@@ -325,6 +325,62 @@ def build_popup_html(row: pd.Series, is_ghost: bool = False) -> str:
 </div>"""
 
 
+def build_listing_markers(df: pd.DataFrame) -> tuple[folium.FeatureGroup, list[dict]]:
+    fg = folium.FeatureGroup(name="listings")
+    color_data: list[dict] = []
+
+    for _, row in df.iterrows():
+        if row.get("is_ghost", False):
+            continue
+
+        price_bin = int(row.get("price_bin", 1))
+        dist_bin = int(row.get("dist_bin", 1))
+        line = row.get("nearest_station_line", "")
+        line_color = LINE_COLORS.get(line, "#888888")
+
+        price_color = BIN_COLORS[min(price_bin - 1, 3)]
+        dist_color = BIN_COLORS[min(dist_bin - 1, 3)]
+
+        marker = folium.CircleMarker(
+            location=(row["latitude"], row["longitude"]),
+            radius=5,
+            color=price_color,
+            weight=1,
+            fill=True,
+            fillColor=price_color,
+            fillOpacity=0.7,
+            popup=folium.Popup(build_popup_html(row), max_width=300),
+            tooltip=row["name"],
+        )
+
+        fg.add_child(marker)
+        color_data.append({"price": price_color, "dist": dist_color, "line": line_color})
+
+    return fg, color_data
+
+
+def build_ghost_markers(df: pd.DataFrame) -> folium.FeatureGroup:
+    fg = folium.FeatureGroup(name="ghost_listings", show=False)
+
+    if "is_ghost" not in df.columns or not df["is_ghost"].any():
+        return fg
+
+    ghost_df = df[df["is_ghost"] == True]
+
+    for _, row in ghost_df.iterrows():
+        folium.CircleMarker(
+            location=(row["latitude"], row["longitude"]),
+            radius=6,
+            color="#c0392b",
+            weight=2,
+            fill=False,
+            popup=folium.Popup(build_popup_html(row, is_ghost=True), max_width=300),
+            tooltip=row["name"],
+        ).add_to(fg)
+
+    return fg
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build folium map of listings")
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
