@@ -344,11 +344,11 @@ def build_listing_markers(df: pd.DataFrame) -> tuple[folium.FeatureGroup, list[d
         marker = folium.CircleMarker(
             location=(row["latitude"], row["longitude"]),
             radius=5,
-            color=price_color,
-            weight=1,
+            color="#000000",
+            weight=1.5,
             fill=True,
             fillColor=price_color,
-            fillOpacity=0.7,
+            fillOpacity=0.9,
             popup=folium.Popup(build_popup_html(row), max_width=300),
             tooltip=row["name"],
         )
@@ -461,7 +461,7 @@ def inject_color_toggle(
         if (mode === 'price') color = cd.price;
         else if (mode === 'distance') color = cd.dist;
         else color = cd.line;
-        marker.setStyle({{fillColor: color, color: color}});
+        marker.setStyle({{fillColor: color}});
       }});
     }}
 
