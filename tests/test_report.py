@@ -347,3 +347,45 @@ def test_main_generates_html(sample_enriched, sample_stations, tmp_path):
     assert "colorMode" in content
     assert "langToggle" in content
     assert "Test Condo A" in content
+
+
+@pytest.fixture
+def real_enriched():
+    path = Path("data/interim/listings_sample100_enriched.parquet")
+    if not path.exists():
+        pytest.skip("Sample enriched parquet not found")
+    return path
+
+
+@pytest.fixture
+def real_stations():
+    path = Path("data/processed/stations.geojson")
+    if not path.exists():
+        pytest.skip("stations.geojson not found")
+    return path
+
+
+def test_integration_full_map(real_enriched, real_stations, tmp_path):
+    """End-to-end: real data → HTML output with all features."""
+    output_path = tmp_path / "index.html"
+    result = subprocess.run(
+        [
+            sys.executable, "src/report.py",
+            "--input", str(real_enriched),
+            "--stations", str(real_stations),
+            "--output", str(output_path),
+        ],
+        capture_output=True, text=True, timeout=60,
+    )
+    assert result.returncode == 0, f"stderr: {result.stderr}"
+    assert output_path.exists()
+
+    content = output_path.read_text(encoding="utf-8")
+    assert "leaflet" in content.lower()
+    assert "colorMode" in content
+    assert "langToggle" in content
+    assert "recolorMarkers" in content
+    assert "switchLang" in content
+    assert "BTS Sukhumvit" in content or "Sukhumvit" in content
+    assert "data-th" in content
+    assert "พญาไท" in content or "สุรศักดิ์" in content
