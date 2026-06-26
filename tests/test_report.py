@@ -1,6 +1,8 @@
 """Tests for report.py data-loading functions."""
 from __future__ import annotations
 
+import subprocess
+import sys
 from pathlib import Path
 
 import folium
@@ -325,3 +327,23 @@ def test_inject_lang_toggle_adds_button():
     assert "data-en" in html_str
     assert "data-th" in html_str
     assert "switchLang" in html_str
+
+
+def test_main_generates_html(sample_enriched, sample_stations, tmp_path):
+    output_path = tmp_path / "index.html"
+    result = subprocess.run(
+        [
+            sys.executable, "src/report.py",
+            "--input", str(sample_enriched),
+            "--stations", str(sample_stations),
+            "--output", str(output_path),
+        ],
+        capture_output=True, text=True, timeout=30,
+    )
+    assert result.returncode == 0, f"stderr: {result.stderr}"
+    assert output_path.exists()
+    content = output_path.read_text(encoding="utf-8")
+    assert "folium" in content.lower() or "leaflet" in content.lower()
+    assert "colorMode" in content
+    assert "langToggle" in content
+    assert "Test Condo A" in content

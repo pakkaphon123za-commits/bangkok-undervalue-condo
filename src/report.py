@@ -534,8 +534,30 @@ def main() -> None:
     stations = load_stations(args.stations)
     print(f"  {len(stations)} stations")
 
-    print("Map not yet implemented — skeleton only")
-    print(f"Would save to: {args.output}")
+    stations_by_line = sort_stations_by_line(stations)
+
+    m = folium.Map(location=[13.7563, 100.5018], zoom_start=12, tiles="OpenStreetMap")
+
+    transit_fg = build_transit_layer(stations_by_line, stations)
+    transit_fg.add_to(m)
+
+    listings_fg, color_data = build_listing_markers(df)
+    listings_fg.add_to(m)
+
+    has_ghosts = "is_ghost" in df.columns and df["is_ghost"].any()
+    if has_ghosts:
+        ghost_fg = build_ghost_markers(df)
+        ghost_fg.add_to(m)
+
+    folium.LayerControl(collapsed=False).add_to(m)
+
+    unique_lines = sorted(df["nearest_station_line"].dropna().unique()) if "nearest_station_line" in df.columns else []
+    inject_color_toggle(m, color_data, list(unique_lines))
+    inject_lang_toggle(m)
+
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    m.save(str(args.output))
+    print(f"Saved map to {args.output}")
 
 
 if __name__ == "__main__":
