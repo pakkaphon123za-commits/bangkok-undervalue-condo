@@ -1,0 +1,41 @@
+# Secrets
+.env
+*.key
+config.yaml
+
+# Agent / IDE files (keep local, not for GitHub)
+AGENTS.md
+CLAUDE.md
+SKILL.md
+skill.md
+.opencode/
+.claude/
+.cursor/
+
+# Scraped & derived data (ToS + size)
+data/raw/*
+data/interim/*
+data/processed/*
+# Exception: OSM station data is open (ODbL) and needed for the website map
+!data/processed/stations.geojson
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor swap
+*.swp
+*.swo
+*~

@@ -1,0 +1,42 @@
+# Bangkok Transit-Property Analysis — example config
+# Copy to config.yaml and edit. config.yaml is gitignored (never committed).
+
+# Fazwaz scraping
+fazwaz:
+  base_url: "https://www.fazwaz.com"
+  # property type path segment: condo-for-sale | house-for-sale | apartment-for-sale
+  property_types: ["condo-for-sale"]
+  region: "thailand/bangkok"
+  rate_limit_seconds: 1.0      # polite delay between requests
+  max_pages: null              # null = all pages; set int to cap for testing
+  cache_dir: "data/raw/fazwaz"
+
+# Overpass API (stations)
+overpass:
+  endpoint: "https://overpass-api.de/api/interpreter"
+  # bbox: south, west, north, east  (Greater Bangkok)
+  bbox: [13.45, 100.30, 13.95, 100.85]
+
+# OSRM walking-distance routing
+osrm:
+  endpoint: "https://router.project-osrm.org/route/v1/foot"
+
+# Transit lines to model (MVP)
+lines:
+  operational:
+    - "BTS Sukhumvit Line"
+    - "MRT Blue Line"
+    - "MRT Yellow Line"
+    - "MRT Pink Line"
+  upcoming:
+    - "MRT Orange Line"
+    - "MRT Purple Line South"
+
+# Walking-distance cutoff for "transit-adjacent" listings (meters)
+transit_adjacent_cutoff_m: 1500
+
+# opencode Go API (optional, for zone narratives)
+llm:
+  enabled: false               # set true once OPENCODE_GO_API_KEY is set
+  base_url: ""                 # opencode Go OpenAI-compatible endpoint
+  model: "glm-5.2"

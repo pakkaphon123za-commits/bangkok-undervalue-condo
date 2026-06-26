@@ -1,0 +1,6 @@
+*.parquet binary
+*.html text diff
+*.css text diff
+*.js text diff
+*.json text diff
+*.yaml text diff
