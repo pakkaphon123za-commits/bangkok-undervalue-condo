@@ -405,7 +405,7 @@ def inject_color_toggle(
       </div>"""
 
     toggle_html = f"""
-    <div style="position: absolute; top: 110px; right: 10px; z-index: 9999; background: white; padding: 8px; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+    <div style="position: absolute; top: 50px; left: 10px; z-index: 9999; background: white; padding: 8px; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
       <select id="colorMode" onchange="recolorMarkers()" style="margin-bottom: 6px; font-size: 12px;">
         <option value="price" data-en="Price per sqm" data-th="ราคา/ตร.ม.">Price per sqm</option>
         <option value="distance" data-en="Distance to station" data-th="ระยะจากสถานี">Distance to station</option>
