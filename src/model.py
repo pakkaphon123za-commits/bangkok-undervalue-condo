@@ -142,6 +142,49 @@ def _ols_fallback(formula: str, df: pd.DataFrame, group_col: str) -> object:
     )
 
 
+def fit_model_a(df_expanded: pd.DataFrame) -> dict:
+    """Fit Model A: log(price) ~ distance, random intercept+slope by line.
+
+    Returns decay curves dict for JSON output.
+    """
+    result, method = fit_mixedlm("log_price_per_sqm ~ distance_km", df_expanded)
+
+    fixed_intercept = result.fe_params["Intercept"]
+    fixed_slope = result.fe_params["distance_km"]
+
+    predicted = result.fittedvalues
+    ss_res = float(np.sum((df_expanded["log_price_per_sqm"] - predicted) ** 2))
+    ss_tot = float(np.sum(
+        (df_expanded["log_price_per_sqm"] - df_expanded["log_price_per_sqm"].mean()) ** 2
+    ))
+    r_squared = 1.0 - ss_res / ss_tot if ss_tot > 0 else 0.0
+
+    lines = {}
+    for line_name, re in result.random_effects.items():
+        line_intercept = fixed_intercept + re.get("Group", 0.0)
+        line_slope = fixed_slope + re.get("distance_km", 0.0)
+        n = int((df_expanded["line"] == line_name).sum())
+        decay_pct = (np.exp(line_slope) - 1) * 100
+        lines[line_name] = {
+            "n": n,
+            "intercept": round(float(line_intercept), 6),
+            "slope": round(float(line_slope), 6),
+            "decay_pct_per_km": round(float(decay_pct), 2),
+        }
+
+    return {
+        "model": "A",
+        "method": method,
+        "converged": result.converged,
+        "global": {
+            "intercept": round(float(fixed_intercept), 6),
+            "slope": round(float(fixed_slope), 6),
+            "r_squared": round(float(r_squared), 4),
+        },
+        "lines": lines,
+    }
+
+
 class _OlsResult:
     """Minimal shim to mimic MixedLM result for OLS fallback."""
     def __init__(self, fe_params, random_effects, fittedvalues, converged):

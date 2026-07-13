@@ -177,3 +177,33 @@ def test_fit_mixedlm_has_fixed_effects(fittable_df):
     assert "Intercept" in result.fe_params.index
     assert "distance_km" in result.fe_params.index
     assert result.fe_params["distance_km"] < 0
+
+
+def test_fit_model_a_output_structure(fittable_df):
+    """Model A output has global, lines, converged, method keys."""
+    from src.model import fit_model_a
+    curves = fit_model_a(fittable_df)
+    assert "model" in curves
+    assert curves["model"] == "A"
+    assert "method" in curves
+    assert "converged" in curves
+    assert "global" in curves
+    assert "intercept" in curves["global"]
+    assert "slope" in curves["global"]
+    assert "r_squared" in curves["global"]
+    assert "lines" in curves
+    for line_name, line_data in curves["lines"].items():
+        assert "n" in line_data
+        assert "intercept" in line_data
+        assert "slope" in line_data
+        assert "decay_pct_per_km" in line_data
+
+
+def test_fit_model_a_per_line_coefficients(fittable_df):
+    """Per-line intercept = fixed_intercept + random_intercept."""
+    from src.model import fit_model_a
+    curves = fit_model_a(fittable_df)
+    assert 11.0 < curves["global"]["intercept"] < 13.0
+    assert curves["global"]["slope"] < 0
+    for line_data in curves["lines"].values():
+        assert line_data["n"] == 10
