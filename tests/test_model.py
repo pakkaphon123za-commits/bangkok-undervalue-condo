@@ -1,8 +1,6 @@
 """Tests for model.py — Phase 5 price-decay model."""
 from __future__ import annotations
 
-from pathlib import Path
-
 import numpy as np
 import pandas as pd
 import pytest
@@ -179,6 +177,31 @@ def test_fit_mixedlm_has_fixed_effects(fittable_df):
     assert result.fe_params["distance_km"] < 0
 
 
+def test_fallback_ols(fittable_df):
+    """When MixedLM constructor raises, falls back to OLS without crashing."""
+    from unittest.mock import patch
+    import statsmodels.formula.api as smf
+    from src.model import fit_mixedlm
+
+    original = smf.mixedlm
+    def mock_constructor(*args, **kwargs):
+        raise RuntimeError("Simulated MixedLM failure")
+    try:
+        smf.mixedlm = mock_constructor
+        result, method = fit_mixedlm("log_price_per_sqm ~ distance_km", fittable_df)
+    finally:
+        smf.mixedlm = original
+    assert method == "ols_fallback"
+    assert hasattr(result, "fe_params")
+    assert hasattr(result, "random_effects")
+    assert hasattr(result, "fittedvalues")
+    assert result.converged == True
+    assert "Intercept" in result.fe_params.index
+    assert "distance_km" in result.fe_params.index
+    assert result.fe_params["distance_km"] < 0
+    assert len(result.random_effects) == 3
+
+
 def test_fit_model_a_output_structure(fittable_df):
     """Model A output has global, lines, converged, method keys."""
     from src.model import fit_model_a
@@ -281,12 +304,20 @@ def test_write_decay_curves_creates_json(tmp_path, fittable_df):
     assert "global" in loaded
 
 
-def test_main_end_to_end(tmp_path, sample_df):
+def test_main_end_to_end(tmp_path, fittable_df):
     """End-to-end: main() reads parquet, writes decay_curves.json + listings_modeled.parquet."""
     from src.model import main
 
+    df_for_save = fittable_df.copy()
+    df_for_save["price_per_sqm"] = np.exp(df_for_save["log_price_per_sqm"])
+    df_for_save["nearest_station_km"] = df_for_save["distance_km"]
+    df_for_save["nearest_station_line"] = df_for_save["line"]
+    df_for_save["area_sqm_num"] = np.exp(df_for_save["log_area"])
+    df_for_save["listing_id"] = [f"L{i}" for i in range(len(df_for_save))]
+    df_for_save["name"] = "Test"
+
     input_path = tmp_path / "input.parquet"
-    sample_df.to_parquet(input_path, index=False)
+    df_for_save.to_parquet(input_path, index=False)
 
     curves_path = tmp_path / "decay_curves.json"
     modeled_path = tmp_path / "listings_modeled.parquet"
@@ -311,4 +342,4 @@ def test_main_end_to_end(tmp_path, sample_df):
     assert "residual_pct" in result_df.columns
     assert "primary_line" in result_df.columns
     assert "is_interchange" in result_df.columns
-    assert len(result_df) == len(sample_df)
+    assert len(result_df) == len(df_for_save)

@@ -84,8 +84,16 @@ def fit_mixedlm(
     """
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=ConvergenceWarning)
+
+    try:
+        model = smf.mixedlm(formula, data=df, groups=df[group_col], re_formula="1 + distance_km")
+    except Exception:
+        result = _ols_fallback(formula, df, group_col)
+        return result, "ols_fallback"
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
         try:
-            model = smf.mixedlm(formula, data=df, groups=df[group_col], re_formula="1 + distance_km")
             result = model.fit(method="lbfgs")
             if result.converged:
                 return result, "lbfgs"
@@ -109,7 +117,6 @@ def _ols_fallback(formula: str, df: pd.DataFrame, group_col: str) -> object:
     Returns an object with .fe_params, .random_effects, .fittedvalues
     that mimics the MixedLM result interface.
     """
-    import statsmodels.api as sm
 
     global_model = smf.ols(formula, data=df).fit()
     global_intercept = global_model.params["Intercept"]
@@ -266,7 +273,7 @@ def main(argv: list[str] | None = None) -> None:
     print()
     print("Model A: log(price_per_sqm) ~ distance_km")
     curves = fit_model_a(df_expanded)
-    print(f"  MixedLM converged (method={curves['method']})")
+    print(f"  Model fitted (method={curves['method']}, converged={curves['converged']})")
     print(f"  Global slope: {curves['global']['slope']:.3f}/km  R^2={curves['global']['r_squared']:.3f}")
     print("  Per-line slopes:")
     for line_name, line_data in sorted(
