@@ -279,3 +279,36 @@ def test_write_decay_curves_creates_json(tmp_path, fittable_df):
     assert loaded["model"] == "A"
     assert "lines" in loaded
     assert "global" in loaded
+
+
+def test_main_end_to_end(tmp_path, sample_df):
+    """End-to-end: main() reads parquet, writes decay_curves.json + listings_modeled.parquet."""
+    from src.model import main
+
+    input_path = tmp_path / "input.parquet"
+    sample_df.to_parquet(input_path, index=False)
+
+    curves_path = tmp_path / "decay_curves.json"
+    modeled_path = tmp_path / "listings_modeled.parquet"
+
+    main([
+        "--input", str(input_path),
+        "--curves-output", str(curves_path),
+        "--modeled-output", str(modeled_path),
+    ])
+
+    assert curves_path.exists()
+    assert modeled_path.exists()
+
+    import json
+    with open(curves_path, encoding="utf-8") as f:
+        curves = json.load(f)
+    assert curves["model"] == "A"
+    assert len(curves["lines"]) > 0
+
+    result_df = pd.read_parquet(modeled_path)
+    assert "predicted_price_per_sqm" in result_df.columns
+    assert "residual_pct" in result_df.columns
+    assert "primary_line" in result_df.columns
+    assert "is_interchange" in result_df.columns
+    assert len(result_df) == len(sample_df)

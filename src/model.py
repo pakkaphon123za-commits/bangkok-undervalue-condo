@@ -240,3 +240,54 @@ class _OlsResult:
         self.random_effects = random_effects
         self.fittedvalues = fittedvalues
         self.converged = converged
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="Fit price-decay models on enriched listings")
+    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--curves-output", type=Path, default=DEFAULT_CURVES_OUTPUT)
+    parser.add_argument("--modeled-output", type=Path, default=DEFAULT_MODELED_OUTPUT)
+    args = parser.parse_args(argv)
+
+    if not args.input.exists():
+        print(f"Input not found: {args.input}")
+        return
+
+    print(f"Loading listings: {args.input}")
+    df = pd.read_parquet(args.input)
+    print(f"  {len(df)} rows")
+
+    df_expanded, df_original = prepare_data(df)
+    interchange_count = int(df_original["is_interchange"].sum())
+    print(f"  {len(df_original)} usable (price + distance + line non-null)")
+    print(f"  {interchange_count} interchange listings duplicated for fitting")
+    print(f"  Fitting rows: {len(df_expanded)}")
+
+    print()
+    print("Model A: log(price_per_sqm) ~ distance_km")
+    curves = fit_model_a(df_expanded)
+    print(f"  MixedLM converged (method={curves['method']})")
+    print(f"  Global slope: {curves['global']['slope']:.3f}/km  R^2={curves['global']['r_squared']:.3f}")
+    print("  Per-line slopes:")
+    for line_name, line_data in sorted(
+        curves["lines"].items(), key=lambda x: -x[1]["n"]
+    ):
+        print(
+            f"    {line_name:30s} {line_data['slope']:7.3f}/km  "
+            f"(n={line_data['n']})"
+        )
+    write_decay_curves(curves, args.curves_output)
+    print(f"  Saved decay curves: {args.curves_output}")
+
+    print()
+    print("Model B: log(price_per_sqm) ~ distance_km + log_area + bedrooms")
+    result_df = fit_model_b(df_expanded, df_original)
+
+    args.modeled_output.parent.mkdir(parents=True, exist_ok=True)
+    result_df.to_parquet(args.modeled_output, index=False)
+    print(f"  Saved modeled listings: {args.modeled_output}")
+    print(f"  {len(result_df)} rows, {len(result_df.columns)} columns")
+
+
+if __name__ == "__main__":
+    main()
