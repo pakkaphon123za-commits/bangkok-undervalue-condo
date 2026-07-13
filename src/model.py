@@ -226,6 +226,13 @@ def fit_model_b(
     return df_out
 
 
+def write_decay_curves(curves: dict, path: Path) -> None:
+    """Write decay curves dict to JSON file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(curves, f, ensure_ascii=False, indent=2)
+
+
 class _OlsResult:
     """Minimal shim to mimic MixedLM result for OLS fallback."""
     def __init__(self, fe_params, random_effects, fittedvalues, converged):

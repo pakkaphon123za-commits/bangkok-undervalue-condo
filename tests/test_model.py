@@ -262,3 +262,20 @@ def test_fit_model_b_one_row_per_listing(fittable_df):
 
     result_df = fit_model_b(fittable_df, df_original)
     assert len(result_df) == len(df_original)
+
+
+def test_write_decay_curves_creates_json(tmp_path, fittable_df):
+    """write_decay_curves saves valid JSON with expected structure."""
+    from src.model import fit_model_a, write_decay_curves
+    import json
+
+    curves = fit_model_a(fittable_df)
+    out_path = tmp_path / "decay_curves.json"
+    write_decay_curves(curves, out_path)
+
+    assert out_path.exists()
+    with open(out_path, encoding="utf-8") as f:
+        loaded = json.load(f)
+    assert loaded["model"] == "A"
+    assert "lines" in loaded
+    assert "global" in loaded
