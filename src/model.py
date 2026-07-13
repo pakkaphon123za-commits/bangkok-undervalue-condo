@@ -185,6 +185,47 @@ def fit_model_a(df_expanded: pd.DataFrame) -> dict:
     }
 
 
+def fit_model_b(
+    df_expanded: pd.DataFrame,
+    df_original: pd.DataFrame,
+) -> pd.DataFrame:
+    """Fit Model B: log(price) ~ distance + log_area + bedrooms.
+
+    Returns df_original with prediction/residual columns added.
+    """
+    result, method = fit_mixedlm(
+        "log_price_per_sqm ~ distance_km + log_area + bedrooms",
+        df_expanded,
+    )
+
+    fixed_intercept = result.fe_params["Intercept"]
+    fixed_slope = result.fe_params["distance_km"]
+
+    df_out = df_original.copy()
+
+    predicted_logs = []
+    for idx, row in df_out.iterrows():
+        line = row["primary_line"]
+        re = result.random_effects.get(line, pd.Series({"Group": 0.0, "distance_km": 0.0}))
+        line_intercept = fixed_intercept + re.get("Group", 0.0)
+        line_slope = fixed_slope + re.get("distance_km", 0.0)
+
+        pred_log = (
+            line_intercept
+            + line_slope * row["distance_km"]
+            + result.fe_params.get("log_area", 0.0) * row["log_area"]
+            + result.fe_params.get("bedrooms", 0.0) * row["bedrooms"]
+        )
+        predicted_logs.append(pred_log)
+
+    df_out["predicted_log_price_per_sqm"] = predicted_logs
+    df_out["predicted_price_per_sqm"] = np.exp(df_out["predicted_log_price_per_sqm"])
+    df_out["residual_log"] = df_out["log_price_per_sqm"] - df_out["predicted_log_price_per_sqm"]
+    df_out["residual_pct"] = (df_out["price_per_sqm"] / df_out["predicted_price_per_sqm"]) - 1
+
+    return df_out
+
+
 class _OlsResult:
     """Minimal shim to mimic MixedLM result for OLS fallback."""
     def __init__(self, fe_params, random_effects, fittedvalues, converged):

@@ -207,3 +207,58 @@ def test_fit_model_a_per_line_coefficients(fittable_df):
     assert curves["global"]["slope"] < 0
     for line_data in curves["lines"].values():
         assert line_data["n"] == 10
+
+
+def test_fit_model_b_adds_prediction_columns(fittable_df):
+    """Model B adds predicted and residual columns to original df."""
+    from src.model import fit_model_b
+    df_original = fittable_df.copy()
+    df_original["primary_line"] = df_original["line"]
+    df_original["is_interchange"] = False
+    df_original["price_per_sqm"] = np.exp(df_original["log_price_per_sqm"])
+
+    result_df = fit_model_b(fittable_df, df_original)
+    assert "predicted_log_price_per_sqm" in result_df.columns
+    assert "predicted_price_per_sqm" in result_df.columns
+    assert "residual_log" in result_df.columns
+    assert "residual_pct" in result_df.columns
+
+
+def test_fit_model_b_residual_pct_formula(fittable_df):
+    """residual_pct = (actual_price / predicted_price) - 1."""
+    from src.model import fit_model_b
+    df_original = fittable_df.copy()
+    df_original["primary_line"] = df_original["line"]
+    df_original["is_interchange"] = False
+    df_original["price_per_sqm"] = np.exp(df_original["log_price_per_sqm"])
+
+    result_df = fit_model_b(fittable_df, df_original)
+    for _, row in result_df.iterrows():
+        expected_pct = (row["price_per_sqm"] / row["predicted_price_per_sqm"]) - 1
+        np.testing.assert_allclose(row["residual_pct"], expected_pct, rtol=1e-4)
+
+
+def test_fit_model_b_residual_log_formula(fittable_df):
+    """residual_log = actual_log - predicted_log."""
+    from src.model import fit_model_b
+    df_original = fittable_df.copy()
+    df_original["primary_line"] = df_original["line"]
+    df_original["is_interchange"] = False
+    df_original["price_per_sqm"] = np.exp(df_original["log_price_per_sqm"])
+
+    result_df = fit_model_b(fittable_df, df_original)
+    for _, row in result_df.iterrows():
+        expected = row["log_price_per_sqm"] - row["predicted_log_price_per_sqm"]
+        np.testing.assert_allclose(row["residual_log"], expected, rtol=1e-4)
+
+
+def test_fit_model_b_one_row_per_listing(fittable_df):
+    """Output has one row per listing (no interchange duplicates)."""
+    from src.model import fit_model_b
+    df_original = fittable_df.copy()
+    df_original["primary_line"] = df_original["line"]
+    df_original["is_interchange"] = False
+    df_original["price_per_sqm"] = np.exp(df_original["log_price_per_sqm"])
+
+    result_df = fit_model_b(fittable_df, df_original)
+    assert len(result_df) == len(df_original)
