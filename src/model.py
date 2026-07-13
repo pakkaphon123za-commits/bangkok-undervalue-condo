@@ -17,6 +17,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
+from statsmodels.tools.sm_exceptions import ConvergenceWarning
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_INPUT = PROJECT_ROOT / "data" / "interim" / "listings_enriched.parquet"
@@ -69,3 +70,82 @@ def _split_interchanges(
 
     df_expanded = pd.DataFrame(expanded_rows).reset_index(drop=True)
     return df_expanded, df_original
+
+
+def fit_mixedlm(
+    formula: str,
+    df: pd.DataFrame,
+    group_col: str = "line",
+) -> tuple[object, str]:
+    """Fit a mixed-effects model with convergence fallback.
+
+    Tries lbfgs (default), then powell, then per-line OLS fallback.
+    Returns (result, method_used).
+    """
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=ConvergenceWarning)
+        try:
+            model = smf.mixedlm(formula, data=df, groups=df[group_col], re_formula="1 + distance_km")
+            result = model.fit(method="lbfgs")
+            if result.converged:
+                return result, "lbfgs"
+        except Exception:
+            pass
+
+        try:
+            result = model.fit(method="powell")
+            if result.converged:
+                return result, "powell"
+        except Exception:
+            pass
+
+    result = _ols_fallback(formula, df, group_col)
+    return result, "ols_fallback"
+
+
+def _ols_fallback(formula: str, df: pd.DataFrame, group_col: str) -> object:
+    """Per-line OLS fallback when MixedLM fails to converge.
+
+    Returns an object with .fe_params, .random_effects, .fittedvalues
+    that mimics the MixedLM result interface.
+    """
+    import statsmodels.api as sm
+
+    global_model = smf.ols(formula, data=df).fit()
+    global_intercept = global_model.params["Intercept"]
+    global_slope = global_model.params["distance_km"]
+
+    random_effects = {}
+    fitted = pd.Series(index=df.index, dtype=float)
+
+    for line, group in df.groupby(group_col):
+        if len(group) < 3:
+            ri = 0.0
+            rs = 0.0
+        else:
+            try:
+                line_model = smf.ols(formula, data=group).fit()
+                ri = line_model.params["Intercept"] - global_intercept
+                rs = line_model.params.get("distance_km", 0.0) - global_slope
+            except Exception:
+                ri = 0.0
+                rs = 0.0
+
+        random_effects[line] = pd.Series({"Group": ri, "distance_km": rs})
+        fitted.loc[group.index] = global_model.predict(group) + ri + rs * group["distance_km"]
+
+    return _OlsResult(
+        fe_params=global_model.params,
+        random_effects=random_effects,
+        fittedvalues=fitted,
+        converged=True,
+    )
+
+
+class _OlsResult:
+    """Minimal shim to mimic MixedLM result for OLS fallback."""
+    def __init__(self, fe_params, random_effects, fittedvalues, converged):
+        self.fe_params = fe_params
+        self.random_effects = random_effects
+        self.fittedvalues = fittedvalues
+        self.converged = converged

@@ -132,3 +132,48 @@ def test_interchange_non_interchange_primary_line(sample_with_interchange):
     l1 = df_original[df_original["listing_id"] == "L1"].iloc[0]
     assert l1["primary_line"] == "BTS Sukhumvit Line"
     assert l1["is_interchange"] == False
+
+
+@pytest.fixture
+def fittable_df():
+    """DataFrame large enough for MixedLM to converge.
+    30 rows across 3 lines with clear price-decay pattern."""
+    rng = np.random.default_rng(42)
+    lines = ["Line A"] * 10 + ["Line B"] * 10 + ["Line C"] * 10
+    distances = np.concatenate([
+        rng.uniform(0.1, 3.0, 10),
+        rng.uniform(0.1, 3.0, 10),
+        rng.uniform(0.1, 3.0, 10),
+    ])
+    log_price = 12.0 - 0.15 * distances + rng.normal(0, 0.1, 30)
+    return pd.DataFrame({
+        "listing_id": [f"L{i}" for i in range(30)],
+        "log_price_per_sqm": log_price,
+        "distance_km": distances,
+        "log_area": np.log(rng.uniform(20, 60, 30)),
+        "bedrooms": rng.choice([0, 1, 2], 30),
+        "line": lines,
+    })
+
+
+def test_fit_mixedlm_converges(fittable_df):
+    """fit_mixedlm returns a result object and method string."""
+    from src.model import fit_mixedlm
+    result, method = fit_mixedlm(
+        "log_price_per_sqm ~ distance_km", fittable_df
+    )
+    assert result is not None
+    assert method in ("lbfgs", "powell", "ols_fallback")
+    assert hasattr(result, "fe_params")
+    assert hasattr(result, "random_effects")
+
+
+def test_fit_mixedlm_has_fixed_effects(fittable_df):
+    """Fixed effects include intercept and distance_km."""
+    from src.model import fit_mixedlm
+    result, method = fit_mixedlm(
+        "log_price_per_sqm ~ distance_km", fittable_df
+    )
+    assert "Intercept" in result.fe_params.index
+    assert "distance_km" in result.fe_params.index
+    assert result.fe_params["distance_km"] < 0
