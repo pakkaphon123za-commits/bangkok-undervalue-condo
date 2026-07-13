@@ -76,3 +76,59 @@ def test_prepare_data_log_transforms(sample_df):
         df_original["log_area"].iloc[0], np.log(35.0), rtol=1e-6
     )
     assert df_original["distance_km"].iloc[0] == 0.5
+
+
+@pytest.fixture
+def sample_with_interchange():
+    """DataFrame with an interchange listing (two lines)."""
+    return pd.DataFrame({
+        "listing_id": ["L1", "L2", "L3"],
+        "name": ["Normal", "Interchange", "Normal2"],
+        "price_per_sqm": [100000.0, 150000.0, 80000.0],
+        "nearest_station_km": [0.5, 0.3, 2.0],
+        "nearest_station_line": [
+            "BTS Sukhumvit Line",
+            "Airport Rail Link, BTS Sukhumvit Line",
+            "MRT Blue Line",
+        ],
+        "area_sqm_num": [35.0, 50.0, 30.0],
+        "bedrooms": [1, 2, 0],
+        "latitude": [13.75, 13.72, 13.74],
+        "longitude": [100.56, 100.53, 100.55],
+    })
+
+
+def test_interchange_split_expanded(sample_with_interchange):
+    """Interchange row becomes 2 rows in expanded df, non-interchange stays 1."""
+    from src.model import prepare_data
+    df_expanded, df_original = prepare_data(sample_with_interchange)
+    assert len(df_expanded) == 4
+    l2_rows = df_expanded[df_expanded["listing_id"] == "L2"]
+    assert len(l2_rows) == 2
+    lines = set(l2_rows["line"].tolist())
+    assert lines == {"Airport Rail Link", "BTS Sukhumvit Line"}
+
+
+def test_interchange_split_original(sample_with_interchange):
+    """Original df has one row per listing with is_interchange flag."""
+    from src.model import prepare_data
+    df_expanded, df_original = prepare_data(sample_with_interchange)
+    assert len(df_original) == 3
+    assert df_original["is_interchange"].tolist() == [False, True, False]
+
+
+def test_interchange_primary_line(sample_with_interchange):
+    """primary_line is the first line in the comma-joined string."""
+    from src.model import prepare_data
+    df_expanded, df_original = prepare_data(sample_with_interchange)
+    l2 = df_original[df_original["listing_id"] == "L2"].iloc[0]
+    assert l2["primary_line"] == "Airport Rail Link"
+
+
+def test_interchange_non_interchange_primary_line(sample_with_interchange):
+    """Non-interchange listings have primary_line == their only line."""
+    from src.model import prepare_data
+    df_expanded, df_original = prepare_data(sample_with_interchange)
+    l1 = df_original[df_original["listing_id"] == "L1"].iloc[0]
+    assert l1["primary_line"] == "BTS Sukhumvit Line"
+    assert l1["is_interchange"] == False
