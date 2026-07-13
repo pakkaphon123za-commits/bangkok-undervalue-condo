@@ -1,0 +1,72 @@
+{
+  "model": "A",
+  "method": "lbfgs",
+  "converged": true,
+  "global": {
+    "intercept": 11.629837,
+    "slope": -0.182688,
+    "r_squared": 0.2321
+  },
+  "lines": {
+    "Airport Rail Link": {
+      "n": 622,
+      "intercept": 11.814313,
+      "slope": -0.192744,
+      "decay_pct_per_km": -17.53
+    },
+    "BTS Gold Line": {
+      "n": 224,
+      "intercept": 12.080821,
+      "slope": -0.266363,
+      "decay_pct_per_km": -23.38
+    },
+    "BTS Silom Line": {
+      "n": 1278,
+      "intercept": 12.001206,
+      "slope": -0.156367,
+      "decay_pct_per_km": -14.48
+    },
+    "BTS Sukhumvit Line": {
+      "n": 4402,
+      "intercept": 12.058713,
+      "slope": -0.303858,
+      "decay_pct_per_km": -26.2
+    },
+    "MRT Blue Line": {
+      "n": 2316,
+      "intercept": 11.944926,
+      "slope": -0.216232,
+      "decay_pct_per_km": -19.45
+    },
+    "MRT Pink Line": {
+      "n": 124,
+      "intercept": 11.203021,
+      "slope": -0.124787,
+      "decay_pct_per_km": -11.73
+    },
+    "MRT Purple Line": {
+      "n": 100,
+      "intercept": 11.394235,
+      "slope": -0.162323,
+      "decay_pct_per_km": -14.98
+    },
+    "MRT Yellow Line": {
+      "n": 530,
+      "intercept": 11.254826,
+      "slope": -0.13283,
+      "decay_pct_per_km": -12.44
+    },
+    "SRT Dark Red Line": {
+      "n": 39,
+      "intercept": 11.309048,
+      "slope": -0.164849,
+      "decay_pct_per_km": -15.2
+    },
+    "SRT Light Red Line": {
+      "n": 22,
+      "intercept": 11.237263,
+      "slope": -0.106522,
+      "decay_pct_per_km": -10.1
+    }
+  }
+}

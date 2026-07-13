@@ -26,7 +26,7 @@
 
 | File | Responsibility |
 |---|---|
-| `src/model.py` | Main module: `prepare_data()`, `fit_model_a()`, `fit_model_b()`, `compute_predictions()`, `write_decay_curves()`, `main()` |
+| `src/model.py` | Main module: `prepare_data()`, `fit_mixedlm()`, `fit_model_a()`, `fit_model_b()`, `write_decay_curves()`, `main()` |
 | `tests/test_model.py` | All tests for model.py functions |
 
 No other files are created or modified in this plan.

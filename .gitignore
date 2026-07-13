@@ -19,6 +19,8 @@ data/interim/*
 data/processed/*
 # Exception: OSM station data is open (ODbL) and needed for the website map
 !data/processed/stations.geojson
+# Exception: derived decay curves (small, feeds website + LLM narrative)
+!data/processed/decay_curves.json
 
 # Python
 __pycache__/
