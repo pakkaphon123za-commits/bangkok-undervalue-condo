@@ -1,0 +1,93 @@
+{
+  "threshold": -1.5,
+  "min_line_n": 30,
+  "global": {
+    "n": 9599,
+    "n_undervalued": 663,
+    "pct_undervalued": 6.91,
+    "median_residual_log": 0.013085,
+    "mad_residual_log": 0.297672
+  },
+  "lines": {
+    "Airport Rail Link": {
+      "n": 622,
+      "n_undervalued": 49,
+      "pct_undervalued": 7.88,
+      "median_residual_log": 0.025739,
+      "mad_residual_log": 0.26683,
+      "used_global_stats": false
+    },
+    "BTS Gold Line": {
+      "n": 224,
+      "n_undervalued": 4,
+      "pct_undervalued": 1.79,
+      "median_residual_log": -0.062367,
+      "mad_residual_log": 0.303387,
+      "used_global_stats": false
+    },
+    "BTS Silom Line": {
+      "n": 1278,
+      "n_undervalued": 43,
+      "pct_undervalued": 3.36,
+      "median_residual_log": 0.00453,
+      "mad_residual_log": 0.339246,
+      "used_global_stats": false
+    },
+    "BTS Sukhumvit Line": {
+      "n": 4371,
+      "n_undervalued": 387,
+      "pct_undervalued": 8.85,
+      "median_residual_log": 0.012897,
+      "mad_residual_log": 0.271623,
+      "used_global_stats": false
+    },
+    "MRT Blue Line": {
+      "n": 2316,
+      "n_undervalued": 122,
+      "pct_undervalued": 5.27,
+      "median_residual_log": 0.009719,
+      "mad_residual_log": 0.33549,
+      "used_global_stats": false
+    },
+    "MRT Pink Line": {
+      "n": 124,
+      "n_undervalued": 16,
+      "pct_undervalued": 12.9,
+      "median_residual_log": 0.079016,
+      "mad_residual_log": 0.18104,
+      "used_global_stats": false
+    },
+    "MRT Purple Line": {
+      "n": 73,
+      "n_undervalued": 0,
+      "pct_undervalued": 0.0,
+      "median_residual_log": -0.036939,
+      "mad_residual_log": 0.232219,
+      "used_global_stats": false
+    },
+    "MRT Yellow Line": {
+      "n": 530,
+      "n_undervalued": 37,
+      "pct_undervalued": 6.98,
+      "median_residual_log": 0.039919,
+      "mad_residual_log": 0.339158,
+      "used_global_stats": false
+    },
+    "SRT Dark Red Line": {
+      "n": 39,
+      "n_undervalued": 4,
+      "pct_undervalued": 10.26,
+      "median_residual_log": 0.143043,
+      "mad_residual_log": 0.510414,
+      "used_global_stats": false
+    },
+    "SRT Light Red Line": {
+      "n": 22,
+      "n_undervalued": 1,
+      "pct_undervalued": 4.55,
+      "median_residual_log": 0.005671,
+      "mad_residual_log": 0.115238,
+      "used_global_stats": true
+    }
+  }
+}

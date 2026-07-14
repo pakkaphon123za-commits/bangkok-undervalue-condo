@@ -21,6 +21,8 @@ data/processed/*
 !data/processed/stations.geojson
 # Exception: derived decay curves (small, feeds website + LLM narrative)
 !data/processed/decay_curves.json
+# Exception: undervalued summary (small, feeds website + LLM narrative)
+!data/processed/undervalued_summary.json
 
 # Python
 __pycache__/
