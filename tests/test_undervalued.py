@@ -237,3 +237,47 @@ def test_write_summary_creates_json(tmp_path, full_flagged_df):
         loaded = json.load(f)
     assert loaded["threshold"] == -1.5
     assert "lines" in loaded
+
+
+def test_main_end_to_end(tmp_path):
+    """End-to-end: main() reads parquet, writes enriched parquet + summary JSON."""
+    from src.undervalued import main
+
+    rng = np.random.default_rng(7)
+    rows = []
+    for line, n in [("Line A", 40), ("Line B", 35), ("Line C", 8)]:
+        for i in range(n):
+            rows.append({
+                "listing_id": f"{line}_{i}",
+                "residual_log": rng.normal(0, 0.3),
+                "primary_line": line,
+                "price_per_sqm": rng.uniform(50000, 200000),
+            })
+    df = pd.DataFrame(rows)
+
+    input_path = tmp_path / "input.parquet"
+    df.to_parquet(input_path, index=False)
+
+    output_path = tmp_path / "output.parquet"
+    summary_path = tmp_path / "summary.json"
+
+    main([
+        "--input", str(input_path),
+        "--output", str(output_path),
+        "--summary-output", str(summary_path),
+    ])
+
+    assert output_path.exists()
+    assert summary_path.exists()
+
+    result_df = pd.read_parquet(output_path)
+    assert "residual_zscore" in result_df.columns
+    assert "value_tier" in result_df.columns
+    assert "is_undervalued" in result_df.columns
+    assert "undervalued_by_pct" in result_df.columns
+    assert len(result_df) == len(df)
+
+    with open(summary_path, encoding="utf-8") as f:
+        summary = json.load(f)
+    assert "global" in summary
+    assert "lines" in summary

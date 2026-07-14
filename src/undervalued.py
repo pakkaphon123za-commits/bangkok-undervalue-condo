@@ -145,3 +145,66 @@ def write_summary(summary: dict, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="Detect undervalued condo listings")
+    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--summary-output", type=Path, default=DEFAULT_SUMMARY_OUTPUT)
+    parser.add_argument("--threshold", type=float, default=DEFAULT_THRESHOLD)
+    parser.add_argument("--min-line-n", type=int, default=DEFAULT_MIN_LINE_N)
+    args = parser.parse_args(argv)
+
+    if not args.input.exists():
+        print(f"Input not found: {args.input}")
+        return
+
+    print(f"Loading modeled listings: {args.input}")
+    df = pd.read_parquet(args.input)
+    n_lines = df["primary_line"].nunique()
+    print(f"  {len(df)} rows, {n_lines} lines")
+
+    print()
+    print(f"Detecting undervalued listings (threshold={args.threshold}):")
+
+    df = detect_undervalued(df, threshold=args.threshold, min_line_n=args.min_line_n)
+    df = assign_tiers(df, threshold=args.threshold)
+    df = compute_undervalued_by(df)
+
+    global_median = float(df["residual_log"].median())
+    global_mad = float((df["residual_log"] - global_median).abs().median())
+    print(f"  Global median: {global_median:.3f}  MAD: {global_mad:.3f}")
+    print("  Per-line results:")
+    for line, group in sorted(df.groupby("primary_line"), key=lambda x: -len(x[1])):
+        n = len(group)
+        n_und = int(group["is_undervalued"].sum())
+        pct = n_und / n * 100 if n > 0 else 0.0
+        suffix = "  [global stats]" if group["used_global_stats"].any() else ""
+        print(f"    {line:30s} {n_und:4d}/{n:<5d} undervalued ({pct:.2f}%){suffix}")
+
+    total_und = int(df["is_undervalued"].sum())
+    total_pct = total_und / len(df) * 100 if len(df) > 0 else 0.0
+    print(f"  Total undervalued: {total_und} ({total_pct:.2f}%)")
+
+    print()
+    print("Tiers:")
+    for tier in ["strong", "good", "borderline", "fair"]:
+        n = int((df["value_tier"] == tier).sum())
+        pct = n / len(df) * 100 if len(df) > 0 else 0.0
+        print(f"  {tier.capitalize():12s} {n:5d} ({pct:.2f}%)")
+
+    output_path = Path(args.output)
+    tmp_path = output_path.with_suffix(".parquet.tmp")
+    df.to_parquet(tmp_path, index=False)
+    os.replace(tmp_path, output_path)
+    print()
+    print(f"Saved modeled listings: {output_path}")
+
+    summary = compute_summary(df, threshold=args.threshold, min_line_n=args.min_line_n)
+    write_summary(summary, args.summary_output)
+    print(f"Saved summary: {args.summary_output}")
+
+
+if __name__ == "__main__":
+    main()
