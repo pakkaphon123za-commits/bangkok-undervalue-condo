@@ -34,3 +34,34 @@ def compute_mad_zscore(values: pd.Series) -> pd.Series:
     if mad < 1e-12:
         return pd.Series(0.0, index=values.index)
     return (values - median) / (MAD_CONSISTENCY * mad)
+
+
+def detect_undervalued(
+    df: pd.DataFrame,
+    threshold: float = DEFAULT_THRESHOLD,
+    min_line_n: int = DEFAULT_MIN_LINE_N,
+) -> pd.DataFrame:
+    df = df.copy()
+    global_median = df["residual_log"].median()
+    global_abs_dev = (df["residual_log"] - global_median).abs()
+    global_mad = global_abs_dev.median()
+
+    zscores = pd.Series(np.nan, index=df.index)
+    used_global = pd.Series(False, index=df.index)
+
+    for line, group in df.groupby("primary_line"):
+        n = len(group)
+        if n >= min_line_n:
+            z = compute_mad_zscore(group["residual_log"])
+            used_global.loc[group.index] = False
+        else:
+            if global_mad < 1e-12:
+                z = pd.Series(0.0, index=group.index)
+            else:
+                z = (group["residual_log"] - global_median) / (MAD_CONSISTENCY * global_mad)
+            used_global.loc[group.index] = True
+        zscores.loc[group.index] = z
+
+    df["residual_zscore"] = zscores
+    df["used_global_stats"] = used_global
+    return df

@@ -57,3 +57,49 @@ def test_compute_mad_zscore_preserves_index():
     values = pd.Series([1.0, 2.0, 3.0], index=[10, 20, 30])
     z = compute_mad_zscore(values)
     assert list(z.index) == [10, 20, 30]
+
+
+@pytest.fixture
+def modeled_df():
+    """Synthetic modeled DataFrame with 3 lines of varying size."""
+    rng = np.random.default_rng(99)
+    rows = []
+    for line, n in [("Line A", 50), ("Line B", 40), ("Line C", 10)]:
+        for i in range(n):
+            rows.append({
+                "listing_id": f"{line}_{i}",
+                "residual_log": rng.normal(0, 0.3),
+                "primary_line": line,
+            })
+    return pd.DataFrame(rows)
+
+
+def test_detect_undervalued_adds_columns(modeled_df):
+    """detect_undervalued adds residual_zscore and used_global_stats."""
+    from src.undervalued import detect_undervalued
+    result = detect_undervalued(modeled_df)
+    assert "residual_zscore" in result.columns
+    assert "used_global_stats" in result.columns
+
+
+def test_detect_undervalued_per_line_large_groups(modeled_df):
+    """Lines with n >= 30 use per-line stats (not global)."""
+    from src.undervalued import detect_undervalued
+    result = detect_undervalued(modeled_df, min_line_n=30)
+    large_lines = result[result["primary_line"].isin(["Line A", "Line B"])]
+    assert (large_lines["used_global_stats"] == False).all()
+
+
+def test_detect_undervalued_sparse_fallback(modeled_df):
+    """Lines with n < 30 use global stats."""
+    from src.undervalued import detect_undervalued
+    result = detect_undervalued(modeled_df, min_line_n=30)
+    small_line = result[result["primary_line"] == "Line C"]
+    assert (small_line["used_global_stats"] == True).all()
+
+
+def test_detect_undervalued_preserves_row_count(modeled_df):
+    """Output has same number of rows as input."""
+    from src.undervalued import detect_undervalued
+    result = detect_undervalued(modeled_df)
+    assert len(result) == len(modeled_df)
