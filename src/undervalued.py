@@ -99,3 +99,49 @@ def compute_undervalued_by(df: pd.DataFrame) -> pd.DataFrame:
         0.0,
     )
     return df
+
+
+def compute_summary(
+    df: pd.DataFrame,
+    threshold: float = DEFAULT_THRESHOLD,
+    min_line_n: int = DEFAULT_MIN_LINE_N,
+) -> dict:
+    global_n = len(df)
+    global_n_und = int(df["is_undervalued"].sum())
+    global_median = float(df["residual_log"].median())
+    global_abs_dev = (df["residual_log"] - global_median).abs()
+    global_mad = float(global_abs_dev.median())
+
+    lines = {}
+    for line, group in df.groupby("primary_line"):
+        n = len(group)
+        n_und = int(group["is_undervalued"].sum())
+        med = float(group["residual_log"].median())
+        mad = float((group["residual_log"] - med).abs().median())
+        lines[line] = {
+            "n": n,
+            "n_undervalued": n_und,
+            "pct_undervalued": round(n_und / n * 100, 2) if n > 0 else 0.0,
+            "median_residual_log": round(med, 6),
+            "mad_residual_log": round(mad, 6),
+            "used_global_stats": n < min_line_n,
+        }
+
+    return {
+        "threshold": threshold,
+        "min_line_n": min_line_n,
+        "global": {
+            "n": global_n,
+            "n_undervalued": global_n_und,
+            "pct_undervalued": round(global_n_und / global_n * 100, 2) if global_n > 0 else 0.0,
+            "median_residual_log": round(global_median, 6),
+            "mad_residual_log": round(global_mad, 6),
+        },
+        "lines": lines,
+    }
+
+
+def write_summary(summary: dict, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(summary, f, ensure_ascii=False, indent=2)

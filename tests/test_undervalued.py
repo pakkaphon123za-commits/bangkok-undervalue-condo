@@ -1,6 +1,7 @@
 """Tests for undervalued.py — Phase 6 undervalued zone detection."""
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import numpy as np
@@ -180,3 +181,59 @@ def test_compute_undervalued_by_mixed():
     result = compute_undervalued_by(df)
     assert result["undervalued_by_pct"].iloc[0] > 0
     assert result["undervalued_by_pct"].iloc[1] == 0.0
+
+
+@pytest.fixture
+def full_flagged_df():
+    """DataFrame with all Phase 6 columns for summary testing."""
+    return pd.DataFrame({
+        "listing_id": [f"L{i}" for i in range(10)],
+        "residual_log": [-0.5, -0.3, 0.1, 0.2, -0.4, 0.05, -0.6, 0.3, -0.1, 0.15],
+        "residual_zscore": [-2.1, -1.6, 0.1, 0.3, -1.8, -0.1, -2.5, 0.5, -0.5, 0.2],
+        "value_tier": ["strong", "good", "fair", "fair", "good", "fair", "strong", "borderline", "borderline", "fair"],
+        "is_undervalued": [True, True, False, False, True, False, True, False, False, False],
+        "undervalued_by_pct": [39.3, 25.9, 0.0, 0.0, 33.0, 0.0, 45.1, 0.0, 0.0, 0.0],
+        "used_global_stats": [False]*5 + [True]*5,
+        "primary_line": ["Line A"]*5 + ["Line B"]*5,
+    })
+
+
+def test_compute_summary_structure(full_flagged_df):
+    """Output has global, lines, threshold keys."""
+    from src.undervalued import compute_summary
+    summary = compute_summary(full_flagged_df, threshold=-1.5, min_line_n=30)
+    assert "global" in summary
+    assert "lines" in summary
+    assert "threshold" in summary
+    assert summary["threshold"] == -1.5
+    g = summary["global"]
+    assert "n" in g
+    assert "n_undervalued" in g
+    assert "pct_undervalued" in g
+    assert "median_residual_log" in g
+    assert "mad_residual_log" in g
+
+
+def test_compute_summary_per_line(full_flagged_df):
+    """Per-line stats include n, n_undervalued, pct_undervalued."""
+    from src.undervalued import compute_summary
+    summary = compute_summary(full_flagged_df, threshold=-1.5, min_line_n=30)
+    assert "Line A" in summary["lines"]
+    assert "Line B" in summary["lines"]
+    la = summary["lines"]["Line A"]
+    assert la["n"] == 5
+    assert la["n_undervalued"] == 3
+    assert "used_global_stats" in la
+
+
+def test_write_summary_creates_json(tmp_path, full_flagged_df):
+    """write_summary saves valid JSON."""
+    from src.undervalued import compute_summary, write_summary
+    summary = compute_summary(full_flagged_df, threshold=-1.5, min_line_n=30)
+    out_path = tmp_path / "summary.json"
+    write_summary(summary, out_path)
+    assert out_path.exists()
+    with open(out_path, encoding="utf-8") as f:
+        loaded = json.load(f)
+    assert loaded["threshold"] == -1.5
+    assert "lines" in loaded
