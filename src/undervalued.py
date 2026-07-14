@@ -25,3 +25,12 @@ DEFAULT_SUMMARY_OUTPUT = PROJECT_ROOT / "data" / "processed" / "undervalued_summ
 DEFAULT_THRESHOLD = -1.5
 DEFAULT_MIN_LINE_N = 30
 MAD_CONSISTENCY = 1.4826
+
+
+def compute_mad_zscore(values: pd.Series) -> pd.Series:
+    median = values.median()
+    abs_dev = (values - median).abs()
+    mad = abs_dev.median()
+    if mad < 1e-12:
+        return pd.Series(0.0, index=values.index)
+    return (values - median) / (MAD_CONSISTENCY * mad)
