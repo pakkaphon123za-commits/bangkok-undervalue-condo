@@ -65,3 +65,27 @@ def detect_undervalued(
     df["residual_zscore"] = zscores
     df["used_global_stats"] = used_global
     return df
+
+
+def assign_tiers(
+    df: pd.DataFrame,
+    threshold: float = DEFAULT_THRESHOLD,
+) -> pd.DataFrame:
+    df = df.copy()
+    z = df["residual_zscore"]
+    strong_cutoff = threshold - 0.5
+    borderline_cutoff = threshold + 0.5
+
+    conditions = [
+        z <= strong_cutoff,
+        z <= threshold,
+        z <= borderline_cutoff,
+    ]
+    choices = ["strong", "good", "borderline"]
+    df["value_tier"] = pd.Series(
+        np.select(conditions, choices, default="fair").astype(object),
+        index=df.index,
+        dtype=object,
+    )
+    df["is_undervalued"] = z <= threshold
+    return df

@@ -103,3 +103,45 @@ def test_detect_undervalued_preserves_row_count(modeled_df):
     from src.undervalued import detect_undervalued
     result = detect_undervalued(modeled_df)
     assert len(result) == len(modeled_df)
+
+
+@pytest.fixture
+def zscore_df():
+    """DataFrame with known z-scores for tier testing."""
+    return pd.DataFrame({
+        "listing_id": ["L1", "L2", "L3", "L4", "L5"],
+        "residual_zscore": [-2.5, -1.8, -1.2, -0.5, 1.0],
+    })
+
+
+def test_assign_tiers_boundaries(zscore_df):
+    """Correct tier for known z-score values."""
+    from src.undervalued import assign_tiers
+    result = assign_tiers(zscore_df, threshold=-1.5)
+    expected = ["strong", "good", "borderline", "fair", "fair"]
+    assert result["value_tier"].tolist() == expected
+
+
+def test_assign_tiers_is_undervalued(zscore_df):
+    """is_undervalued = True iff z <= threshold."""
+    from src.undervalued import assign_tiers
+    result = assign_tiers(zscore_df, threshold=-1.5)
+    expected = [True, True, False, False, False]
+    assert result["is_undervalued"].tolist() == expected
+
+
+def test_assign_tiers_exact_boundary():
+    """z exactly at threshold is 'good', z exactly at threshold+0.5 is 'borderline'."""
+    from src.undervalued import assign_tiers
+    df = pd.DataFrame({"residual_zscore": [-2.0, -1.5, -1.0]})
+    result = assign_tiers(df, threshold=-1.5)
+    assert result["value_tier"].tolist() == ["strong", "good", "borderline"]
+
+
+def test_assign_tiers_adds_columns(zscore_df):
+    """assign_tiers adds value_tier and is_undervalued columns."""
+    from src.undervalued import assign_tiers
+    result = assign_tiers(zscore_df)
+    assert "value_tier" in result.columns
+    assert "is_undervalued" in result.columns
+    assert result["value_tier"].dtype == object
