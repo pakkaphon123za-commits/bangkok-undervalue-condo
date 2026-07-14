@@ -89,3 +89,13 @@ def assign_tiers(
     )
     df["is_undervalued"] = z <= threshold
     return df
+
+
+def compute_undervalued_by(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    df["undervalued_by_pct"] = np.where(
+        df["is_undervalued"],
+        (1 - np.exp(df["residual_log"])) * 100,
+        0.0,
+    )
+    return df

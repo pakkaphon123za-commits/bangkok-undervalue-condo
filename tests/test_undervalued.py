@@ -145,3 +145,38 @@ def test_assign_tiers_adds_columns(zscore_df):
     assert "value_tier" in result.columns
     assert "is_undervalued" in result.columns
     assert result["value_tier"].dtype == object
+
+
+def test_compute_undervalued_by_pct():
+    """Formula correct for undervalued listings."""
+    from src.undervalued import compute_undervalued_by
+    df = pd.DataFrame({
+        "residual_log": [-0.3, -0.5],
+        "is_undervalued": [True, True],
+    })
+    result = compute_undervalued_by(df)
+    expected = (1 - np.exp(df["residual_log"])) * 100
+    np.testing.assert_allclose(result["undervalued_by_pct"], expected, rtol=1e-6)
+
+
+def test_compute_undervalued_by_zero_for_fair():
+    """0.0 for non-undervalued listings."""
+    from src.undervalued import compute_undervalued_by
+    df = pd.DataFrame({
+        "residual_log": [0.1, 0.5, -0.01],
+        "is_undervalued": [False, False, False],
+    })
+    result = compute_undervalued_by(df)
+    assert (result["undervalued_by_pct"] == 0.0).all()
+
+
+def test_compute_undervalued_by_mixed():
+    """Mixed undervalued and fair listings."""
+    from src.undervalued import compute_undervalued_by
+    df = pd.DataFrame({
+        "residual_log": [-0.3, 0.2],
+        "is_undervalued": [True, False],
+    })
+    result = compute_undervalued_by(df)
+    assert result["undervalued_by_pct"].iloc[0] > 0
+    assert result["undervalued_by_pct"].iloc[1] == 0.0
