@@ -41,6 +41,11 @@ def detect_undervalued(
     threshold: float = DEFAULT_THRESHOLD,
     min_line_n: int = DEFAULT_MIN_LINE_N,
 ) -> pd.DataFrame:
+    """Compute per-line or global MAD z-scores for residual_log.
+
+    `threshold` is accepted for API/CLI symmetry with `assign_tiers()` but is
+    intentionally unused here; thresholding happens in `assign_tiers()`.
+    """
     df = df.copy()
     global_median = df["residual_log"].median()
     global_abs_dev = (df["residual_log"] - global_median).abs()
@@ -53,7 +58,6 @@ def detect_undervalued(
         n = len(group)
         if n >= min_line_n:
             z = compute_mad_zscore(group["residual_log"])
-            used_global.loc[group.index] = False
         else:
             if global_mad < 1e-12:
                 z = pd.Series(0.0, index=group.index)
@@ -83,7 +87,7 @@ def assign_tiers(
     ]
     choices = ["strong", "good", "borderline"]
     df["value_tier"] = pd.Series(
-        np.select(conditions, choices, default="fair").astype(object),
+        np.select(conditions, choices, default="fair"),
         index=df.index,
         dtype=object,
     )

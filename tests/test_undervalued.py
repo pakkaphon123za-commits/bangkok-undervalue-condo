@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -20,6 +19,7 @@ def test_module_imports():
     assert hasattr(undervalued, "DEFAULT_MIN_LINE_N")
     assert undervalued.DEFAULT_THRESHOLD == -1.5
     assert undervalued.DEFAULT_MIN_LINE_N == 30
+    assert undervalued.MAD_CONSISTENCY == 1.4826
 
 
 def test_compute_mad_zscore_basic():
