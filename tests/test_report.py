@@ -489,3 +489,24 @@ def test_no_narrative_panel_when_files_absent():
     rendered = m.get_root().render()
     assert "narrativePanel" not in rendered
     assert "narrativeToggle" not in rendered
+
+
+def test_backward_compat_missing_value_tier():
+    from src.report import build_listing_markers, build_popup_html
+    df = pd.DataFrame({
+        "listing_id": ["1"], "name": ["Old Condo"], "price_thb": [3000000.0],
+        "first_price_thb": [None], "area_sqm_num": [30.0], "price_per_sqm": [100000.0],
+        "bedrooms": [1], "bathrooms": [1], "detail_url": ["https://example.com"],
+        "address": ["Bangkok"], "latitude": [13.75], "longitude": [100.56],
+        "thumbnail": [None], "year_built": [None],
+        "listed_dt": pd.to_datetime(["2026-05-01"]),
+        "updated_dt": pd.to_datetime(["2026-06-01"]),
+        "nearest_station": ["Asok"], "nearest_station_km": [0.3],
+        "nearest_station_line": ["BTS Sukhumvit Line"], "is_ghost": [False],
+    })
+    groups, color_data = build_listing_markers(df)
+    assert list(groups.keys()) == ["Undervalued: strong", "Undervalued: good", "Undervalued: borderline", "Other listings"]
+    assert len(list(groups["Other listings"]._children.keys())) == 1
+    assert len(color_data) == 1
+    html = build_popup_html(df.iloc[0])
+    assert "Undervalued by" not in html
