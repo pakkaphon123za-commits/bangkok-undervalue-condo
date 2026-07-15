@@ -163,5 +163,25 @@ def build_prompt(decay: dict, summary: dict, station_stats: pd.DataFrame) -> lis
     ]
 
 
+def render_narrative(markdown_text: str, station_stats: pd.DataFrame) -> str:
+    text = markdown_text.strip()
+    text = re.sub(r"\n{3,}", "\n\n", text)
+
+    lines = ["### Top undervalued stations", ""]
+    lines.append("| Station | Line | N | Undervalued | Median discount |")
+    lines.append("|---|---|---:|---:|---:|")
+    if len(station_stats) == 0:
+        lines.append("| — | — | — | — | — |")
+    else:
+        for _, row in station_stats.iterrows():
+            lines.append(
+                f"| {row['station']} | {row['line']} | {int(row['n'])} | "
+                f"{int(row['n_undervalued'])} ({float(row['pct_undervalued']):.2f}%) | "
+                f"{float(row['median_undervalued_by_pct']):.1f}% |"
+            )
+    table = "\n".join(lines)
+    return f"{text}\n\n{table}\n"
+
+
 if __name__ == "__main__":
     pass

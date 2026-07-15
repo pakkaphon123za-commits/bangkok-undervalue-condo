@@ -196,3 +196,32 @@ def test_call_llm_fails_after_retry():
         with pytest.raises(Exception):
             call_llm([{"role": "user", "content": "hi"}], "https://api.example.com/v1", "model", "key")
     assert mock_urlopen.call_count == 2
+
+
+def test_render_narrative_appends_station_table():
+    from src.llm_narrate import render_narrative
+    station_stats = pd.DataFrame({
+        "station": ["Station A", "Station B"],
+        "line": ["Line 1", "Line 2"],
+        "n": [20, 15],
+        "n_undervalued": [5, 3],
+        "pct_undervalued": [25.0, 20.0],
+        "median_undervalued_by_pct": [12.5, 8.0],
+        "median_zscore": [-1.7, -1.6],
+    })
+    result = render_narrative("# Brief", station_stats)
+    assert "### Top undervalued stations" in result
+    assert "Station A" in result
+    assert "Station B" in result
+    assert "25.00%" in result or "25.0%" in result
+    assert "# Brief" in result
+
+
+def test_render_narrative_cleans_whitespace():
+    from src.llm_narrate import render_narrative
+    station_stats = pd.DataFrame(columns=[
+        "station", "line", "n", "n_undervalued", "pct_undervalued",
+        "median_undervalued_by_pct", "median_zscore",
+    ])
+    result = render_narrative("\n\n# Brief\n\n\n\nText\n\n", station_stats)
+    assert "\n\n\n\n" not in result
