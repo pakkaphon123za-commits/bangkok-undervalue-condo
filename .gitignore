@@ -6,6 +6,8 @@ config.yaml
 # Agent / IDE files (keep local, not for GitHub)
 AGENTS.md
 docs/questions.md
+docs/superpowers/
+docs/shrinkage-vs-mixed-effects-th.md
 CLAUDE.md
 SKILL.md
 skill.md
