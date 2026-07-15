@@ -43,3 +43,55 @@ def test_load_env_key_reads_value(tmp_path):
 def test_load_env_key_missing_returns_none(tmp_path):
     from src.llm_narrate import load_env_key
     assert load_env_key(tmp_path / ".env") is None
+
+
+def test_compute_station_stats_basic():
+    import pandas as pd
+    from src.llm_narrate import compute_station_stats
+    df = pd.DataFrame({
+        "nearest_station": ["A", "A", "A", "B", "B"],
+        "nearest_station_line": ["Line 1", "Line 1", "Line 1", "Line 2", "Line 2"],
+        "is_undervalued": [True, True, False, True, False],
+        "undervalued_by_pct": [10.0, 20.0, 0.0, 5.0, 0.0],
+        "residual_zscore": [-1.6, -1.8, -0.5, -2.0, 0.0],
+    })
+    stats = compute_station_stats(df, min_n=1)
+    assert len(stats) == 2
+    a = stats[stats["station"] == "A"].iloc[0]
+    assert a["n"] == 3
+    assert a["n_undervalued"] == 2
+    assert a["pct_undervalued"] == round(2 / 3 * 100, 2)
+    assert a["median_undervalued_by_pct"] == 15.0
+    assert a["line"] == "Line 1"
+    b = stats[stats["station"] == "B"].iloc[0]
+    assert b["n_undervalued"] == 1
+
+
+def test_compute_station_stats_filters_small_n():
+    import pandas as pd
+    from src.llm_narrate import compute_station_stats
+    df = pd.DataFrame({
+        "nearest_station": ["A"] * 4 + ["B"] * 2,
+        "nearest_station_line": ["Line 1"] * 6,
+        "is_undervalued": [True, True, False, False, True, False],
+        "undervalued_by_pct": [10.0, 20.0, 0.0, 0.0, 5.0, 0.0],
+        "residual_zscore": [-1.6, -1.8, -0.5, 0.0, -2.0, 0.0],
+    })
+    stats = compute_station_stats(df, min_n=3)
+    assert len(stats) == 1
+    assert stats.iloc[0]["station"] == "A"
+
+
+def test_compute_station_stats_sorts_by_n_undervalued():
+    import pandas as pd
+    from src.llm_narrate import compute_station_stats
+    df = pd.DataFrame({
+        "nearest_station": ["A"] * 3 + ["B"] * 3,
+        "nearest_station_line": ["Line 1"] * 6,
+        "is_undervalued": [True, False, False, True, True, True],
+        "undervalued_by_pct": [10.0, 0.0, 0.0, 5.0, 5.0, 5.0],
+        "residual_zscore": [-1.6, -0.5, 0.0, -2.0, -2.0, -2.0],
+    })
+    stats = compute_station_stats(df, min_n=1)
+    assert stats.iloc[0]["station"] == "B"
+    assert stats.iloc[0]["n_undervalued"] == 3

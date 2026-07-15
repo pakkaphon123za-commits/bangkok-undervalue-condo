@@ -38,5 +38,37 @@ def load_env_key(path: Path, key: str = "OLLAMA_API_KEY") -> str | None:
     return None
 
 
+def compute_station_stats(df: pd.DataFrame, min_n: int = 5) -> pd.DataFrame:
+    df = df.copy()
+    df["undervalued_by_pct"] = df["undervalued_by_pct"].fillna(0.0)
+
+    grouped = (
+        df.groupby("nearest_station")
+        .agg(
+            n=("nearest_station", "size"),
+            line=("nearest_station_line", "first"),
+            n_undervalued=("is_undervalued", "sum"),
+            median_zscore=("residual_zscore", "median"),
+        )
+        .reset_index()
+        .rename(columns={"nearest_station": "station"})
+    )
+    grouped["n_undervalued"] = grouped["n_undervalued"].astype(int)
+
+    und = (
+        df[df["is_undervalued"]]
+        .groupby("nearest_station")["undervalued_by_pct"]
+        .median()
+        .reset_index()
+        .rename(columns={"nearest_station": "station", "undervalued_by_pct": "median_undervalued_by_pct"})
+    )
+    grouped = grouped.merge(und, on="station", how="left")
+    grouped["median_undervalued_by_pct"] = grouped["median_undervalued_by_pct"].fillna(0.0).round(2)
+    grouped["pct_undervalued"] = (grouped["n_undervalued"] / grouped["n"] * 100).round(2)
+
+    grouped = grouped[grouped["n"] >= min_n].sort_values(by="n_undervalued", ascending=False).reset_index(drop=True)
+    return grouped
+
+
 if __name__ == "__main__":
     pass
