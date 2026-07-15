@@ -70,5 +70,58 @@ def compute_station_stats(df: pd.DataFrame, min_n: int = 5) -> pd.DataFrame:
     return grouped
 
 
+def build_prompt(decay: dict, summary: dict, station_stats: pd.DataFrame) -> list[dict]:
+    global_data = summary["global"]
+    lines: list[dict] = []
+    for line_name, line_summary in summary["lines"].items():
+        decay_line = decay.get("lines", {}).get(line_name, {})
+        lines.append({
+            "name": line_name,
+            "n": line_summary["n"],
+            "n_undervalued": line_summary["n_undervalued"],
+            "pct_undervalued": line_summary["pct_undervalued"],
+            "decay_pct_per_km": decay_line.get("decay_pct_per_km"),
+            "used_global_stats": line_summary.get("used_global_stats", False),
+        })
+
+    top_stations: list[dict] = []
+    for _, row in station_stats.head(10).iterrows():
+        top_stations.append({
+            "name": row["station"],
+            "line": row["line"],
+            "n": int(row["n"]),
+            "n_undervalued": int(row["n_undervalued"]),
+            "pct_undervalued": float(row["pct_undervalued"]),
+            "median_undervalued_by_pct": float(row["median_undervalued_by_pct"]),
+        })
+
+    system_msg = (
+        "You are a real-estate analyst writing an investor brief on Bangkok condos "
+        "near mass transit. Write in clear English prose, preserve Thai line and station "
+        "names when the data includes them, avoid hedging filler, lead with the strongest "
+        "finding, reference upcoming lines (MRT Orange, MRT Purple South, SRT Dark Red "
+        "south extension) where relevant, and never fabricate numbers — only use the "
+        "statistics provided."
+    )
+
+    user_payload = {
+        "global": global_data,
+        "lines": lines,
+        "top_undervalued_stations": top_stations,
+        "instructions": (
+            "Produce a Markdown brief with exactly these sections: "
+            "# Bangkok Condo Market Brief, then an executive summary of 2–3 paragraphs, "
+            "then ## Per-line analysis with 1–2 sentences per line, "
+            "then ## Undervalued station zones with commentary on the top stations, "
+            "then ## Upcoming line impact, and end with a one-line methodology footnote."
+        ),
+    }
+
+    return [
+        {"role": "system", "content": system_msg},
+        {"role": "user", "content": json.dumps(user_payload, ensure_ascii=False, indent=2)},
+    ]
+
+
 if __name__ == "__main__":
     pass

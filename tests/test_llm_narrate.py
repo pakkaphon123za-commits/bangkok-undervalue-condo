@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pandas as pd
 import pytest
 
 
@@ -95,3 +96,42 @@ def test_compute_station_stats_sorts_by_n_undervalued():
     stats = compute_station_stats(df, min_n=1)
     assert stats.iloc[0]["station"] == "B"
     assert stats.iloc[0]["n_undervalued"] == 3
+
+
+def test_build_prompt_contains_key_stats():
+    from src.llm_narrate import build_prompt
+    decay = {"lines": {"Line 1": {"decay_pct_per_km": -15.0}}}
+    summary = {
+        "global": {"n": 100, "n_undervalued": 10, "pct_undervalued": 10.0},
+        "lines": {"Line 1": {"n": 100, "n_undervalued": 10, "pct_undervalued": 10.0}},
+    }
+    station_stats = pd.DataFrame({
+        "station": ["Station A"],
+        "line": ["Line 1"],
+        "n": [20],
+        "n_undervalued": [5],
+        "pct_undervalued": [25.0],
+        "median_undervalued_by_pct": [12.5],
+        "median_zscore": [-1.7],
+    })
+    messages = build_prompt(decay, summary, station_stats)
+    prompt_text = " ".join(m["content"] for m in messages)
+    assert "Line 1" in prompt_text
+    assert "Station A" in prompt_text
+    assert "25.0" in prompt_text or "25" in prompt_text
+    assert "Bangkok Condo Market Brief" in prompt_text
+
+
+def test_build_prompt_persona():
+    from src.llm_narrate import build_prompt
+    decay = {"lines": {}}
+    summary = {"global": {"n": 0, "n_undervalued": 0, "pct_undervalued": 0.0}, "lines": {}}
+    station_stats = pd.DataFrame(columns=[
+        "station", "line", "n", "n_undervalued", "pct_undervalued",
+        "median_undervalued_by_pct", "median_zscore",
+    ])
+    messages = build_prompt(decay, summary, station_stats)
+    assert messages[0]["role"] == "system"
+    assert "analyst" in messages[0]["content"].lower()
+    assert "Thai" in messages[0]["content"]
+    assert messages[1]["role"] == "user"
