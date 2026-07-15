@@ -235,5 +235,57 @@ def write_outputs(narrative_md: str, meta_dict: dict, narrative_path: Path, meta
     os.replace(tmp_meta, meta_path)
 
 
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="Generate LLM narrative for Bangkok transit-property analysis")
+    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--decay", type=Path, default=DEFAULT_DECAY)
+    parser.add_argument("--summary", type=Path, default=DEFAULT_SUMMARY)
+    parser.add_argument("--narrative-output", type=Path, default=DEFAULT_NARRATIVE_OUTPUT)
+    parser.add_argument("--meta-output", type=Path, default=DEFAULT_META_OUTPUT)
+    parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
+    args = parser.parse_args(argv)
+
+    config = load_config(args.config)
+    llm_config = config.get("llm", {})
+    if not llm_config.get("enabled", False):
+        print("LLM disabled in config; skipping narrative generation.")
+        return
+
+    api_key = load_env_key(PROJECT_ROOT / ".env")
+    if not api_key:
+        print("OLLAMA_API_KEY not found in .env; aborting.")
+        raise SystemExit(1)
+
+    base_url = llm_config.get("base_url", "")
+    model = llm_config.get("model", "glm-5.2")
+    temperature = float(llm_config.get("temperature", 0.7))
+    max_tokens = int(llm_config.get("max_tokens", 2000))
+
+    for path, label in [(args.input, "Input"), (args.decay, "Decay curves"), (args.summary, "Summary")]:
+        if not path.exists():
+            print(f"{label} not found: {path}")
+            raise SystemExit(1)
+
+    df = pd.read_parquet(args.input)
+    with open(args.decay, encoding="utf-8") as f:
+        decay = json.load(f)
+    with open(args.summary, encoding="utf-8") as f:
+        summary = json.load(f)
+
+    station_stats = compute_station_stats(df)
+    messages = build_prompt(decay, summary, station_stats)
+    raw_narrative = call_llm(messages, base_url, model, api_key, temperature=temperature, max_tokens=max_tokens)
+    if len(raw_narrative.strip()) < 100:
+        print("Warning: LLM returned a very short narrative.")
+    narrative_text = render_narrative(raw_narrative, station_stats)
+    meta = build_meta(decay, summary, station_stats, model)
+    write_outputs(narrative_text, meta, args.narrative_output, args.meta_output)
+
+    print(f"Narrative saved to {args.narrative_output}")
+    print(f"Meta saved to {args.meta_output}")
+    print(f"Lines analyzed: {len(summary['lines'])}")
+    print(f"Top stations: {len(station_stats.head(10))}")
+
+
 if __name__ == "__main__":
-    pass
+    main()

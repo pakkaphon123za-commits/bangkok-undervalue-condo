@@ -268,3 +268,68 @@ def test_write_outputs_atomic(tmp_path):
     assert narrative_path.read_text(encoding="utf-8") == "# Brief\n"
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
     assert meta["model"] == "glm-5.2"
+
+
+def test_main_disabled_exits_cleanly(tmp_path):
+    from src.llm_narrate import main
+    config_path = tmp_path / "config.yaml"
+    config_path.write_text("llm:\n  enabled: false\n", encoding="utf-8")
+    main(["--config", str(config_path), "--narrative-output", str(tmp_path / "narrative.md"), "--meta-output", str(tmp_path / "meta.json")])
+    assert not (tmp_path / "narrative.md").exists()
+    assert not (tmp_path / "meta.json").exists()
+
+
+def test_main_end_to_end(tmp_path):
+    from src.llm_narrate import main
+    from unittest.mock import patch
+
+    input_path = tmp_path / "listings.parquet"
+    pd.DataFrame({
+        "nearest_station": ["Station A"],
+        "nearest_station_line": ["Line 1"],
+        "is_undervalued": [True],
+        "undervalued_by_pct": [10.0],
+        "residual_zscore": [-1.6],
+    }).to_parquet(input_path, index=False)
+
+    decay_path = tmp_path / "decay.json"
+    decay_path.write_text(json.dumps({"lines": {"Line 1": {"decay_pct_per_km": -15.0}}}), encoding="utf-8")
+
+    summary_path = tmp_path / "summary.json"
+    summary_path.write_text(json.dumps({
+        "global": {"n": 1, "n_undervalued": 1, "pct_undervalued": 100.0},
+        "lines": {"Line 1": {"n": 1, "n_undervalued": 1, "pct_undervalued": 100.0}},
+    }), encoding="utf-8")
+
+    config_path = tmp_path / "config.yaml"
+    config_path.write_text("llm:\n  enabled: true\n  base_url: https://api.example.com/v1\n  model: glm-5.2\n", encoding="utf-8")
+
+    env_path = tmp_path / ".env"
+    env_path.write_text("OLLAMA_API_KEY=fake-key\n", encoding="utf-8")
+
+    narrative_path = tmp_path / "narrative.md"
+    meta_path = tmp_path / "meta.json"
+
+    fake_response = json.dumps({"choices": [{"message": {"content": "# Bangkok Condo Market Brief\n\nSummary."}}]}).encode("utf-8")
+    with patch("src.llm_narrate.urllib.request.urlopen") as mock_urlopen:
+        mock_response = MagicMock()
+        mock_response.read.return_value = fake_response
+        mock_urlopen.return_value.__enter__.return_value = mock_response
+        with patch("src.llm_narrate.PROJECT_ROOT", tmp_path):
+            main([
+                "--input", str(input_path),
+                "--decay", str(decay_path),
+                "--summary", str(summary_path),
+                "--config", str(config_path),
+                "--narrative-output", str(narrative_path),
+                "--meta-output", str(meta_path),
+            ])
+
+    assert narrative_path.exists()
+    assert meta_path.exists()
+    content = narrative_path.read_text(encoding="utf-8")
+    assert "# Bangkok Condo Market Brief" in content
+    assert "### Top undervalued stations" in content
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    assert meta["model"] == "glm-5.2"
+    assert meta["lines"][0]["name"] == "Line 1"
