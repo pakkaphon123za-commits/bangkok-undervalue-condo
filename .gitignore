@@ -25,6 +25,8 @@ data/processed/*
 !data/processed/decay_curves.json
 # Exception: undervalued summary (small, feeds website + LLM narrative)
 !data/processed/undervalued_summary.json
+# Exception: narrative metadata (small, feeds website narrative panel)
+!data/processed/narrative_meta.json
 
 # Python
 __pycache__/
