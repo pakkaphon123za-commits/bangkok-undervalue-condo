@@ -219,5 +219,21 @@ def render_narrative(markdown_text: str, station_stats: pd.DataFrame) -> str:
     return f"{text}\n\n{table}\n"
 
 
+def write_outputs(narrative_md: str, meta_dict: dict, narrative_path: Path, meta_path: Path) -> None:
+    narrative_path.parent.mkdir(parents=True, exist_ok=True)
+    meta_path.parent.mkdir(parents=True, exist_ok=True)
+
+    tmp_narrative = narrative_path.with_suffix(narrative_path.suffix + ".tmp")
+    tmp_meta = meta_path.with_suffix(meta_path.suffix + ".tmp")
+
+    with open(tmp_narrative, "w", encoding="utf-8") as f:
+        f.write(narrative_md if narrative_md.endswith("\n") else narrative_md + "\n")
+    with open(tmp_meta, "w", encoding="utf-8") as f:
+        json.dump(meta_dict, f, ensure_ascii=False, indent=2)
+
+    os.replace(tmp_narrative, narrative_path)
+    os.replace(tmp_meta, meta_path)
+
+
 if __name__ == "__main__":
     pass

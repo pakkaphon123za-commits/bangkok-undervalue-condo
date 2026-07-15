@@ -254,3 +254,17 @@ def test_build_meta_structure():
     assert meta["lines"][0]["used_global_stats"] is False
     assert len(meta["top_stations"]) == 1
     assert meta["top_stations"][0]["name"] == "Station A"
+
+
+def test_write_outputs_atomic(tmp_path):
+    from src.llm_narrate import write_outputs
+    narrative_path = tmp_path / "narrative.md"
+    meta_path = tmp_path / "meta.json"
+    write_outputs("# Brief", {"model": "glm-5.2"}, narrative_path, meta_path)
+    assert narrative_path.exists()
+    assert meta_path.exists()
+    assert not (tmp_path / "narrative.md.tmp").exists()
+    assert not (tmp_path / "meta.json.tmp").exists()
+    assert narrative_path.read_text(encoding="utf-8") == "# Brief\n"
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    assert meta["model"] == "glm-5.2"
