@@ -35,8 +35,10 @@ lines:
 # Walking-distance cutoff for "transit-adjacent" listings (meters)
 transit_adjacent_cutoff_m: 1500
 
-# opencode Go API (optional, for zone narratives)
+# Ollama Cloud (OpenAI-compatible) — optional, for Phase 7 narrative generation
 llm:
-  enabled: false               # set true once OPENCODE_GO_API_KEY is set
-  base_url: ""                 # opencode Go OpenAI-compatible endpoint
-  model: "glm-5.2"
+  enabled: false               # set true once OLLAMA_API_KEY is set in .env
+  base_url: ""                 # e.g. https://api.ollama.cloud/v1
+  model: "glm-5.2"             # model served by your Ollama Cloud endpoint
+  temperature: 0.7
+  max_tokens: 2000
