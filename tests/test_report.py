@@ -267,16 +267,31 @@ def test_build_popup_html_no_thumbnail():
 
 
 def test_build_listing_markers_returns_feature_group(sample_enriched):
+    from src.report import build_listing_markers
     df = load_listings(sample_enriched)
-    fg, color_data = build_listing_markers(df)
-    assert fg is not None
-    assert hasattr(fg, "add_to")
+    groups, color_data = build_listing_markers(df)
+    assert isinstance(groups, dict)
+    assert "Undervalued: strong" in groups
+    assert "Undervalued: good" in groups
+    assert "Undervalued: borderline" in groups
+    assert "Other listings" in groups
+    for fg in groups.values():
+        assert fg is not None
+        assert hasattr(fg, "add_to")
     assert isinstance(color_data, list)
     assert len(color_data) > 0
     for entry in color_data:
         assert "price" in entry
         assert "dist" in entry
         assert "line" in entry
+
+
+def test_tier_featuregroups_exist(sample_enriched):
+    from src.report import build_listing_markers
+    df = load_listings(sample_enriched)
+    groups, _ = build_listing_markers(df)
+    expected = ["Undervalued: strong", "Undervalued: good", "Undervalued: borderline", "Other listings"]
+    assert list(groups.keys()) == expected
 
 
 def test_build_ghost_markers_empty_when_no_ghosts(sample_enriched):

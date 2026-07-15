@@ -43,6 +43,13 @@ LINE_COLORS = {
 
 BIN_COLORS = ["#2ecc71", "#1abc9c", "#3498db", "#f1c40f"]
 
+TIER_COLORS = {
+    "strong": "#2ecc71",
+    "good": "#1abc9c",
+    "borderline": "#f1c40f",
+    "fair": None,
+}
+
 LINE_NAMES_TH = {
     "BTS Sukhumvit Line": "รถไฟฟ้า BTS สายสุขุมวิท",
     "BTS Silom Line": "รถไฟฟ้า BTS สายสีลม",
@@ -332,13 +339,25 @@ def build_popup_html(row: pd.Series, is_ghost: bool = False) -> str:
 </div>"""
 
 
-def build_listing_markers(df: pd.DataFrame) -> tuple[folium.FeatureGroup, list[dict]]:
-    fg = folium.FeatureGroup(name="listings")
+def build_listing_markers(df: pd.DataFrame) -> tuple[dict[str, folium.FeatureGroup], list[dict]]:
+    groups: dict[str, folium.FeatureGroup] = {
+        "Undervalued: strong": folium.FeatureGroup(name="Undervalued: strong"),
+        "Undervalued: good": folium.FeatureGroup(name="Undervalued: good"),
+        "Undervalued: borderline": folium.FeatureGroup(name="Undervalued: borderline"),
+        "Other listings": folium.FeatureGroup(name="Other listings"),
+    }
     color_data: list[dict] = []
+    has_tier = "value_tier" in df.columns
 
     for _, row in df.iterrows():
         if row.get("is_ghost", False):
             continue
+
+        tier = str(row.get("value_tier", "fair")) if has_tier else "fair"
+        if tier not in ("strong", "good", "borderline"):
+            tier = "fair"
+        group_name = f"Undervalued: {tier}" if tier != "fair" else "Other listings"
+        fg = groups[group_name]
 
         price_bin = int(row.get("price_bin", 1))
         dist_bin = int(row.get("dist_bin", 1))
@@ -347,6 +366,8 @@ def build_listing_markers(df: pd.DataFrame) -> tuple[folium.FeatureGroup, list[d
 
         price_color = BIN_COLORS[min(price_bin - 1, 3)]
         dist_color = BIN_COLORS[min(dist_bin - 1, 3)]
+        tier_color = TIER_COLORS.get(tier)
+        default_fill = tier_color if tier_color is not None else price_color
 
         marker = folium.CircleMarker(
             location=(row["latitude"], row["longitude"]),
@@ -354,7 +375,7 @@ def build_listing_markers(df: pd.DataFrame) -> tuple[folium.FeatureGroup, list[d
             color="#000000",
             weight=1.5,
             fill=True,
-            fillColor=price_color,
+            fillColor=default_fill,
             fillOpacity=0.9,
             popup=folium.Popup(build_popup_html(row), max_width=300),
             tooltip=row["name"],
@@ -363,7 +384,7 @@ def build_listing_markers(df: pd.DataFrame) -> tuple[folium.FeatureGroup, list[d
         fg.add_child(marker)
         color_data.append({"price": price_color, "dist": dist_color, "line": line_color})
 
-    return fg, color_data
+    return groups, color_data
 
 
 def build_ghost_markers(df: pd.DataFrame) -> folium.FeatureGroup:
@@ -549,8 +570,9 @@ def main() -> None:
     for fg in transit_fgs.values():
         fg.add_to(m)
 
-    listings_fg, color_data = build_listing_markers(df)
-    listings_fg.add_to(m)
+    listings_fgs, color_data = build_listing_markers(df)
+    for fg in listings_fgs.values():
+        fg.add_to(m)
 
     has_ghosts = "is_ghost" in df.columns and df["is_ghost"].any()
     if has_ghosts:
