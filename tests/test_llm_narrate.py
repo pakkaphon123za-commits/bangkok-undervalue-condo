@@ -1,7 +1,9 @@
 """Tests for llm_narrate.py — Phase 7 LLM narrative generation."""
 from __future__ import annotations
 
+import json
 from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 import pandas as pd
 import pytest
@@ -135,3 +137,62 @@ def test_build_prompt_persona():
     assert "analyst" in messages[0]["content"].lower()
     assert "Thai" in messages[0]["content"]
     assert messages[1]["role"] == "user"
+
+
+def test_call_llm_parses_response():
+    from src.llm_narrate import call_llm
+    fake_body = json.dumps({
+        "choices": [{"message": {"content": "Brief text"}}]
+    }).encode("utf-8")
+    with patch("src.llm_narrate.urllib.request.urlopen") as mock_urlopen:
+        mock_response = MagicMock()
+        mock_response.read.return_value = fake_body
+        mock_urlopen.return_value.__enter__.return_value = mock_response
+        result = call_llm([{"role": "user", "content": "hi"}], "https://api.example.com/v1", "model", "key")
+    assert result == "Brief text"
+
+
+def test_call_llm_retries_once():
+    from src.llm_narrate import call_llm
+    from urllib.error import HTTPError
+    fake_body = json.dumps({"choices": [{"message": {"content": "Brief text"}}]}).encode("utf-8")
+
+    class FakeError(HTTPError):
+        def __init__(self):
+            super().__init__("https://api.example.com/v1/chat/completions", 500, "Server Error", {}, None)
+
+    class OkResponse:
+        def read(self):
+            return fake_body
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            return False
+
+    call_order = []
+
+    with patch("src.llm_narrate.urllib.request.urlopen") as mock_urlopen:
+        def side_effect(*args, **kwargs):
+            call_order.append("call")
+            if len(call_order) == 1:
+                raise FakeError()
+            return OkResponse()
+        mock_urlopen.side_effect = side_effect
+        result = call_llm([{"role": "user", "content": "hi"}], "https://api.example.com/v1", "model", "key")
+    assert result == "Brief text"
+    assert mock_urlopen.call_count == 2
+
+
+def test_call_llm_fails_after_retry():
+    from src.llm_narrate import call_llm
+    from urllib.error import HTTPError
+
+    class FakeError(HTTPError):
+        def __init__(self):
+            super().__init__("https://api.example.com/v1/chat/completions", 500, "Server Error", {}, None)
+
+    with patch("src.llm_narrate.urllib.request.urlopen") as mock_urlopen:
+        mock_urlopen.side_effect = FakeError()
+        with pytest.raises(Exception):
+            call_llm([{"role": "user", "content": "hi"}], "https://api.example.com/v1", "model", "key")
+    assert mock_urlopen.call_count == 2

@@ -70,6 +70,46 @@ def compute_station_stats(df: pd.DataFrame, min_n: int = 5) -> pd.DataFrame:
     return grouped
 
 
+def call_llm(
+    messages: list[dict],
+    base_url: str,
+    model: str,
+    api_key: str,
+    temperature: float = 0.7,
+    max_tokens: int = 2000,
+    timeout: float = 60.0,
+) -> str:
+    url = base_url.rstrip("/") + "/chat/completions"
+    payload = {
+        "model": model,
+        "messages": messages,
+        "temperature": temperature,
+        "max_tokens": max_tokens,
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}",
+    }
+    data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    req = urllib.request.Request(url, data=data, headers=headers, method="POST")
+
+    last_error: Exception | None = None
+    for _ in range(2):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                body = json.loads(resp.read().decode("utf-8"))
+                return body["choices"][0]["message"]["content"]
+        except urllib.error.HTTPError as e:
+            if e.code >= 500:
+                last_error = e
+                continue
+            raise
+        except (urllib.error.URLError, TimeoutError) as e:
+            last_error = e
+            continue
+    raise last_error or RuntimeError("LLM request failed after retry")
+
+
 def build_prompt(decay: dict, summary: dict, station_stats: pd.DataFrame) -> list[dict]:
     global_data = summary["global"]
     lines: list[dict] = []
