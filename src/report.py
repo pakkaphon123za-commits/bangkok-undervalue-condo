@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_INPUT = PROJECT_ROOT / "data" / "interim" / "listings_enriched.parquet"
+DEFAULT_INPUT = PROJECT_ROOT / "data" / "interim" / "listings_modeled.parquet"
 DEFAULT_STATIONS = PROJECT_ROOT / "data" / "processed" / "stations.geojson"
 DEFAULT_OUTPUT = PROJECT_ROOT / "docs" / "index.html"
 

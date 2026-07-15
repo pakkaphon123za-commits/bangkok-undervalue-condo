@@ -331,6 +331,8 @@ def test_inject_lang_toggle_adds_button():
 
 
 def test_main_generates_html(sample_enriched, sample_stations, tmp_path):
+    from src.report import DEFAULT_INPUT
+
     output_path = tmp_path / "index.html"
     result = subprocess.run(
         [
@@ -348,6 +350,13 @@ def test_main_generates_html(sample_enriched, sample_stations, tmp_path):
     assert "colorMode" in content
     assert "langToggle" in content
     assert "Test Condo A" in content
+    assert "listings_modeled.parquet" in str(DEFAULT_INPUT)
+    assert DEFAULT_INPUT != sample_enriched
+
+
+def test_default_input_is_modeled_parquet():
+    from src.report import DEFAULT_INPUT
+    assert "listings_modeled.parquet" in str(DEFAULT_INPUT)
 
 
 @pytest.fixture
