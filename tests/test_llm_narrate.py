@@ -225,3 +225,32 @@ def test_render_narrative_cleans_whitespace():
     ])
     result = render_narrative("\n\n# Brief\n\n\n\nText\n\n", station_stats)
     assert "\n\n\n\n" not in result
+
+
+def test_build_meta_structure():
+    from src.llm_narrate import build_meta
+    now = "2026-07-15T12:00:00"
+    decay = {"lines": {"Line 1": {"decay_pct_per_km": -15.0}}}
+    summary = {
+        "global": {"n": 100, "n_undervalued": 10, "pct_undervalued": 10.0},
+        "lines": {"Line 1": {"n": 100, "n_undervalued": 10, "pct_undervalued": 10.0, "used_global_stats": False}},
+    }
+    station_stats = pd.DataFrame({
+        "station": ["Station A"],
+        "line": ["Line 1"],
+        "n": [20],
+        "n_undervalued": [5],
+        "pct_undervalued": [25.0],
+        "median_undervalued_by_pct": [12.5],
+        "median_zscore": [-1.7],
+    })
+    meta = build_meta(decay, summary, station_stats, "glm-5.2")
+    assert meta["model"] == "glm-5.2"
+    assert "generated_at" in meta
+    assert meta["global"]["n"] == 100
+    assert len(meta["lines"]) == 1
+    assert meta["lines"][0]["name"] == "Line 1"
+    assert meta["lines"][0]["decay_pct_per_km"] == -15.0
+    assert meta["lines"][0]["used_global_stats"] is False
+    assert len(meta["top_stations"]) == 1
+    assert meta["top_stations"][0]["name"] == "Station A"

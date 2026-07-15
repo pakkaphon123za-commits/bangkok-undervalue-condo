@@ -163,6 +163,42 @@ def build_prompt(decay: dict, summary: dict, station_stats: pd.DataFrame) -> lis
     ]
 
 
+def build_meta(decay: dict, summary: dict, station_stats: pd.DataFrame, model: str) -> dict:
+    now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
+    lines: list[dict] = []
+    for line_name, line_summary in summary["lines"].items():
+        decay_line = decay.get("lines", {}).get(line_name, {})
+        lines.append({
+            "name": line_name,
+            "name_th": "",
+            "n": line_summary["n"],
+            "n_undervalued": line_summary["n_undervalued"],
+            "pct_undervalued": line_summary["pct_undervalued"],
+            "decay_pct_per_km": decay_line.get("decay_pct_per_km"),
+            "used_global_stats": line_summary.get("used_global_stats", False),
+        })
+
+    top_stations: list[dict] = []
+    for _, row in station_stats.head(10).iterrows():
+        top_stations.append({
+            "name": row["station"],
+            "name_th": "",
+            "line": row["line"],
+            "n": int(row["n"]),
+            "n_undervalued": int(row["n_undervalued"]),
+            "pct_undervalued": float(row["pct_undervalued"]),
+            "median_undervalued_by_pct": float(row["median_undervalued_by_pct"]),
+        })
+
+    return {
+        "generated_at": now,
+        "model": model,
+        "global": summary["global"],
+        "lines": lines,
+        "top_stations": top_stations,
+    }
+
+
 def render_narrative(markdown_text: str, station_stats: pd.DataFrame) -> str:
     text = markdown_text.strip()
     text = re.sub(r"\n{3,}", "\n\n", text)
