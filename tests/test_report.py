@@ -459,3 +459,33 @@ def test_integration_full_map(real_enriched, real_stations, tmp_path):
     assert "BTS Sukhumvit" in content or "Sukhumvit" in content
     assert "data-th" in content
     assert "พญาไท" in content or "สุรศักดิ์" in content
+
+
+def test_narrative_panel_when_files_present(tmp_path):
+    from src.report import _markdown_to_html, inject_narrative_panel
+    import folium
+    m = folium.Map(location=[13.75, 100.56], zoom_start=12)
+    narrative_md = "# Brief\n\nSummary text.\n\n| A | B |\n|---|---|\n| 1 | 2 |\n"
+    html = _markdown_to_html(narrative_md)
+    assert "<h1>Brief</h1>" in html
+    assert "<p>Summary text.</p>" in html
+    assert "<table" in html
+    assert "<strong>" not in html  # no bold in this input
+
+    inject_narrative_panel(m, html, [{"name": "Line 1", "n": 100, "pct_undervalued": 10.0, "decay_pct_per_km": -15.0}])
+    rendered = m.get_root().render()
+    assert "narrativePanel" in rendered
+    assert "narrativeToggle" in rendered
+    assert "openNarrative" in rendered
+    assert "closeNarrative" in rendered
+    assert "Line 1" in rendered
+
+
+def test_no_narrative_panel_when_files_absent():
+    from src.report import inject_narrative_panel
+    import folium
+    m = folium.Map(location=[13.75, 100.56], zoom_start=12)
+    inject_narrative_panel(m, "", [])
+    rendered = m.get_root().render()
+    assert "narrativePanel" not in rendered
+    assert "narrativeToggle" not in rendered

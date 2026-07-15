@@ -233,6 +233,123 @@ def _split_bts_branches(
 
 
 
+def _markdown_to_html(md: str) -> str:
+    lines = md.strip().splitlines()
+    out: list[str] = []
+    in_table = False
+    table_rows: list[str] = []
+
+    def inline(text: str) -> str:
+        text = re.sub(r"\*\*\*(.+?)\*\*\*", r"<strong><em>\1</em></strong>", text)
+        text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
+        text = re.sub(r"\*(.+?)\*", r"<em>\1</em>", text)
+        return text
+
+    def flush_table() -> None:
+        nonlocal in_table, table_rows
+        if in_table and len(table_rows) >= 2:
+            out.append("<table style='border-collapse:collapse;width:100%;font-size:12px;'>")
+            for idx, row in enumerate(table_rows):
+                if idx == 1:
+                    continue
+                cells = [c.strip() for c in row.strip("|").split("|")]
+                tag = "th" if idx == 0 else "td"
+                out.append("<tr>")
+                for c in cells:
+                    out.append(f"<{tag} style='border:1px solid #ddd;padding:4px;'>{inline(c)}</{tag}>")
+                out.append("</tr>")
+            out.append("</table>")
+        in_table = False
+        table_rows = []
+
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("|") and "|" in stripped[1:]:
+            if not in_table:
+                flush_table()
+                in_table = True
+            table_rows.append(stripped)
+            continue
+
+        flush_table()
+
+        if stripped.startswith("### "):
+            out.append(f"<h3>{inline(stripped[4:])}</h3>")
+        elif stripped.startswith("## "):
+            out.append(f"<h2>{inline(stripped[3:])}</h2>")
+        elif stripped.startswith("# "):
+            out.append(f"<h1>{inline(stripped[2:])}</h1>")
+        elif stripped == "":
+            if out and out[-1] != "":
+                out.append("")
+        else:
+            out.append(f"<p>{inline(stripped)}</p>")
+
+    flush_table()
+    return "\n".join(out)
+
+
+def inject_narrative_panel(m: folium.Map, narrative_html: str, meta_lines: list[dict]) -> None:
+    if not narrative_html and not meta_lines:
+        return
+
+    rows = ""
+    for line in meta_lines:
+        name_th = LINE_NAMES_TH.get(line["name"], "")
+        decay = line.get("decay_pct_per_km", "—")
+        rows += (
+            f"<tr>"
+            f"<td style='border:1px solid #ddd;padding:4px;'>"
+            f"<span data-en='{line['name']}' data-th='{name_th}'>{line['name']}</span>"
+            f"</td>"
+            f"<td style='border:1px solid #ddd;padding:4px;text-align:right;'>{line['n']}</td>"
+            f"<td style='border:1px solid #ddd;padding:4px;text-align:right;'>{line['pct_undervalued']:.2f}%</td>"
+            f"<td style='border:1px solid #ddd;padding:4px;text-align:right;'>{decay}<span data-en='%/km' data-th='%/กม'>%/km</span></td>"
+            f"</tr>"
+        )
+
+    panel_html = f"""
+    <div id="narrativePanel" style="position:absolute; top:0; right:-380px; width:380px; max-width:90vw; height:100%; background:white; z-index:10000; overflow-y:auto; box-shadow:-2px 0 6px rgba(0,0,0,0.3); transition:right 0.3s;">
+      <div style="padding:12px 16px; border-bottom:1px solid #ddd; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="margin:0; font-size:16px;">
+          <span data-en="Narrative" data-th="บทวิเคราะห์">Narrative</span>
+        </h3>
+        <button onclick="closeNarrative()" style="background:none; border:none; font-size:20px; cursor:pointer;">×</button>
+      </div>
+      <div style="padding:16px; font-size:13px;">
+        {narrative_html}
+        <h3><span data-en="Per-line summary" data-th="สรุปตามสาย">Per-line summary</span></h3>
+        <table style="border-collapse:collapse;width:100%;font-size:12px;">
+          <tr>
+            <th style="border:1px solid #ddd;padding:4px;text-align:left;"><span data-en="Line" data-th="สาย">Line</span></th>
+            <th style="border:1px solid #ddd;padding:4px;text-align:right;"><span data-en="N" data-th="N">N</span></th>
+            <th style="border:1px solid #ddd;padding:4px;text-align:right;"><span data-en="Undervalued %" data-th="% ต่ำกว่าโมเดล">Undervalued %</span></th>
+            <th style="border:1px solid #ddd;padding:4px;text-align:right;"><span data-en="Decay %/km" data-th="% ลด/กม">Decay %/km</span></th>
+          </tr>
+          {rows}
+        </table>
+      </div>
+    </div>
+    <button id="narrativeToggle" onclick="openNarrative()" style="position:absolute; top:45px; right:10px; z-index:9999; background:white; border:1px solid #ccc; border-radius:4px; padding:4px 12px; font-size:12px; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.3);">
+      <span data-en="Narrative" data-th="บทวิเคราะห์">Narrative</span>
+    </button>
+    """
+
+    panel_js = """
+    <script>
+    function openNarrative() {
+      document.getElementById('narrativePanel').style.right = '0';
+    }
+    function closeNarrative() {
+      document.getElementById('narrativePanel').style.right = '-380px';
+    }
+    </script>
+    """
+
+    m.get_root().html.add_child(folium.Element(panel_html))
+    m.get_root().html.add_child(folium.Element(panel_js))
+
+
 def build_station_popup(station: dict[str, Any]) -> str:
     lines_en = ", ".join(station["lines"])
     lines_th = ", ".join(LINE_NAMES_TH.get(l, l) for l in station["lines"])
@@ -609,6 +726,23 @@ def main() -> None:
     if has_ghosts:
         ghost_fg = build_ghost_markers(df)
         ghost_fg.add_to(m)
+
+    narrative_path = PROJECT_ROOT / "docs" / "narrative.md"
+    meta_path = PROJECT_ROOT / "data" / "processed" / "narrative_meta.json"
+    narrative_html = ""
+    meta_lines: list[dict] = []
+    if narrative_path.exists() and meta_path.exists():
+        narrative_html = _markdown_to_html(narrative_path.read_text(encoding="utf-8"))
+        with open(meta_path, encoding="utf-8") as f:
+            meta_lines = json.load(f).get("lines", [])
+    elif narrative_path.exists():
+        narrative_html = _markdown_to_html(narrative_path.read_text(encoding="utf-8"))
+    elif meta_path.exists():
+        with open(meta_path, encoding="utf-8") as f:
+            meta_lines = json.load(f).get("lines", [])
+
+    if narrative_html or meta_lines:
+        inject_narrative_panel(m, narrative_html, meta_lines)
 
     folium.LayerControl(collapsed=True).add_to(m)
 
