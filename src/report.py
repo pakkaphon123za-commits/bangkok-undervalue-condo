@@ -50,6 +50,13 @@ TIER_COLORS = {
     "fair": None,
 }
 
+TIER_LABELS = {
+    "strong": ("Strong value", "คุณค่าสูง"),
+    "good": ("Good value", "คุณค่าดี"),
+    "borderline": ("Borderline value", "คุณค่ารอง"),
+    "fair": ("Fair value", "ตามตลาด"),
+}
+
 LINE_NAMES_TH = {
     "BTS Sukhumvit Line": "รถไฟฟ้า BTS สายสุขุมวิท",
     "BTS Silom Line": "รถไฟฟ้า BTS สายสีลม",
@@ -305,6 +312,29 @@ def build_popup_html(row: pd.Series, is_ghost: bool = False) -> str:
     line_en = row.get("nearest_station_line", "—")
     line_th = LINE_NAMES_TH.get(line_en, line_en)
 
+    tier_html = ""
+    if "value_tier" in row and pd.notna(row.get("value_tier")):
+        tier = str(row["value_tier"])
+        if tier in TIER_LABELS:
+            en_label, th_label = TIER_LABELS[tier]
+            color = TIER_COLORS.get(tier, "#888888") or "#888888"
+            tier_html = (
+                f'<div style="display:inline-block; background:{color}; color:white; '
+                f'font-weight:bold; padding:2px 8px; border-radius:12px; font-size:11px; margin:4px 0;">'
+                f'<span data-en="{en_label}" data-th="{th_label}">{en_label}</span>'
+                f'</div><br>'
+            )
+
+    undervalued_html = ""
+    if row.get("is_undervalued") and pd.notna(row.get("undervalued_by_pct")):
+        pct = float(row["undervalued_by_pct"])
+        if pct > 0:
+            undervalued_html = (
+                f'<div style="margin:4px 0;">'
+                f'<span data-en="Undervalued by" data-th="ต่ำกว่าโมเดล">Undervalued by</span>: {pct:.1f}%'
+                f'</div>'
+            )
+
     ghost_html = ""
     if is_ghost and pd.notna(row.get("listed_dt")):
         import datetime as _dt
@@ -331,6 +361,7 @@ def build_popup_html(row: pd.Series, is_ghost: bool = False) -> str:
 <span data-en="Year built" data-th="ปีที่สร้าง">Year built</span>: {year_built}<br>
 <span data-en="Nearest" data-th="สถานีใกล้สุด">Nearest</span>: {row['nearest_station']} ({row['nearest_station_km']:.3f} km)<br>
 <span data-en="Line" data-th="สาย">Line</span>: <span data-en="{line_en}" data-th="{line_th}">{line_en}</span><br>
+{tier_html}{undervalued_html}
 <span data-en="Listed" data-th="ลงป้ายเมื่อ">Listed</span>: {listed_str}<br>
 {ghost_html}
 <a href="{row['detail_url']}" target="_blank" style="color: #3498db;">

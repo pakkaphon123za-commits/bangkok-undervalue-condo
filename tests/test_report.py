@@ -244,6 +244,51 @@ def test_build_popup_html_ghost():
     assert "days on market" in html or "วันที่ค้าง" in html
 
 
+def test_popup_includes_tier_badge():
+    from src.report import build_popup_html
+    row = pd.Series({
+        "name": "Condo", "price_thb": 3000000.0, "area_sqm_num": 30.0,
+        "price_per_sqm": 100000.0, "bedrooms": 1, "bathrooms": 1,
+        "year_built": None, "nearest_station": "Asok", "nearest_station_km": 0.3,
+        "nearest_station_line": "BTS Sukhumvit Line", "listed_dt": pd.Timestamp("2026-05-01"),
+        "detail_url": "https://example.com", "thumbnail": None, "is_ghost": False,
+        "value_tier": "strong",
+    })
+    html = build_popup_html(row)
+    assert "Strong value" in html
+    assert "data-th" in html
+
+
+def test_popup_undervalued_by_pct():
+    from src.report import build_popup_html
+    row = pd.Series({
+        "name": "Condo", "price_thb": 3000000.0, "area_sqm_num": 30.0,
+        "price_per_sqm": 100000.0, "bedrooms": 1, "bathrooms": 1,
+        "year_built": None, "nearest_station": "Asok", "nearest_station_km": 0.3,
+        "nearest_station_line": "BTS Sukhumvit Line", "listed_dt": pd.Timestamp("2026-05-01"),
+        "detail_url": "https://example.com", "thumbnail": None, "is_ghost": False,
+        "value_tier": "good", "is_undervalued": True, "undervalued_by_pct": 12.5,
+    })
+    html = build_popup_html(row)
+    assert "Undervalued by" in html
+    assert "12.5%" in html
+
+
+def test_popup_hides_undervalued_when_fair():
+    from src.report import build_popup_html
+    row = pd.Series({
+        "name": "Condo", "price_thb": 3000000.0, "area_sqm_num": 30.0,
+        "price_per_sqm": 100000.0, "bedrooms": 1, "bathrooms": 1,
+        "year_built": None, "nearest_station": "Asok", "nearest_station_km": 0.3,
+        "nearest_station_line": "BTS Sukhumvit Line", "listed_dt": pd.Timestamp("2026-05-01"),
+        "detail_url": "https://example.com", "thumbnail": None, "is_ghost": False,
+        "value_tier": "fair", "is_undervalued": False, "undervalued_by_pct": 0.0,
+    })
+    html = build_popup_html(row)
+    assert "Undervalued by" not in html
+    assert "Fair value" in html
+
+
 def test_build_popup_html_no_thumbnail():
     row = pd.Series({
         "name": "No Image Condo",
