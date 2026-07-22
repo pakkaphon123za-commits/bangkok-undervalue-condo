@@ -53,5 +53,5 @@ llm:
 #   base_url: "https://opencode.ai/zen/go/v1"
 #   model: "deepseek-v4-flash"
 #   temperature: 0.7
-#   max_tokens: 4000
+#   max_tokens: 16000         # DeepSeek V4 Flash uses reasoning tokens; 4K is not enough for prose
 #   timeout: 90.0

@@ -89,6 +89,7 @@ def call_llm(
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_key}",
+        "User-Agent": "BangkokTransitPropertyAnalysis/1.0 (portfolio project)",
     }
     data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     req = urllib.request.Request(url, data=data, headers=headers, method="POST")

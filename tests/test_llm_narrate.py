@@ -152,6 +152,20 @@ def test_call_llm_parses_response():
     assert result == "Brief text"
 
 
+def test_call_llm_sends_user_agent():
+    from src.llm_narrate import call_llm
+    fake_body = json.dumps({
+        "choices": [{"message": {"content": "Brief text"}}]
+    }).encode("utf-8")
+    with patch("src.llm_narrate.urllib.request.urlopen") as mock_urlopen:
+        mock_response = MagicMock()
+        mock_response.read.return_value = fake_body
+        mock_urlopen.return_value.__enter__.return_value = mock_response
+        call_llm([{"role": "user", "content": "hi"}], "https://api.example.com/v1", "model", "key")
+    req = mock_urlopen.call_args[0][0]
+    assert "BangkokTransitPropertyAnalysis" in req.get_header("User-agent")
+
+
 def test_call_llm_retries_once():
     from src.llm_narrate import call_llm
     from urllib.error import HTTPError
