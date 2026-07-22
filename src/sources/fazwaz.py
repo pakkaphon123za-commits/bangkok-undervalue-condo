@@ -80,6 +80,19 @@ class ScrapeStats:
     elapsed_s: float = 0.0
 
 
+def _dedup_cards(cards: list[CardRecord]) -> list[CardRecord]:
+    """Remove duplicate cards by listing_id, keeping the first occurrence."""
+    seen_ids: set[str] = set()
+    unique_cards: list[CardRecord] = []
+    for card in cards:
+        if card.listing_id not in seen_ids:
+            seen_ids.add(card.listing_id)
+            unique_cards.append(card)
+    if len(unique_cards) < len(cards):
+        print(f"  removed {len(cards) - len(unique_cards)} duplicate cards")
+    return unique_cards
+
+
 def _parse_card_json(raw: str) -> dict[str, Any]:
     import html as htmlmod
     decoded = htmlmod.unescape(raw)
@@ -127,6 +140,7 @@ class FazwazClient:
         if self._cache_dir:
             self._cache_dir.mkdir(parents=True, exist_ok=True)
         self._last_request = 0.0
+        self._rate_lock = asyncio.Lock()
         self._client: httpx.AsyncClient | None = None
 
     async def _get_client(self) -> httpx.AsyncClient:
@@ -144,9 +158,11 @@ class FazwazClient:
             self._client = None
 
     async def _rate_limit_wait(self) -> None:
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < self._rate_limit:
-            await asyncio.sleep(self._rate_limit - elapsed)
+        async with self._rate_lock:
+            elapsed = time.monotonic() - self._last_request
+            if elapsed < self._rate_limit:
+                await asyncio.sleep(self._rate_limit - elapsed)
+            self._last_request = time.monotonic()
 
     async def _get(self, url: str, cache_key: str | None = None) -> str:
         if cache_key and self._cache_dir:
@@ -157,7 +173,6 @@ class FazwazClient:
         await self._rate_limit_wait()
         client = await self._get_client()
         resp = await client.get(url)
-        self._last_request = time.monotonic()
         resp.raise_for_status()
         text = resp.text
 
@@ -237,6 +252,7 @@ class FazwazClient:
         region: str = "thailand/bangkok",
         max_pages: int | None = None,
         max_detail_pages: int | None = None,
+        max_concurrency: int = 4,
     ) -> tuple[list[ListingRecord], ScrapeStats]:
         stats = ScrapeStats()
         t0 = time.monotonic()
@@ -272,54 +288,67 @@ class FazwazClient:
                 break
             page += 1
 
+        all_cards = _dedup_cards(all_cards)
+        stats.total_cards = len(all_cards)
+
         listings: list[ListingRecord] = []
         detail_limit = (
             max_detail_pages if max_detail_pages is not None else len(all_cards)
         )
-        detail_count = 0
+        cards_to_fetch = all_cards[:detail_limit]
+        semaphore = asyncio.Semaphore(max_concurrency)
 
-        for card in all_cards:
-            if detail_count >= detail_limit:
-                break
+        async def _fetch_one(card: CardRecord) -> ListingRecord:
             lat, lng, year_built = None, None, None
-            if card.detail_url:
+            fetch_ok = False
+            if card.detail_url and card.detail_url.startswith("http"):
                 try:
-                    coords, yb = await self.fetch_detail_page(
-                        card.detail_url, card.listing_id
-                    )
+                    async with semaphore:
+                        coords, yb = await self.fetch_detail_page(
+                            card.detail_url, card.listing_id
+                        )
                     if coords:
                         lat, lng = coords
-                        stats.detail_pages += 1
+                        fetch_ok = True
                     if yb:
                         year_built = yb
                 except Exception as exc:
-                    stats.detail_errors += 1
                     print(f"  detail {card.listing_id} error: {exc}")
+
+            rec = ListingRecord(
+                listing_id=card.listing_id,
+                name=card.name,
+                price=card.price,
+                first_price=card.first_price,
+                detail_url=card.detail_url,
+                address=card.address,
+                area_sqm=card.area_sqm,
+                bedrooms=card.bedrooms,
+                bathrooms=card.bathrooms,
+                property_type=card.property_type,
+                transit_stations=card.transit_stations,
+                listed_date=card.listed_date,
+                updated_date=card.updated_date,
+                latitude=lat,
+                longitude=lng,
+                thumbnail=card.thumbnail,
+                year_built=year_built,
+            )
+            if fetch_ok:
+                stats.detail_pages += 1
             else:
                 stats.detail_errors += 1
 
-            detail_count += 1
-            listings.append(
-                ListingRecord(
-                    listing_id=card.listing_id,
-                    name=card.name,
-                    price=card.price,
-                    first_price=card.first_price,
-                    detail_url=card.detail_url,
-                    address=card.address,
-                    area_sqm=card.area_sqm,
-                    bedrooms=card.bedrooms,
-                    bathrooms=card.bathrooms,
-                    property_type=card.property_type,
-                    transit_stations=card.transit_stations,
-                    listed_date=card.listed_date,
-                    updated_date=card.updated_date,
-                    latitude=lat,
-                    longitude=lng,
-                    thumbnail=card.thumbnail,
-                    year_built=year_built,
+            fetched = stats.detail_pages + stats.detail_errors
+            if fetched % 50 == 0 or fetched == len(cards_to_fetch):
+                print(
+                    f"  detail progress: {fetched}/{len(cards_to_fetch)} "
+                    f"({stats.detail_errors} errors)"
                 )
-            )
+            return rec
+
+        tasks = [_fetch_one(card) for card in cards_to_fetch]
+        listings = await asyncio.gather(*tasks)
 
         stats.elapsed_s = time.monotonic() - t0
         return listings, stats

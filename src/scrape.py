@@ -23,6 +23,26 @@ RAW_DIR = PROJECT_ROOT / "data" / "raw" / "fazwaz"
 OUTPUT_PATH = RAW_DIR / "listings.parquet"
 
 
+def _coerce_bedrooms(val) -> int:
+    if val is None:
+        return 0
+    if isinstance(val, str) and val.lower() == "studio":
+        return 0
+    try:
+        return int(val)
+    except (ValueError, TypeError):
+        return 0
+
+
+def _coerce_bathrooms(val) -> float:
+    if val is None:
+        return 0.0
+    try:
+        return float(val)
+    except (ValueError, TypeError):
+        return 0.0
+
+
 def listings_to_dataframe(listings: list[ListingRecord]) -> pd.DataFrame:
     rows = []
     for rec in listings:
@@ -36,8 +56,8 @@ def listings_to_dataframe(listings: list[ListingRecord]) -> pd.DataFrame:
                 "detail_url": rec.detail_url,
                 "address": rec.address,
                 "area_sqm": rec.area_sqm,
-                "bedrooms": rec.bedrooms,
-                "bathrooms": rec.bathrooms,
+                "bedrooms": _coerce_bedrooms(rec.bedrooms),
+                "bathrooms": _coerce_bathrooms(rec.bathrooms),
                 "property_type": rec.property_type,
                 "transit_stations_json": transit_json,
                 "listed_date": rec.listed_date,
@@ -57,6 +77,7 @@ async def main() -> None:
     parser.add_argument("--max-detail", type=int, default=None)
     parser.add_argument("--rate-limit", type=float, default=1.0)
     parser.add_argument("--timeout", type=float, default=60.0)
+    parser.add_argument("--concurrency", type=int, default=4)
     args = parser.parse_args()
 
     client = FazwazClient(
@@ -71,6 +92,7 @@ async def main() -> None:
             region="thailand/bangkok",
             max_pages=args.max_pages,
             max_detail_pages=args.max_detail,
+            max_concurrency=args.concurrency,
         )
     finally:
         await client.close()
