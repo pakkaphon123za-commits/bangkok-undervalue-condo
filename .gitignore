@@ -15,6 +15,9 @@ skill.md
 .claude/
 .cursor/
 
+# Teach skill workspace
+teaching/
+
 # Scraped & derived data (ToS + size)
 data/raw/*
 data/interim/*
