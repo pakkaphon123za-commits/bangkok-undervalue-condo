@@ -29,8 +29,11 @@ NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 USER_AGENT = "BangkokTransitPropertyAnalysis/1.0 (portfolio project)"
 NOMINATIM_MAX_RETRIES = 3
 
+BANGKOK_LAT_RANGE = (13.0, 14.0)
+BANGKOK_LNG_RANGE = (100.0, 101.0)
+
 RELATIVE_DATE_RE = re.compile(
-    r"(?:listed|updated)\s+(\d+)\s+(year|month|week|day|hour)s?\s+ago",
+    r"(?:listed|updated)\s+(\d+)\s+(year|month|week|day|hour|minute)s?\s+ago",
     re.IGNORECASE,
 )
 
@@ -73,6 +76,8 @@ def _parse_relative_date(raw: str | None, ref_date: datetime) -> datetime | None
         delta = timedelta(days=num)
     elif unit == "hour":
         delta = timedelta(hours=num)
+    elif unit == "minute":
+        delta = timedelta(minutes=num)
     else:
         return None
     return ref_date - delta
@@ -96,9 +101,26 @@ def load_and_clean(input_path: Path, ref_date: datetime | None = None) -> pd.Dat
 
     df = pd.read_parquet(input_path)
 
-    df["price_thb"] = df["price"].apply(_parse_price)
-    df["first_price_thb"] = df["first_price"].apply(_parse_price)
+    before = len(df)
+    df = df.drop_duplicates(subset=["listing_id"], keep="first")
+    if len(df) < before:
+        print(f"  removed {before - len(df)} duplicate listings")
+
+    bad_coord_mask = df["latitude"].notna() & (
+        (df["latitude"] < BANGKOK_LAT_RANGE[0])
+        | (df["latitude"] > BANGKOK_LAT_RANGE[1])
+        | (df["longitude"] < BANGKOK_LNG_RANGE[0])
+        | (df["longitude"] > BANGKOK_LNG_RANGE[1])
+    )
+    bad_count = bad_coord_mask.sum()
+    if bad_count:
+        print(f"  nulling {bad_count} listings with coordinates outside Bangkok bounds")
+        df.loc[bad_coord_mask, ["latitude", "longitude"]] = None
+
+    df["price_thb"] = df["price"].apply(_parse_price).where(lambda x: x > 0)
+    df["first_price_thb"] = df["first_price"].apply(_parse_price).where(lambda x: x > 0)
     df["area_sqm_num"] = df["area_sqm"].apply(_parse_area)
+    df["bathrooms"] = df["bathrooms"].fillna(0)
     df["price_per_sqm"] = df.apply(
         lambda r: r["price_thb"] / r["area_sqm_num"]
         if pd.notna(r["price_thb"]) and pd.notna(r["area_sqm_num"]) and r["area_sqm_num"] != 0
@@ -163,13 +185,23 @@ def _resolve_from_cache(
     addr_query: str | None,
 ) -> tuple[float | None, float | None, str | None]:
     """Check cache for name query first, then address query.
-    Returns (lat, lng, cache_key_used). cache_key_used is None if not in cache."""
-    for query in (name_query, addr_query):
-        if query and query in cache:
-            cached = cache[query]
-            if cached is not None:
-                return cached[0], cached[1], query
-            return None, None, query
+    Returns (lat, lng, cache_key_used).
+    - If a hit is found: returns (lat, lng, hit_key)
+    - If all queries are cached as misses: returns (None, None, first_miss_key) so caller can skip
+    - If any query is not yet cached: returns (None, None, None) so caller proceeds to geocode"""
+    queries = [q for q in (name_query, addr_query) if q]
+    all_cached = True
+    first_miss: str | None = None
+    for query in queries:
+        if query in cache:
+            if cache[query] is not None:
+                return cache[query][0], cache[query][1], query
+            if first_miss is None:
+                first_miss = query
+        else:
+            all_cached = False
+    if all_cached and queries:
+        return None, None, first_miss
     return None, None, None
 
 
