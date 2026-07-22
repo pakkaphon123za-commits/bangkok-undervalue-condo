@@ -1,0 +1,195 @@
+{
+  "generated_at": "2026-07-22T13:19:55",
+  "model": "deepseek-v4-flash",
+  "global": {
+    "n": 9599,
+    "n_undervalued": 663,
+    "pct_undervalued": 6.91,
+    "median_residual_log": 0.013085,
+    "mad_residual_log": 0.297672
+  },
+  "lines": [
+    {
+      "name": "Airport Rail Link",
+      "name_th": "",
+      "n": 622,
+      "n_undervalued": 49,
+      "pct_undervalued": 7.88,
+      "decay_pct_per_km": -17.53,
+      "used_global_stats": false
+    },
+    {
+      "name": "BTS Gold Line",
+      "name_th": "",
+      "n": 224,
+      "n_undervalued": 4,
+      "pct_undervalued": 1.79,
+      "decay_pct_per_km": -23.38,
+      "used_global_stats": false
+    },
+    {
+      "name": "BTS Silom Line",
+      "name_th": "",
+      "n": 1278,
+      "n_undervalued": 43,
+      "pct_undervalued": 3.36,
+      "decay_pct_per_km": -14.48,
+      "used_global_stats": false
+    },
+    {
+      "name": "BTS Sukhumvit Line",
+      "name_th": "",
+      "n": 4371,
+      "n_undervalued": 387,
+      "pct_undervalued": 8.85,
+      "decay_pct_per_km": -26.2,
+      "used_global_stats": false
+    },
+    {
+      "name": "MRT Blue Line",
+      "name_th": "",
+      "n": 2316,
+      "n_undervalued": 122,
+      "pct_undervalued": 5.27,
+      "decay_pct_per_km": -19.45,
+      "used_global_stats": false
+    },
+    {
+      "name": "MRT Pink Line",
+      "name_th": "",
+      "n": 124,
+      "n_undervalued": 16,
+      "pct_undervalued": 12.9,
+      "decay_pct_per_km": -11.73,
+      "used_global_stats": false
+    },
+    {
+      "name": "MRT Purple Line",
+      "name_th": "",
+      "n": 73,
+      "n_undervalued": 0,
+      "pct_undervalued": 0.0,
+      "decay_pct_per_km": -14.98,
+      "used_global_stats": false
+    },
+    {
+      "name": "MRT Yellow Line",
+      "name_th": "",
+      "n": 530,
+      "n_undervalued": 37,
+      "pct_undervalued": 6.98,
+      "decay_pct_per_km": -12.44,
+      "used_global_stats": false
+    },
+    {
+      "name": "SRT Dark Red Line",
+      "name_th": "",
+      "n": 39,
+      "n_undervalued": 4,
+      "pct_undervalued": 10.26,
+      "decay_pct_per_km": -15.2,
+      "used_global_stats": false
+    },
+    {
+      "name": "SRT Light Red Line",
+      "name_th": "",
+      "n": 22,
+      "n_undervalued": 1,
+      "pct_undervalued": 4.55,
+      "decay_pct_per_km": -10.1,
+      "used_global_stats": true
+    }
+  ],
+  "top_stations": [
+    {
+      "name": "On Nut",
+      "name_th": "",
+      "line": "BTS Sukhumvit Line",
+      "n": 467,
+      "n_undervalued": 65,
+      "pct_undervalued": 13.92,
+      "median_undervalued_by_pct": 52.09
+    },
+    {
+      "name": "Phra Khanong",
+      "name_th": "",
+      "line": "BTS Sukhumvit Line",
+      "n": 346,
+      "n_undervalued": 35,
+      "pct_undervalued": 10.12,
+      "median_undervalued_by_pct": 52.76
+    },
+    {
+      "name": "Punnawithi",
+      "name_th": "",
+      "line": "BTS Sukhumvit Line",
+      "n": 171,
+      "n_undervalued": 35,
+      "pct_undervalued": 20.47,
+      "median_undervalued_by_pct": 49.53
+    },
+    {
+      "name": "Ramkhamhaeng",
+      "name_th": "",
+      "line": "Airport Rail Link",
+      "n": 321,
+      "n_undervalued": 27,
+      "pct_undervalued": 8.41,
+      "median_undervalued_by_pct": 53.32
+    },
+    {
+      "name": "Nana",
+      "name_th": "",
+      "line": "BTS Sukhumvit Line",
+      "n": 171,
+      "n_undervalued": 27,
+      "pct_undervalued": 15.79,
+      "median_undervalued_by_pct": 52.81
+    },
+    {
+      "name": "Bang Na",
+      "name_th": "",
+      "line": "BTS Sukhumvit Line",
+      "n": 107,
+      "n_undervalued": 26,
+      "pct_undervalued": 24.3,
+      "median_undervalued_by_pct": 60.98
+    },
+    {
+      "name": "Udom Suk",
+      "name_th": "",
+      "line": "BTS Sukhumvit Line",
+      "n": 314,
+      "n_undervalued": 26,
+      "pct_undervalued": 8.28,
+      "median_undervalued_by_pct": 54.27
+    },
+    {
+      "name": "Bearing",
+      "name_th": "",
+      "line": "BTS Sukhumvit Line",
+      "n": 54,
+      "n_undervalued": 20,
+      "pct_undervalued": 37.04,
+      "median_undervalued_by_pct": 57.52
+    },
+    {
+      "name": "Phetkasem 48",
+      "name_th": "",
+      "line": "MRT Blue Line",
+      "n": 31,
+      "n_undervalued": 17,
+      "pct_undervalued": 54.84,
+      "median_undervalued_by_pct": 66.24
+    },
+    {
+      "name": "Huai Khwang",
+      "name_th": "",
+      "line": "MRT Blue Line",
+      "n": 134,
+      "n_undervalued": 17,
+      "pct_undervalued": 12.69,
+      "median_undervalued_by_pct": 61.6
+    }
+  ]
+}
