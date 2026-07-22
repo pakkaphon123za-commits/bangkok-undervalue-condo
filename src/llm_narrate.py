@@ -251,15 +251,17 @@ def main(argv: list[str] | None = None) -> None:
         print("LLM disabled in config; skipping narrative generation.")
         return
 
-    api_key = load_env_key(PROJECT_ROOT / ".env")
+    env_key_name = llm_config.get("api_key_env", "OLLAMA_API_KEY")
+    api_key = load_env_key(PROJECT_ROOT / ".env", key=env_key_name)
     if not api_key:
-        print("OLLAMA_API_KEY not found in .env; aborting.")
+        print(f"{env_key_name} not found in .env; aborting.")
         raise SystemExit(1)
 
     base_url = llm_config.get("base_url", "")
     model = llm_config.get("model", "glm-5.2")
     temperature = float(llm_config.get("temperature", 0.7))
     max_tokens = int(llm_config.get("max_tokens", 2000))
+    timeout = float(llm_config.get("timeout", 60.0))
 
     for path, label in [(args.input, "Input"), (args.decay, "Decay curves"), (args.summary, "Summary")]:
         if not path.exists():
@@ -274,7 +276,7 @@ def main(argv: list[str] | None = None) -> None:
 
     station_stats = compute_station_stats(df)
     messages = build_prompt(decay, summary, station_stats)
-    raw_narrative = call_llm(messages, base_url, model, api_key, temperature=temperature, max_tokens=max_tokens)
+    raw_narrative = call_llm(messages, base_url, model, api_key, temperature=temperature, max_tokens=max_tokens, timeout=timeout)
     if len(raw_narrative.strip()) < 100:
         print("Warning: LLM returned a very short narrative.")
     narrative_text = render_narrative(raw_narrative, station_stats)

@@ -35,10 +35,23 @@ lines:
 # Walking-distance cutoff for "transit-adjacent" listings (meters)
 transit_adjacent_cutoff_m: 1500
 
-# Ollama Cloud (OpenAI-compatible) — optional, for Phase 7 narrative generation
+# LLM provider (OpenAI-compatible) — optional, for Phase 7 narrative generation
 llm:
-  enabled: false               # set true once OLLAMA_API_KEY is set in .env
+  enabled: false               # set true once the env var below is set in .env
+  api_key_env: "OLLAMA_API_KEY" # env var name to read from .env
   base_url: ""                 # e.g. https://api.ollama.cloud/v1
-  model: "glm-5.2"             # model served by your Ollama Cloud endpoint
+  model: "glm-5.2"             # model served by your endpoint
   temperature: 0.7
   max_tokens: 2000
+  timeout: 60.0                # seconds per LLM request
+
+# Example: OpenCode Go with DeepSeek V4 Flash
+# Copy into config.yaml and set OPENCODE_API_KEY in .env:
+# llm:
+#   enabled: true
+#   api_key_env: "OPENCODE_API_KEY"
+#   base_url: "https://opencode.ai/zen/go/v1"
+#   model: "deepseek-v4-flash"
+#   temperature: 0.7
+#   max_tokens: 4000
+#   timeout: 90.0

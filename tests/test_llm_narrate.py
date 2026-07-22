@@ -333,3 +333,68 @@ def test_main_end_to_end(tmp_path):
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
     assert meta["model"] == "glm-5.2"
     assert meta["lines"][0]["name"] == "Line 1"
+
+
+def test_main_uses_configured_env_key_and_timeout(tmp_path):
+    from src.llm_narrate import main
+    from unittest.mock import patch
+
+    input_path = tmp_path / "listings.parquet"
+    pd.DataFrame({
+        "nearest_station": ["Station A"],
+        "nearest_station_line": ["Line 1"],
+        "is_undervalued": [True],
+        "undervalued_by_pct": [10.0],
+        "residual_zscore": [-1.6],
+    }).to_parquet(input_path, index=False)
+
+    decay_path = tmp_path / "decay.json"
+    decay_path.write_text(json.dumps({"lines": {"Line 1": {"decay_pct_per_km": -15.0}}}), encoding="utf-8")
+
+    summary_path = tmp_path / "summary.json"
+    summary_path.write_text(json.dumps({
+        "global": {"n": 1, "n_undervalued": 1, "pct_undervalued": 100.0},
+        "lines": {"Line 1": {"n": 1, "n_undervalued": 1, "pct_undervalued": 100.0}},
+    }), encoding="utf-8")
+
+    config_path = tmp_path / "config.yaml"
+    config_path.write_text(
+        "llm:\n"
+        "  enabled: true\n"
+        "  api_key_env: OPENCODE_API_KEY\n"
+        "  base_url: https://opencode.ai/zen/go/v1\n"
+        "  model: deepseek-v4-flash\n"
+        "  temperature: 0.7\n"
+        "  max_tokens: 4000\n"
+        "  timeout: 90.0\n",
+        encoding="utf-8",
+    )
+
+    env_path = tmp_path / ".env"
+    env_path.write_text("OPENCODE_API_KEY=fake-key\n", encoding="utf-8")
+
+    narrative_path = tmp_path / "narrative.md"
+    meta_path = tmp_path / "meta.json"
+
+    with patch("src.llm_narrate.call_llm") as mock_call_llm:
+        mock_call_llm.return_value = "# Bangkok Condo Market Brief\n\nSummary."
+        with patch("src.llm_narrate.PROJECT_ROOT", tmp_path):
+            main([
+                "--input", str(input_path),
+                "--decay", str(decay_path),
+                "--summary", str(summary_path),
+                "--config", str(config_path),
+                "--narrative-output", str(narrative_path),
+                "--meta-output", str(meta_path),
+            ])
+
+        mock_call_llm.assert_called_once()
+        args, kwargs = mock_call_llm.call_args
+        assert args[3] == "fake-key"  # api_key
+        assert kwargs["timeout"] == 90.0
+        assert kwargs["max_tokens"] == 4000
+
+    assert narrative_path.exists()
+    assert meta_path.exists()
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    assert meta["model"] == "deepseek-v4-flash"
