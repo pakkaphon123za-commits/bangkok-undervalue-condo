@@ -1,6 +1,10 @@
 # Bangkok Transit-Property Analysis
 
+[![View map](https://img.shields.io/badge/🔗_View_interactive_map-2ea44f?logo=githubpages)](https://pakkaphon123za-commits.github.io/bangkok-undervalue-condo/)
+
 Analyzing how Bangkok condo prices decay with walking distance from BTS/MRT stations, and identifying undervalued zones near new and upcoming line extensions.
+
+**Live site:** [pakkaphon123za-commits.github.io/bangkok-undervalue-condo](https://pakkaphon123za-commits.github.io/bangkok-undervalue-condo/)
 
 ## What this project does
 
@@ -57,7 +61,7 @@ python src/report.py
 ## Data & privacy
 
 - Scraped HTML is cached locally under `data/raw/` (gitignored, never committed) to avoid re-fetching.
-- Only a tiny anonymized sample (~20 rows) is committed for testing.
+- A representative sample of 200 listings is committed under `data/sample/` so the project can be explored without re-scraping.
 - No API keys or secrets are committed.
 - The website shows a snapshot baked in at build time; re-run the pipeline to refresh.
 
