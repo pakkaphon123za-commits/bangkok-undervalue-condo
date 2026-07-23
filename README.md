@@ -15,6 +15,14 @@ A small project that scrapes Bangkok condo listings, matches them to the nearest
 - Flags listings that trade below the model prediction.
 - Builds a self-contained interactive map and publishes it to GitHub Pages.
 
+## Key findings
+
+Out of 9,599 listings near transit, **6.91%** are priced below the model prediction. The BTS Sukhumvit Line has the sharpest price decay (−26.2% per km) and the largest share of undervalued units. Standout station zones include **On Nut**, **Bearing**, **Bang Na**, and **Phetkasem 48**.
+
+Three upcoming extensions — MRT Orange, MRT Purple South, and SRT Dark Red South — are worth watching because they tend to reprice nearby submarkets once they open.
+
+Read the full market brief in [docs/narrative.md](docs/narrative.md).
+
 ## Transit lines
 
 Operational: BTS Sukhumvit, BTS Silom, BTS Gold, MRT Blue, MRT Purple, MRT Yellow, MRT Pink, SRT Dark Red, SRT Light Red, Airport Rail Link.
