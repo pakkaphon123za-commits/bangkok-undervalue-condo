@@ -1,10 +1,10 @@
 # Bangkok Transit-Property Analysis
 
-[![View map](https://img.shields.io/badge/🔗_View_interactive_map-2ea44f?logo=githubpages)](https://pakkaphon123za-commits.github.io/bangkok-undervalue-condo/)
+[![View map](https://img.shields.io/badge/View_interactive_map-2ea44f?logo=githubpages)](https://pakkaphon123za-commits.github.io/bangkok-undervalue-condo/)
 
 A small project that scrapes Bangkok condo listings, matches them to the nearest BTS/MRT/SRT station, and estimates which ones are underpriced relative to similar units nearby.
 
-**Live site:** [pakkaphon123za-commits.github.io/bangkok-undervalue-condo](https://pakkaphon123za-commits.github.io/bangkok-undervalue-condo/)
+**Live site:** https://pakkaphon123za-commits.github.io/bangkok-undervalue-condo/
 
 ## What it does
 
