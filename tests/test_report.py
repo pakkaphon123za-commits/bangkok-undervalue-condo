@@ -510,3 +510,61 @@ def test_backward_compat_missing_value_tier():
     assert len(color_data) == 1
     html = build_popup_html(df.iloc[0])
     assert "Undervalued by" not in html
+
+
+def test_app_shell_elements_present(sample_enriched, sample_stations, tmp_path):
+    output_path = tmp_path / "index.html"
+    result = subprocess.run(
+        [
+            sys.executable, "src/report.py",
+            "--input", str(sample_enriched),
+            "--stations", str(sample_stations),
+            "--output", str(output_path),
+        ],
+        capture_output=True, text=True, timeout=30,
+    )
+    assert result.returncode == 0, f"stderr: {result.stderr}"
+    content = output_path.read_text(encoding="utf-8")
+    assert "appHeader" in content
+    assert "filterBar" in content
+    assert "appSidebar" in content
+    assert "listingPanel" in content
+    assert "analysisPanel" in content
+    assert "appFooter" in content
+    assert "langToggleContainer" in content
+    assert "narrativeToggleContainer" in content
+
+
+def test_price_bubble_markers_and_clustering(sample_enriched, sample_stations, tmp_path):
+    output_path = tmp_path / "index.html"
+    result = subprocess.run(
+        [
+            sys.executable, "src/report.py",
+            "--input", str(sample_enriched),
+            "--stations", str(sample_stations),
+            "--output", str(output_path),
+        ],
+        capture_output=True, text=True, timeout=30,
+    )
+    assert result.returncode == 0, f"stderr: {result.stderr}"
+    content = output_path.read_text(encoding="utf-8")
+    assert "listing-marker" in content
+    assert "price-bubble" in content
+    assert "MarkerCluster" in content
+
+
+def test_fonts_loaded(sample_enriched, sample_stations, tmp_path):
+    output_path = tmp_path / "index.html"
+    result = subprocess.run(
+        [
+            sys.executable, "src/report.py",
+            "--input", str(sample_enriched),
+            "--stations", str(sample_stations),
+            "--output", str(output_path),
+        ],
+        capture_output=True, text=True, timeout=30,
+    )
+    assert result.returncode == 0, f"stderr: {result.stderr}"
+    content = output_path.read_text(encoding="utf-8")
+    assert "IBM+Plex" in content or "IBM%20Plex" in content
+    assert "IBM Plex" in content
